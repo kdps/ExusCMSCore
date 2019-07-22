@@ -13,7 +13,7 @@ if Mysql is higher then 7.0
 sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
 
 - MariaDB/MySQL with PDO enabled
-- Apache (recommended) or Nginx web server
+- Apache or Nginx web server (recommended)
 - 80 MB of disk space (recommended), 50 MB (minimum)
 
 Bug Reports and Feature Requests, Security Issues
