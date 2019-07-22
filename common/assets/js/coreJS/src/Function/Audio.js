@@ -477,7 +477,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 		},
 		stopBufferSourceNode: function (audioBufferSourceNode) {
 			if (!$.core.Validate.isFunc(audioBufferSourceNode.prototype.stop)) {
-				audioBufferSourceNode.prototype.stop = audioBufferSourceNode.prototype.noteGrainOn;
+				audioBufferSourceNode.prototype.stop = audioBufferSourceNode.prototype.noteGrainOff;
 			}
 			
 			return audioBufferSourceNode.stop;

@@ -52,7 +52,9 @@
 		if ($.core.Validate.isUndefined(this._callbacks[event])) {
 			return;
 		}
+		
 		let callbacks = this._callbacks[event];
+		
 		for (let i = 0, len = callbacks.length; i < len; ++i) {
 			try {
 				callbacks[i].call(null, data);
