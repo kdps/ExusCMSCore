@@ -5,11 +5,13 @@ import AudioContextObject from './Class/AudioContextObject.js';
 (function ($, core) {
 
 	var A = core.Audio = {
+		
 		constructor: function () {
 			this.musicGenre = ["Blues", "Classic Rock", "Country", "Dance", "Disco", "Funk", "Grunge", "Hip-Hop", "Jazz", "Metal", "New Age", "Oldies", "Other", "Pop", "R&B", "Rap", "Reggae", "Rock", "Techno", "Industrial", "Alternative", "Ska", "Death Metal", "Pranks", "Soundtrack", "Euro-Techno", "Ambient", "Trip-Hop", "Vocal", "Jazz+Funk", "Fusion", "Trance", "Classical", "Instrumental", "Acid", "House", "Game", "Sound Clip", "Gospel", "Noise", "AlternRock", "Bass", "Soul", "Punk", "Space", "Meditative", "Instrumental Pop", "Instrumental Rock", "Ethnic", "Gothic", "Darkwave", "Techno-Industrial", "Electronic", "Pop-Folk", "Eurodance", "Dream", "Southern Rock", "Comedy", "Cult", "Gangsta Rap", "Top 40", "Christian Rap", "Pop / Funk", "Jungle", "Native American", "Cabaret", "New Wave", "Psychedelic", "Rave", "Showtunes", "Trailer", "Lo-Fi", "Tribal", "Acid Punk", "Acid Jazz", "Polka", "Retro", "Musical", "Rock & Roll", "Hard Rock", "Folk", "Folk-Rock", "National Folk", "Swing", "Fast  Fusion", "Bebob", "Latin", "Revival", "Celtic", "Bluegrass", "Avantgarde", "Gothic Rock", "Progressive Rock", "Psychedelic Rock", "Symphonic Rock", "Slow Rock", "Big Band", "Chorus", "Easy Listening", "Acoustic", "Humour", "Speech", "Chanson", "Opera", "Chamber Music", "Sonata", "Symphony", "Booty Bass", "Primus", "Porn Groove", "Satire", "Slow Jam", "Club", "Tango", "Samba", "Folklore", "Ballad", "Power Ballad", "Rhythmic Soul", "Freestyle", "Duet", "Punk Rock", "Drum Solo", "A Cappella", "Euro-House", "Dance Hall", "Goa", "Drum & Bass", "Club-House", "Hardcore", "Terror", "Indie", "BritPop", "Negerpunk", "Polsk Punk", "Beat", "Christian Gangsta Rap", "Heavy Metal", "Black Metal", "Crossover", "Contemporary Christian", "Christian Rock", "Merengue", "Salsa", "Thrash Metal", "Anime", "JPop", "Synthpop", "Rock/Pop"];
 			
 			this.StreamAudio = null;
 		},
+		
 		hasMidiDevicePressed: function (command) {
 			if (command === 145) {
 				return true;
@@ -17,27 +19,33 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				return false;
 			}
 		},
+		
 		setOnMidiMessageEvent: function (callback) {
 			if (typeof callback === 'function') {
 				// command, key, velocity
 				device.onmidimessage = callback;
 			}
 		},
+		
 		setOnRequestMIDIAccessEvent: function (callback) {
 			if (typeof callback === 'function') {
 				navigator.requestMIDIAccess().then(callback(access));
 			}
 		},
+		
 		setResume: function (audioContext) {
 			audioContext.resume();
 		},
+		
 		setSuspend: function (audioContext) {
 			audioContext.suspend();
 		},
+		
 		// type = sine, square, sawtooth, triangle
 		setOscillatorType: function (oscillator, type) {
 			oscillator.type = type;
 		},
+		
 		createOscillatorContext: function () {
 			let audioContext = this.getContext();
 			let Oscillator = this.createOscillator();
@@ -46,14 +54,17 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioContext;
 		},
+		
 		getFrequencyByNote: function (note) {
 			let tone = yamahaTone[note];
 			let freq = Math.pow(2, (tone - 69) / 12) * 440;
 			return freq;
 		},
+		
 		setOscillatorFrequency: function (oscillator, target, startTime, timeConstant = 0) {
 			oscillator.frequency.setTargetAtTime(target, startTime, timeConstant);
 		},
+		
 		hasMediaCapabilities: function () {
 			if ('mediaCapabilities' in navigator) {
 				return true;
@@ -61,6 +72,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return false;
 		},
+		
 		hasLoop: function () {
 			if ('loop' in document.createElement('audio')) {
 				return true;
@@ -68,6 +80,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return false;
 		},
+		
 		isMediaCapabilities: function (audioFileConfiguration, callback) {
 			if (this.hasMediaCapabilities()) {
 				/*
@@ -86,6 +99,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				});
 			}
 		},
+		
 		/**
 		 * Check that browser is support specify audio codec type
 		 *
@@ -142,6 +156,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return element.canPlayType(type + ';codecs="' + codecs + '"');
 		},
+		
 		/**
 		 * Check that audio support
 		 *
@@ -154,6 +169,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return false;
 		},
+		
 		/**
 		 * Check that audio playing
 		 *
@@ -172,6 +188,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				return false;
 			}
 		},
+		
 		Object: function (src, audioObject) {
 			var letObject = audioObject || this.StreamAudio;
 			
@@ -191,12 +208,14 @@ import AudioContextObject from './Class/AudioContextObject.js';
 					get: function () {
 						return this.src;
 					},
+		
 					set: function(src) {
 						this.src = src;
 					}
 				}
 			);
 		},
+		
 		/**
 		 * Load Audio File for Play
 		 *
@@ -244,6 +263,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				}
 			}
 		},
+		
 		/**
 		 * Decode Audio Context
 		 *
@@ -261,6 +281,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				failCallback(e);
 			});
 		},
+		
 		/**
 		 * Play Audio File (* Need to Load Audio File)
 		 *
@@ -273,6 +294,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				this.StreamAudio.play();
 			}
 		},
+		
 		/**
 		 * Pause Audio File (* Need to Load Audio File)
 		 *
@@ -285,6 +307,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				this.StreamAudio.pause();
 			}
 		},
+		
 		/**
 		 * Set Audio Current Time (* Need to Load Audio File)
 		 *
@@ -297,6 +320,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				this.StreamAudio.currentTime = time;
 			}
 		},
+		
 		/**
 		 * Pause Audio And Set Audio Time to 0 (* Need to Load Audio File)
 		 *
@@ -308,6 +332,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			this.pauseAudio(letObject);
 			this.setAudioTime(0, letObject);
 		},
+		
 		/**
 		 * Get Offline Audio Context
 		 *
@@ -321,6 +346,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			} catch (e) {}
 			return OfflineAudioContext;
 		},
+		
 		/**
 		 * Get Audio Context
 		 *
@@ -339,12 +365,14 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return AudioContext;
 		},
+		
 		getContextObject: function () {
 			var audioContext = this.getContext();
 			var contextObject = new AudioContextObject(audioContext);
 			
 			return contextObject;
 		},
+		
 		/**
 		 * Get Audio Context
 		 *
@@ -356,6 +384,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 		createMediaElementSource: function (audioContext, audioElement) {
 			return audioContext.createMediaElementSource(audioElement);
 		},
+		
 		/**
 		 * Get Node
 		 *
@@ -367,6 +396,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 		getNode: function (context, audioElement) {
 			return context.createMediaElementSource(audioElement);
 		},
+		
 		/**
 		 * Set Biquad Filter
 		 *
@@ -395,6 +425,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return variable;
 		},
+		
 		/**
 		 * Set Delay
 		 *
@@ -411,25 +442,31 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			audioNode.connect(context.destination);
 			variable.connect(context.destination);
 		},
+		
 		//value : samples
 		contextSamplesToSeconds: function (audioContext, value) {
 			return audioContext.sampleRate / value;
 		},
+		
 		//value : samples
 		contextGetSamplesRate: function (audioContext) {
 			return audioContext.sampleRate;
 		},
+		
 		getContextCurrentTime: function (audioContext) {
 			return audioContext.currentTime;
 		},
+		
 		getContextListener: function (audioContext) {
 			return audioContext.listener;
 		},
+		
 		setGain: function (context, element) {
 			var variable = context.createGain();
 			element.connect(variable);
 			return variable;
 		},
+		
 		//AudioNode : context.createMediaElementSource(audioElement);
 		setPan: function (context, audioNode) {
 			var variable = context.createPanner();
@@ -438,12 +475,14 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			audionode.connect(context.destination);
 			variable.connect(context.destination);
 		},
+		
 		setInvert: function (value, context, element) {
 			var variable = context.createGain();
 			variable.gain.value = value;
 			element.connect(variable);
 			return variable;
 		},
+		
 		createGain: function (audioContext) {
 			if (!$.core.Validate.isFunc(audioContext.prototype.createGain)) {
 				audioContext.prototype.createGain = audioContext.prototype.createGainNode;
@@ -451,9 +490,11 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioContext.createGain();
 		},
+		
 		createBiquadFilter: function (audioContext) {
 			return audioContext.createBiquadFilter();
 		},
+		
 		setPeriodicWave: function (oscillatorNode) {
 			if (!$.core.Validate.isFunc(oscillatorNode.prototype.setPeriodicWave)) {
 				oscillatorNode.prototype.setPeriodicWave = oscillatorNode.prototype.setWaveTable;
@@ -461,6 +502,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return oscillatorNode.setPeriodicWave;
 		},
+		
 		stopOscillatorNode: function (oscillatorNode) {
 			if (!$.core.Validate.isFunc(oscillatorNode.prototype.stop)) {
 				oscillatorNode.prototype.stop = oscillatorNode.prototype.noteOff;
@@ -468,6 +510,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return oscillatorNode.stop;
 		},
+		
 		startOscillatorNode: function (oscillatorNode) {
 			if (!$.core.Validate.isFunc(oscillatorNode.prototype.start)) {
 				oscillatorNode.prototype.start = oscillatorNode.prototype.noteOn;
@@ -475,6 +518,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return oscillatorNode.start;
 		},
+		
 		stopBufferSourceNode: function (audioBufferSourceNode) {
 			if (!$.core.Validate.isFunc(audioBufferSourceNode.prototype.stop)) {
 				audioBufferSourceNode.prototype.stop = audioBufferSourceNode.prototype.noteGrainOff;
@@ -482,6 +526,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioBufferSourceNode.stop;
 		},
+		
 		startBufferSourceNode: function (audioBufferSourceNode) {
 			if (!$.core.Validate.isFunc(audioBufferSourceNode.prototype.start)) {
 				audioBufferSourceNode.prototype.start = audioBufferSourceNode.prototype.noteGrainOn;
@@ -489,6 +534,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioBufferSourceNode.start;
 		},
+		
 		createPeriodicWave: function (audioContext) {
 			if (!$.core.Validate.isFunc(audioContext.prototype.createPeriodicWave)) {
 				audioContext.prototype.createPeriodicWave = audioContext.prototype.createWaveTable;
@@ -496,6 +542,7 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioContext.createPeriodicWave();
 		},
+		
 		createDelay: function (audioContext) {
 			if (!$.core.Validate.isFunc(audioContext.prototype.createDelay)) {
 				audioContext.prototype.createDelay = audioContext.prototype.createDelayNode;
@@ -503,18 +550,23 @@ import AudioContextObject from './Class/AudioContextObject.js';
 			
 			return audioContext.createDelay();
 		},
+		
 		createPanner: function (audioContext) {
 			return audioContext.createPanner();
 		},
+		
 		createStereoPanner: function (context) {
 			return context.createStereoPanner;
 		},
+		
 		createOscillator: function (context) {
 			return context.createOscillator;
 		},
+		
 		createAnalyser: function (context) {
 			return context.createAnalyser;
 		},
+		
 		closeAudioEffect: function (input, output, AudioNode) {
 			if (!$.core.Validate.isFunc(input)) {
 				if (input instanceof AudioNode) {
@@ -530,21 +582,25 @@ import AudioContextObject from './Class/AudioContextObject.js';
 				output = null;
 			}
 		},
+		
 		/**
 		 * analyser : createAnalyser
 		 */
 		analyserFreqBinCount: function (analyser) {
 			return analyser.frequencyBinCount; //Array
 		},
+		
 		/**
 		 * analyser : createAnalyser
 		 */
 		analyserGetByteFreqData: function (analyser, array) {
 			return analyser.getByteFrequencyData(array);
 		},
+		
 		createBuffSource: function (context) {
 			return context.createBufferSource;
 		}
+		
 	};
 	
 	A.constructor();

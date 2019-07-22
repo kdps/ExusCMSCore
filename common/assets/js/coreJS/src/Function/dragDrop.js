@@ -19,6 +19,7 @@
 				resizeHandler.obj = null;
 			}
 		},
+		
 		/**
 		 * Change Mouse Cursor to Resizable Icon on Resize
 		 *
@@ -27,6 +28,7 @@
 		resizeStart: function () {
 			document.body.style.cursor = 'se-resize';
 		},
+		
 		/**
 		 * Event on Resize
 		 *
@@ -47,6 +49,7 @@
 				jQuery(document).on('mousemove', this.resizeDragMouseMove);
 			}
 		},
+		
 		/**
 		 * Event on Resize Do
 		 *
@@ -83,8 +86,10 @@
 			}
 
 		},
+		
 		resizeEnd: function () {
 		},
+		
 		/**
 		 * Event on Drag Mouse Move
 		 *
@@ -108,6 +113,7 @@
 				}
 			}
 		},
+		
 		/**
 		 * Event on Mouse Down
 		 *
@@ -133,6 +139,7 @@
 				}
 			}
 		},
+		
 		/**
 		 * Start Resize Event
 		 *
@@ -155,6 +162,7 @@
 			this.mouseDownEvent(event);
 			return;
 		},
+		
 		position: function (size, id, type) {
 			elem = $.core.Element.getById(id);
 			if (!elem) return;
@@ -188,6 +196,7 @@
 			}
 			return size;
 		},
+		
 		/**
 		 * Resize to specify size
 		 *
@@ -237,6 +246,7 @@
 			
 			return size;
 		},
+		
 		/**
 		 * Resize Object to specify width
 		 *
@@ -248,6 +258,7 @@
 		width: function (size, id) {
 			return this.size(size, id, 'width');
 		},
+		
 		/**
 		 * Resize Object to specify height
 		 *
@@ -259,6 +270,7 @@
 		height: function (size, id) {
 			return this.size(size, id, 'height');
 		},
+		
 		/**
 		 * Resize Object to specify top
 		 *
@@ -270,6 +282,7 @@
 		top: function (size, id) {
 			return this.position(size, id, 'top');
 		},
+		
 		/**
 		 * Resize Object to specify left
 		 *
@@ -281,19 +294,23 @@
 		left: function (size, id) {
 			return this.position(size, id, 'left');
 		}
+		
 	}
 	
 	A.Reorder = {
+		
 		onDragStart: function (evt, callback) {
 			self.$.core.dragDrop.Reorder.Handler = evt.target;
 			evt.dataTransfer.effectAllowed = 'move';
 			evt.dataTransfer.setData('Text', elem.textContent);
 			callback();
 		},
+		
 		onDragEnd: function (evt, callback) {
 			evt.preventDefault();
 			callback();
 		},
+		
 		onDragOver: function (evt) {
 			evt.preventDefault();
 			evt.dataTransfer.dropEffect = 'move';
@@ -304,5 +321,7 @@
 				rootEl.insertBefore(this.handler, target.nextSibling || target);
 			}
 		}
+		
 	}
+	
 })(jQuery, $.core);

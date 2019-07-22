@@ -4,12 +4,14 @@
 (function ($, core) {
 
 	var A = core.Midi = {
+		
 		isSupport: function () {
 			if (navigator.requestMIDIAccess) {
 				return true;
 			}
 			return false;
 		},
+		
 		request: function (onSuccessCallback, onErrorCallback) {
 			if (this.isSupport()) {
 				navigator.requestMIDIAccess({
@@ -17,5 +19,7 @@
 				}).then(onSuccessCallback, onErrorCallback);
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

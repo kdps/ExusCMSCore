@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	let A = core.Pagenation = {
+		
 		constructor: function () {
 			this.point = 0;
 			this.list_count = 0;
@@ -12,6 +13,7 @@
 			this.first_page = 0;
 			this.page_count = 0;
 		},
+		
 		setObject: function (current_page = 1, list_count = 10, document_count = 10) {
 			this.list_count = list_count;
 			
@@ -43,12 +45,15 @@
 			this.page_count = last_page;
 			this.list_count = list_count;
 		},
+		
 		getLastPage: function () {
 			return page_count;
 		},
+		
 		getCurrentPage: function () {
 			return (this.page_margin + this.first_page + this.point);
 		},
+		
 		hasNextPage: function () {
 			var page = this.first_page + ++this.point;
 			if (page > this.list_count || this.getCurrentPage() > this.last_page) {

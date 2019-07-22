@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.JSON = {
+		
 		isSupport: function () {
 			if ("JSON" in window) {
 				return true;
@@ -11,6 +12,7 @@
 			
 			return false;
 		},
+		
 		autoDecode: function (str) {
 			if (str === null) {
 				return 'null';
@@ -31,6 +33,7 @@
 				return str;
 			}
 		},
+		
 		SecureEvalJSON: function (str) {
 			if (str) {
 				var _secure =
@@ -47,9 +50,11 @@
 				return false;
 			}
 		},
+		
 		strToJSON: function (str) {
 			return JSON.parse(eval(str)[0]);
 		},
+		
 		ConverToStr: function (obj) {
 			var result = "";
 			
@@ -65,6 +70,7 @@
 			
 			return result;
 		},
+		
 		isJSON: function (m) {
 			if ($.core.Validate.isObject(m)) {
 				try {
@@ -88,6 +94,7 @@
 			
 			return true;
 		},
+		
 		stringify: function (object) {
 			var stringify = JSON.stringify(object);
 			
@@ -97,6 +104,7 @@
 			
 			return null;
 		},
+		
 		decode: function (object) {
 			if (this.isJSON(object)) {
 				return jQuery.parseJSON(JSON.stringify(object));
@@ -104,6 +112,7 @@
 				return object;
 			}
 		},
+		
 		parse: function (object) {
 			if (this.isSupport()) {
 				if (this.isJSON(object)) {
@@ -113,5 +122,7 @@
 				}
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

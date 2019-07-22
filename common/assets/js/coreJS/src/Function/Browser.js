@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Browser = {
+		
 		isContextMenuSupport: function () {
 			if ('contextMenu' in document && 'HTMLMenuItemElement' in window) {
 				return true;
@@ -11,6 +12,7 @@
 			
 			return false;
 		},
+		
 		isDownloadSupport: function () {
 			if (!window.externalHost && 'download' in document.createElement('a')) {
 				return true;
@@ -18,6 +20,7 @@
 			
 			return false;
 		},
+		
 		hasAmbientLight: function () {
 			if ('ondevicelight' in window) {
 				return true;
@@ -25,6 +28,7 @@
 			
 			return false;
 		},
+		
 		addAmbientLightEventHandler: function (callback) {
 			if (this.hasAmbientLight()) {
 				$.core.Evt.addListener(window, 'devicelight', function (event) {
@@ -32,19 +36,23 @@
 				});
 			}
 		},
+		
 		isLocalhost: function () {
 			//[::1] is the IPv6 localhost address.
 			var loc = window.location;
 			return ((loc.hostname.match('localhost') || loc.hostname.match('[::1]') || loc.hostname.match('192.168.0.') || loc.hostname.match('127.0.0.1')) ? true : false);
 		},
+		
 		isFileProtocol: function () {
 			var loc = window.location;
 			
 			return (loc.protocol === ('file:') ? true : false);
 		},
+		
 		hasTouchScreen: function () {
 			return ("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch;
 		},
+		
 		isEmbededObject: function (id) {
 			var isEO = false;
 			var obj = document.getElementById(id);
@@ -55,15 +63,19 @@
 			
 			return isEO;
 		},
+		
 		isChromeApp: function () {
 			return (window.chrome || wiindow.chrome.storage);
 		},
+		
 		hasConsole: function () {
 			return (window.console || window.console.log);
 		},
+		
 		hasReplaceState: function () {
 			return (window.history || window.history.replaceState);
 		},
+		
 		redirectToCompleteHost: function () {
 			var host = location.host.toLowerCase();
 			var url = location.href;
@@ -72,6 +84,7 @@
 				location.href = url.replace("//","//www.");
 			}
 		},
+		
 		getAllPerformType: function () {
 			var performtype = new Array();
 			var perform = this.getPerform();
@@ -81,12 +94,15 @@
 			
 			return performtype;
 		},
+		
 		getHardwareCur: function () {
 			return navigator.hardwareConcurrency;
 		},
+		
 		getPerform: function () {
 			return window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {};
 		},
+		
 		getPerformMemorySize: function () { //Not available to workers
 			var perform = this.getPerform();
 			return perform.memory;
@@ -98,10 +114,12 @@
 				}
 			*/
 		},
+		
 		getPerformTiming: function () { //Not available to workers
 			var perform = this.getPerform();
 			return perform.timing;
 		},
+		
 		is64Bit: function () {
 			var agent = navigator.userAgent;
 			if (agent.indexOf("x64") != -1) {
@@ -110,12 +128,15 @@
 				return false;
 			}
 		},
+		
 		getChromeVersion: function () {
 			return parseInt(navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
 		},
+		
 		isWebVideo: function (url) {
 			return /\.webm$|\.mp4$/.test(url);
 		},
+		
 		isMozila: function () {
 			try {
 				if (jQuery.browser.mozilla) {
@@ -127,12 +148,15 @@
 				return false;
 			}
 		},
+		
 		parseHTML: function (html) {
 			return $.parseHTML(html);
 		},
+		
 		isTouchSupport: function () {
 			return "createTouch" in document;
 		},
+		
 		hasPointerEvents: function () {
 			var elem = document.createElement('div');
 			var docElem = document.documentElement;
@@ -150,18 +174,22 @@
 			
 			return !!isSupports;
 		},
+		
 		isTouchable: function () {
 			return "ontouchstart" in document.documentElement;
 		},
+		
 		getFirstScriptTag: function () {
 			return document.getElementsByTagName('script')[0];
 		},
+		
 		getCancelAnimationFrame: function () {
 			if ($.core.Validate.isUndefined($cache['animationFrame'])) {
 				$cache['cancelanimationFrame'] = _cWin.cancelAnimationFrame || _cWin.webkitCancelAnimationFrame || _cWin.mozCancelAnimationFrame || _cWin.msCancelAnimationFrame;
 			}
 			return $cache['cancelanimationFrame'];
 		},
+		
 		getAnimationFrame: function () {
 			if ($.core.Validate.isUndefined($cache['animationFrame'])) {
 				$cache['animationFrame'] = _cWin.mozRequestAnimationFrame || _cWin.webkitRequestAnimationFrame || _cWin.requestAnimationFrame || _cWin.oRequestAnimationFrame || _cWin.msRequestAnimationFrame || function (callback) {
@@ -171,12 +199,15 @@
 			
 			return $cache['animationFrame'];
 		},
+		
 		disableContextMenu: function () {
 			$(document).on('contextmenu', false);
 		},
+		
 		disableDrag: function () {
 			$(document).on('dragstart', false);
 		},
+		
 		getConsoleErr: function (msg, url, line, column, errorObj) {
 			$.core.Base.resetWinCache();
 			if (msg.match(/Uncaught TypeError: Cannot read property '(\s?\.?[a-zA-Z\.]+)\w+' of undefined/ig)) {
@@ -199,15 +230,19 @@
 				$.log(msg + '\n' + url + ':' + line + ':' + column);
 			}
 		},
+		
 		getTitle: function () {
 			return document.title;
 		},
+		
 		setTitle: function (title) {
 			document.title = title;
 		},
+		
 		getHash: function () {
 			return _cWin.location.hash.replace('#', '');
 		},
+		
 		printInnerHTML: function (id) {
 			var initBody = document.body.innerHTML;
 			window.onbeforeprint = function () {
@@ -220,9 +255,11 @@
 			
 			window.print();
 		},
+		
 		Print: function () {
 			_cWin.print();
 		},
+		
 		getSearchEngineQuery: function (engine, keyword) {
 			if (engine=='yahoo') {
 				result = 'https://search.yahoo.com/search;?p=123' + keyword;
@@ -242,6 +279,7 @@
 			
 			return result;
 		},
+		
 		isSupportCssAnimation: function () {
 			try {
 				return Modernizr.cssanimations;
@@ -249,9 +287,11 @@
 				return false;
 			}
 		},
+		
 		getHead: function () {
 			return _cDoc.getElementsByTagName('head')[0];
 		},
+		
 		getCharSet: function () {
 			if (_cDoc.charset) {
 				return _cDoc.charset.toLowerCase();
@@ -259,6 +299,7 @@
 				return _cDoc.characterSet.toLowerCase();
 			}
 		},
+		
 		isSelenium: function () {
 			if ($.core.Validate.isUndefined($cache['isWin'])) {//Win
 				$cache['isWin'] = _cWin.navigator.userAgent.toLowerCase().indexOf("mozilla/5.0 (selenium; ") !== -1 ? true : false;
@@ -266,6 +307,7 @@
 			
 			return $cache['isWin'];
 		},
+		
 		isWindows: function () {
 			if ($.core.Validate.isUndefined($cache['isWin'])) {//Win
 				$cache['isWin'] = _cWin.navigator.userAgent.toLowerCase().indexOf("win") !== -1 ? true : false;
@@ -273,6 +315,7 @@
 			
 			return $cache['isWin'];
 		},
+		
 		isFirefox: function () {
 			if ($.core.Validate.isUndefined($cache['isFirefox'])) {//Firefox
 				$cache['isFirefox'] = _cWin.navigator.userAgent.toLowerCase().indexOf("firefox") !== -1 ? true : false;
@@ -280,6 +323,7 @@
 			
 			return $cache['isFirefox'];
 		},
+		
 		isNetscape: function () {
 			if ($.core.Validate.isUndefined($cache['isNetscape'])) {//Netscape
 				$cache['isNetscape'] = _cWin.navigator.userAgent.toLowerCase().indexOf("netscape") !== -1 ? true : false;
@@ -287,6 +331,7 @@
 			
 			return $cache['isNetscape'];
 		},
+		
 		isOpera: function () {
 			if ($.core.Validate.isUndefined($cache['isOpera'])) {//Opera
 				$cache['isOpera'] = (_cWin.navigator.userAgent.toLowerCase().indexOf("opera") !== -1 || _cWin.navigator.userAgent.toLowerCase().indexOf("opr") !== -1) ? true : false;
@@ -294,6 +339,7 @@
 			
 			return $cache['isOpera'];
 		},
+		
 		isChrome: function () {
 			if ($.core.Validate.isUndefined($cache['isChrome'])) {//Chrome
 				$cache['isChrome'] = _cWin.navigator.userAgent.toLowerCase().indexOf("chrome") !== -1 ? true : false;
@@ -301,6 +347,7 @@
 			
 			return $cache['isChrome'];
 		},
+		
 		isGecko: function () {
 			if ($.core.Validate.isUndefined($cache['Gecko'])) {//Gecko
 				$cache['isGecko'] = _cWin.navigator.userAgent.toLowerCase().indexOf("gecko") !== -1 ? true : false;
@@ -308,6 +355,7 @@
 			
 			return $cache['isGecko'];
 		},
+		
 		isKonqueror: function () {
 			if ($.core.Validate.isUndefined($cache['Konqueror'])) {//Konqueror
 				$cache['isKonqueror'] = _cWin.navigator.userAgent.toLowerCase().indexOf("konqueror") !== -1 ? true : false;
@@ -315,6 +363,7 @@
 			
 			return $cache['isKonqueror'];
 		},
+		
 		isSafari: function () {
 			if ($.core.Validate.isUndefined($cache['isSafari'])) {//AppleWebKit
 				$cache['isSafari'] = _cWin.navigator.userAgent.toLowerCase().indexOf("applewebkit") !== -1 ? true : false;
@@ -322,6 +371,7 @@
 			
 			return $cache['isSafari'];
 		},
+		
 		isIE: function () {
 			if ($.core.Validate.isUndefined($cache['isIE'])) {
 				$cache['isIE'] = _cUserAgent.indexOf("MSIE") > 0 || /msie/i.test(_cNavi.userAgent);
@@ -329,6 +379,7 @@
 			
 			return $cache['isIE'];
 		},
+		
 		isIOS: function () {
 			if ($.core.Validate.isUndefined($cache['isIOS'])) {
 				$cache['isIOS'] == _cNavi.platform.match(/(iPhone|iPod|iPad)/i) ? true : false;
@@ -336,6 +387,7 @@
 			
 			return $cache['isIOS'];
 		},
+		
 		isMacPlatform: function () {
 			if ($.core.Validate.isUndefined($cache['isMacPlatform'])) {
 				$cache['isMacPlatform'] == _cNavi.platform.match(/(Mac|iPhone|iPod|iPad)/i) ? true : false;
@@ -343,6 +395,7 @@
 			
 			return $cache['isMacPlatform'];
 		},
+		
 		isBlackBerry: function () {
 			if ($.core.Validate.isUndefined($cache['isBlackBerry'])) {
 				$cache['isBlackBerry'] == _cWin.navigator.userAgent.toLowerCase().indexOf("blackberry") !== -1 ? true : false;
@@ -350,6 +403,7 @@
 			
 			return $cache['isBlackBerry'];
 		},
+		
 		isMac: function () {
 			if ($.core.Validate.isUndefined($cache['isMac'])) {
 				$cache['isMac'] == _cWin.navigator.userAgent.toLowerCase().indexOf("mac") !== -1 ? true : false;
@@ -357,6 +411,7 @@
 			
 			return $cache['isMac'];
 		},
+		
 		isFrame: function (window) {
 			var root = window.parent;
 			if (root == 'undefined') {
@@ -371,30 +426,37 @@
 			
 			return false;
 		},
+		
 		getLang: function () {
 			_cNavi.language = _cNavi.language || _cNavi.userLanguage;
 			return _cNavi.language;
 		},
+		
 		getCreateShadowRoot: function () {
 			_cWin.createShadowRoot = _cWin.createShadowRoot || _cWin.webkitCreateShadowRoot;
 			return _cWin.createShadowRoot;
 		},
+		
 		isStyleScoped: function (elem) {
 			return void 0 === elem.document.createElement("style").scoped;
 		},
+		
 		getRTCPeerConnection: function () {
 			_cWin.RTCPeerConnection = _cWin.RTCPeerConnection || _cWin.webkitRTCPeerConnection || _cWin.mozRTCPeerConnection;
 			return _cWin.RTCPeerConnection;
 		},
+		
 		hasRTCPeerConnection: function () {
 			return !!(this.getRTCPeerConnection());
 		},
+		
 		newImageCapture: function (mediaStream) {
 			var mediaStreamTrack = mediaStream.getVideoTracks()[0];
 			if ($.core.Validate.isObject(mediaStream.getVideoTracks()[0])) {
 				return new ImageCapture(mediaStreamTrack);
 			}
 		},
+		
 		startRecorder: function (onLoadCallback, onSuccessCallback, onErrorCallback) {
 			if (this.hasGetUserMedia()) {
 				navigator.mediaDevices.getUserMedia({audio: true}).then(function (stream) {
@@ -408,6 +470,7 @@
 				}).catch(onErrorCallback);
 			}
 		},
+		
 		startWebCam: function (onLoadCallback, onSuccessCallback, onErrorCallback) {
 			if (this.hasGetUserMedia()) {
 				this.getDeviceUserMedia({
@@ -423,9 +486,11 @@
 				}).catch(onErrorCallback);
 			}
 		},
+		
 		getDeviceUserMedia: function (params) {
 			return _cWin.navigator.mediaDevices.getUserMedia(params);
 		},
+		
 		getImageCaptureHandler: function () {
 			this.getDeviceUserMedia({video: true}).then(gotMedia).catch(function () {
 			//error => {
@@ -438,6 +503,7 @@
 				return imageCapture;
 			}
 		},
+		
 		doCapture: function () {
 			var imageCapture = this.getImageCaptureHandler();
 			var blobData;
@@ -451,6 +517,7 @@
 			
 			return blobData;
 		},
+		
 		setIframeAPushState: function () {
 			if (this.hasIframe()) {
 				$("a").click(function () {
@@ -462,18 +529,22 @@
 				});
 			}
 		},
+		
 		getTarget: function (event) {
 			return event.srcElement || event.target;;
 		},
+		
 		/**
 		 * Asynchronous Module Definition
 		 **/
 		isDefAMD: function () {
 			return define.amd;
 		},
+		
 		isSupportPjax: function () {
 			return $.support.pjax;
 		},
+		
 		getBoundingHeight: function (id) {
 			var height = 0;
 			var rect = document.getElementById(id).getBoundingClintRect();
@@ -486,21 +557,25 @@
 			
 			return height;
 		},
+		
 		requireJs: function (source) {
 			document.write('<script type="text/javascript" src="' + source + '"><\/script>');
 		},
+		
 		isConsoleDirAvailable: function () {
 			if (_cWin.console && _cWin.console.dir) {
 				return true;
 			}
 			return false;
 		},
+		
 		isConsoleAvailable: function () {
 			if (_cWin.console && _cWin.console.log) {
 				return true;
 			}
 			return false;
 		},
+		
 		setConnectionEventHandler(callback) {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
@@ -509,6 +584,7 @@
 				});
 			}
 		},
+		
 		hasConnection: function () {
 			var connection = this.getConnection();
 			if (connection) {
@@ -517,6 +593,7 @@
 			
 			return false;
 		},
+		
 		getConnection: function () {
 			if ($.core.Validate.isUndefined($cache['connection'])) {
 				$cache['connection'] = _cNavi.connection || _cNavi.mozConnection || _cNavi.webkitConnection;
@@ -524,11 +601,13 @@
 			
 			return $cache['connection'];
 		},
+		
 		addUserNearDeviceEventHandler: function (callback) {
 			$.core.Evt.addListener(window, 'userproximity', function (event) {
 				callback(event);
 			});
 		},
+		
 		getUserNetworkSpeed: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
@@ -537,6 +616,7 @@
 				return 0;
 			}
 		},
+		
 		isCellular: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
@@ -549,6 +629,7 @@
 			
 			return false;
 		},
+		
 		isUserNeedPayCost: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
@@ -559,9 +640,11 @@
 			}
 			return false;
 		},
+		
 		getMailWin: function (target) {
 			location.href = "mailto:" + target;
 		},
+		
 		hasIframe: function () {
 			if (self !== top) {
 				return true;
@@ -569,21 +652,27 @@
 			
 			return false;
 		},
+		
 		getBodyMiddleTop: function () {
 			return Math.floor(( $("body").outerHeight(true) - $(_cWin).height()) / 2);
 		},
+		
 		getUserMedia: function () {
 			return _cNavi.getUserMedia || _cNavi.webkitGetUserMedia || _cNavi.mozGetUserMedia || _cNavi.msGetUserMedia;
 		},
+		
 		hasGetUserMedia: function () {
 			return !!(this.getUserMedia());
 		},
+		
 		getVibrator: function () {
 			return _cWin.navigator.vibrate || _cWin.navigator.webkitVibrate || _cWin.navigator.mozVibrate || _cWin.navigator.msVibrate;
 		},
+		
 		hasVibrator: function () {
 			return !!(this.getVibrator().vibrate);
 		},
+		
 		mobileVibrate: function (ms) {
 			var vibrator = this.getVibrator();
 			
@@ -591,10 +680,12 @@
 				vibrator.vibrate(ms);
 			}
 		},
+		
 		isSupportTouch: function () {
 			var android = _cNavi.userAgent.indexOf('Android') != -1;
 			return android || !!('createTouch' in document);
 		},
+		
 		isOnline: function () {
 			$.core.Base.resetNaviCache();
 			if (_cNavi.onLine) {
@@ -602,51 +693,66 @@
 			}
 			return false;
 		},
+		
 		appVer: function () {
 			return _cNavi.appVersion;
 		},
+		
 		userAgent: function () {
 			return _cNavi.userAgent;
 		},
+		
 		Product: function () {
 			return _cNavi.product;
 		},
+		
 		appCode: function () {
 			return _cNavi.appCodeName;
 		},
+		
 		appName: function () {
 			return _cNavi.appName;
 		},
+		
 		Url: function () {
 			return _cWin.location.href;
 		},
+		
 		Host: function () {
 			return _cWin.location.hostname || _cWin.location.host;;
 		},
+		
 		path: function () {
 			return _cWin.location.pathname;
 		},
+		
 		protocol: function () {
 			return _cWin.location.protocol;
 		},
+		
 		getCanvas: function (id) {
 			var canvas = document.getElementById(id);
 			if (canvas.getContext) {
 				return this.canvas.getContext('2d');
 			}
 		},
+		
 		_Assign: function ($url) {
 			return _cWin.location.assign($url);
 		},
+		
 		Back: function () {
 			_cWin.history.back();
 		},
+		
 		Refresh: function () {
 			location.reload(true);
 		},
+		
 		Forward: function () {
 			_cWin.history.forward();
 		},
+		
 		/**
 		 * Check elements is in the DOM
 		 * @param {elem}        : Element
@@ -654,6 +760,7 @@
 		hasDom: function (elem) {
 			$.contains(document.documentElement, elem);
 		},
+		
 		/**
 		 * Redirect
 		 * @param {url}        : Link
@@ -666,15 +773,18 @@
 				_cWin.location.href = url;
 			}
 		},
+		
 		answerCallback: function (msg, callback) {
 			var answer = this._Confirm(msg);
 			if (answer == true) {
 				callback();
 			}
 		},
+		
 		_Prompt: function ($title, $content) {
 			return prompt($title, $content);
 		},
+		
 		_Confirm: function (msg, callback) {
 			if ($.core.Validate.isFunc(callback)) {
 				var cfm = confirm(msg);
@@ -685,6 +795,7 @@
 				return confirm(msg);
 			}
 		},
+		
 		/**
 		 * Answer before Redirect
 		 * @param {$msg}   : Message
@@ -696,6 +807,7 @@
 				this.Redirect(url);
 			}
 		},
+		
 		/**
 		 * Push State
 		 * @param {stateObject}   : state Object
@@ -705,9 +817,11 @@
 		pushState: function (stateObject, title, url) {
 			_cWin.top.history.pushState(stateObject, title, url);
 		},
+		
 		replaceState: function (data, title) {
 			_cWin.top.history.replaceState(stateObject, title, url);
 		},
+		
 		isSmartPhone: function () {
 			var UserAgent = _cNavi.userAgent.toLowerCase();
 			if (/(Mobile)|(iPhone)|(Android)/gi.exec(userAgent)) {
@@ -716,6 +830,7 @@
 			
 			return false;
 		},
+		
 		getWindowsVersion: function () {
 			if (this.isWindows()) {
 				var userAgent = _cNavi.userAgent.toLowerCase();
@@ -745,6 +860,7 @@
 				}
 			}
 		},
+		
 		/*
 		 * Make sure the operating system is Microsoft Windows as the user agent value.
 		 */
@@ -756,6 +872,7 @@
 			
 			return false;
 		},
+		
 		/*
 		 * Make sure the operating system is Linux as the user agent value.
 		 */
@@ -767,6 +884,7 @@
 			
 			return false;
 		},
+		
 		/*
 		 * Make sure the operating system is Sun OS as the user agent value.
 		 */
@@ -778,6 +896,7 @@
 			
 			return false;
 		},
+		
 		/*
 		 * Make sure the operating system is isOpenBSD as the user agent value.
 		 */
@@ -789,6 +908,7 @@
 			
 			return false;
 		},
+		
 		/*
 		 * Make sure the operating system is MacPowerPC as the user agent value.
 		 */
@@ -800,6 +920,7 @@
 			
 			return false;
 		},
+		
 		getDetail: function () {
 			var Browser = {};
 			var userAgent = _cNavi.userAgent.toLowerCase();
@@ -829,6 +950,7 @@
 			
 			return Browser;
 		},
+		
 		/**
 		 * Get Browser User Agent Type
 		 **/
@@ -870,6 +992,7 @@
 			if (UserAgent.indexOf("chimera") != -1) return 'Chimera';
 			if (UserAgent.indexOf("safari") != -1) return 'Safari';
 		},
+		
 		/**
 		 * Bookmark
 		 * @param {url}	  : Bookmark URL
@@ -896,6 +1019,7 @@
 				}
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

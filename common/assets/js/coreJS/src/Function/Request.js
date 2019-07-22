@@ -3,6 +3,7 @@
 
 (function ($, core) {
 	var A = core.Request = {
+		
 		constructor: function () {
 			this.ajaxFailCallbacks = {};
 			
@@ -11,87 +12,392 @@
 			//XHLHTTP
 			this.listXMLHTTP = ['Microsoft.XMLHTTP'];
 
-			this.listMSXML2 = ["MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP.2.0", "MSXML2.XMLHTTP"];
+			this.listMSXML2 = [
+				"MSXML2.XMLHTTP.6.0", 
+				"MSXML2.XMLHTTP.5.0", 
+				"MSXML2.XMLHTTP.4.0", 
+				"MSXML2.XMLHTTP.3.0", 
+				"MSXML2.XMLHTTP.2.0", 
+				"MSXML2.XMLHTTP"
+			];
 
 			//Server Response Code
 			this.ResponseCode = (globalLang == 'ko') ? {
 				/* Conditional response */
-				100: '요청 진행', 101: '프로토콜이 변경됨', 102: '진행중', /* Success */
-				200: '전송이 정상적으로 완료됨', 201: '문서가 생성됨', 202: '허용됨', 203: '믿을 수 없는 정보', 204: '전송할 내용이 없음', 205: '문서 리셋', 206: '부분 요청(Range) 컨텐츠', 207: '다중 상태', 208: '이미 보고되었음', 266: 'IM Used', /* Redirection Success */
-				300: '지나치게 많은 선택', 301: '영구적으로 이동됨', 302: '임시적으로 이동됨', 303: '기타보기', 304: '변경되지 않음', 305: '프록시 사용', 307: '임시적인 리다이렉트', 308: '영구적인 리다이렉트', /* Request Error */
-				400: '올바르지 않는 요청 또는 문법적으로 오류가 있는 요청', 401: '권한이 인증되지 않음', 402: '예약된 요청', 403: '권한이 제한됨', 404: '문서를 찾을 수 없음', 405: '메소드가 허용되지 않음', 406: '허용되지 않음', 407: '프록시 인증 필요', 408: '요청시간이 지남', 409: '올바르지 않는 파일', 410: '영구적으로 사용할 수 없음', 411: 'Content-Length 헤더 필요', 412: '사전 조건 성립 실패', 413: '요청 개체가 허용범위보다 지나치게 큼', 414: '요청 주소가 지나치게 김', 415: '지원되지 않는 미디어 타입 또는 알려지지 않은 미디어 타입', 416: '요청된 범위(Range)가 충족되지 않음', 417: '요청 헤더(Expect)의 값이 올바르지 않음', 418: '지나치게 짧은 body 엔티티\/stout', 420: '차분한 마음가짐', 422: '처리 할 수 없는 엔터티', 423: '잠금상태', 424: '의존성 실패', 425: '정렬되지 않은 컬렉션', 426: '업그레이드가 필요함', 428: '사전 조건 필요', 429: '너무 많은 요청수', 431: '요청 헤더 필드가 지나치게 큼', 444: 'Nginx의 응답이 없음', 449: '다시 시도하시오', 450: '자녀 보호에 의거하거 차단됨', 451: '법적으로 허용되지 않음', 494: '요청 헤더가 지나치게 큼', 495: 'Cert 오류', 496: 'Cert가 존재하지 않음', 497: 'HTTP에서 HTTPS로 프로토콜이 변경됨', 499: '클라이언트에서 요청을 닫음', /* Server Error */
-				500: '내부 서버 오류 또는 서버 내의 문법적 오류 또는 유지보수중인 사이트에 요청중입니다', 501: '구현되지 않았거나 지원되지 않음', 502: '서버의 자원이 과부하되었음', 503: '유지보수 또는 자원의 과부하로 인하여 서비스를 사용할 수 없음', 504: '최대 요청 범위 시간대로 요청을 했으나 응답을 받을 수 없음', 505: '지원되지 않는 HTTP 버전', 506: 'Variant Also Negotiates', 507: '내부 스토리지가 불충분함', 509: '요청 가능한 대역폭을 벗어났습니다', 510: '확장되지 않음', 511: '네트워크 인증 필요', 598: '네트워크 읽기 시간초과 오류', 599: '네트워크 읽기 시간초과 오류'
+				100: '요청 진행',
+				101: '프로토콜이 변경됨',
+				102: '진행중',
+				/* Success */
+				200: '전송이 정상적으로 완료됨',
+				201: '문서가 생성됨',
+				202: '허용됨',
+				203: '믿을 수 없는 정보',
+				204: '전송할 내용이 없음',
+				205: '문서 리셋',
+				206: '부분 요청(Range) 컨텐츠',
+				207: '다중 상태',
+				208: '이미 보고되었음',
+				266: 'IM Used',
+				/* Redirection Success */
+				300: '지나치게 많은 선택',
+				301: '영구적으로 이동됨',
+				302: '임시적으로 이동됨',
+				303: '기타보기',
+				304: '변경되지 않음',
+				305: '프록시 사용',
+				307: '임시적인 리다이렉트',
+				308: '영구적인 리다이렉트',
+				/* Request Error */
+				400: '올바르지 않는 요청 또는 문법적으로 오류가 있는 요청',
+				401: '권한이 인증되지 않음',
+				402: '예약된 요청',
+				403: '권한이 제한됨',
+				404: '문서를 찾을 수 없음',
+				405: '메소드가 허용되지 않음',
+				406: '허용되지 않음',
+				407: '프록시 인증 필요',
+				408: '요청시간이 지남',
+				409: '올바르지 않는 파일',
+				410: '영구적으로 사용할 수 없음',
+				411: 'Content-Length 헤더 필요',
+				412: '사전 조건 성립 실패',
+				413: '요청 개체가 허용범위보다 지나치게 큼',
+				414: '요청 주소가 지나치게 김',
+				415: '지원되지 않는 미디어 타입 또는 알려지지 않은 미디어 타입',
+				416: '요청된 범위(Range)가 충족되지 않음',
+				417: '요청 헤더(Expect)의 값이 올바르지 않음',
+				418: '지나치게 짧은 body 엔티티\/stout',
+				420: '차분한 마음가짐',
+				422: '처리 할 수 없는 엔터티',
+				423: '잠금상태',
+				424: '의존성 실패',
+				425: '정렬되지 않은 컬렉션',
+				426: '업그레이드가 필요함',
+				428: '사전 조건 필요',
+				429: '너무 많은 요청수',
+				431: '요청 헤더 필드가 지나치게 큼',
+				444: 'Nginx의 응답이 없음',
+				449: '다시 시도하시오',
+				450: '자녀 보호에 의거하거 차단됨',
+				451: '법적으로 허용되지 않음',
+				494: '요청 헤더가 지나치게 큼',
+				495: 'Cert 오류',
+				496: 'Cert가 존재하지 않음',
+				497: 'HTTP에서 HTTPS로 프로토콜이 변경됨',
+				499: '클라이언트에서 요청을 닫음',
+				/* Server Error */
+				500: '내부 서버 오류 또는 서버 내의 문법적 오류 또는 유지보수중인 사이트에 요청중입니다',
+				501: '구현되지 않았거나 지원되지 않음',
+				502: '서버의 자원이 과부하되었음',
+				503: '유지보수 또는 자원의 과부하로 인하여 서비스를 사용할 수 없음',
+				504: '최대 요청 범위 시간대로 요청을 했으나 응답을 받을 수 없음',
+				505: '지원되지 않는 HTTP 버전',
+				506: 'Variant Also Negotiates',
+				507: '내부 스토리지가 불충분함',
+				509: '요청 가능한 대역폭을 벗어났습니다',
+				510: '확장되지 않음',
+				511: '네트워크 인증 필요',
+				598: '네트워크 읽기 시간초과 오류',
+				599: '네트워크 읽기 시간초과 오류'
 			} :
 			(globalLang == 'jp') ? {
 				/* Conditional response */
-				100: 'リクエスト進行', 101: 'プロトコルが変更されました', 102: '進行中です', /* Success */
-				200: '転送が正常に完了しました', 201: 'ドキュメントが生成されました', 202: '許可された', 203: '信じられない情報です', 204: '送信内容がありません', 205: '文書リセット', 206: 'リクエストの一部（Range）コンテンツ', 207: '複数の状態', 208: '既に報告されて', 266: 'IM Used', /* Redirection Success */
-				300: '過度に多くの選択', 301: '永久に移動されました', 302: '一時的に移動されました', 303: 'その他の表示', 304: '変更されていません', 305: 'プロキシを使用', 307: '一時的なリダイレクト', 308: '恒久的なリダイレクト', /* Request Error */
-				400: '正しくない要求または文法的にエラーがあるリクエスト', 401: '権限が認証されていない', 402: 'スケジュールされたリクエスト', 403: '権限が制限', 404: '文書が見つかりません', 405: 'メソッドが許可されていない', 406: '許可されていない', 407: '프록시 인증 필요', 408: '요청시간이 지남', 409: '正しくないファイル', 410: '恒久的に使用することができません', 411: 'Content-Lengthヘッダが必要', 412: '前提条件成立失敗', 413: '要求オブジェクトが許容範囲よりも過度に大きい', 414: 'リクエストアドレスが過度に金', 415: 'サポートされていないメディアタイプまたは未知のメディアタイプ', 416: '要求された範囲（Range）が満たされていない', 417: 'リクエストヘッダ（Expect）の値が正しくない', 418: '短すぎるbodyエンティティ\/stout', 420: '落ち着いた心構え', 422: '処理できないエンティティ', 423: 'ロック状態', 424: '依存性の失敗', 425: 'ソートされていないコレクション', 426: 'アップグレードが必要', 428: '前提条件が必要', 429: 'あまりにも多くのリクエストができ', 431: 'リクエストヘッダフィールドが過度に大きい', 444: 'Nginxの応答がありません', 449: 'やり直して下さい', 450: '子供の保護に基づきたりブロック', 451: '法的に許可されていない', 494: 'リクエストヘッダが過度に大きい', 495: 'Certエラー', 496: 'Certが存在しない', 497: 'HTTPからHTTPSにプロトコルが変更された', 499: 'クライアントからの要求を閉じ', /* Server Error */
-				500: '内部サーバーエラーまたはサーバー内の文法エラーやメンテナンス中のサイトにリクエストしています', 501: '実装されていないか、サポートされない', 502: 'サーバーのリソースが過負荷されました', 503: 'メンテナンスや資源の過負荷によりサービスを利用することができません', 504: '最大要求の範囲の時間帯に要求をしたが、応答を受信できない', 505: 'サポートされていないHTTPのバージョン', 506: 'Variant Also Negotiates', 507: '内部ストレージが不十分さ', 509: 'リクエスト可能な帯域幅を外', 510: '拡張されません', 511: 'ネットワーク認証が必要', 598: 'ネットワークの読み取りタイムアウトエラー', 599: 'ネットワークの読み取りタイムアウトエラー'
+				100: 'リクエスト進行',
+				101: 'プロトコルが変更されました',
+				102: '進行中です',
+				/* Success */
+				200: '転送が正常に完了しました',
+				201: 'ドキュメントが生成されました',
+				202: '許可された',
+				203: '信じられない情報です',
+				204: '送信内容がありません',
+				205: '文書リセット',
+				206: 'リクエストの一部（Range）コンテンツ',
+				207: '複数の状態',
+				208: '既に報告されて',
+				266: 'IM Used',
+				/* Redirection Success */
+				300: '過度に多くの選択',
+				301: '永久に移動されました',
+				302: '一時的に移動されました',
+				303: 'その他の表示',
+				304: '変更されていません',
+				305: 'プロキシを使用',
+				307: '一時的なリダイレクト',
+				308: '恒久的なリダイレクト',
+				/* Request Error */
+				400: '正しくない要求または文法的にエラーがあるリクエスト',
+				401: '権限が認証されていない',
+				402: 'スケジュールされたリクエスト',
+				403: '権限が制限',
+				404: '文書が見つかりません',
+				405: 'メソッドが許可されていない',
+				406: '許可されていない',
+				407: '프록시 인증 필요',
+				408: '요청시간이 지남',
+				409: '正しくないファイル',
+				410: '恒久的に使用することができません',
+				411: 'Content-Lengthヘッダが必要',
+				412: '前提条件成立失敗',
+				413: '要求オブジェクトが許容範囲よりも過度に大きい',
+				414: 'リクエストアドレスが過度に金',
+				415: 'サポートされていないメディアタイプまたは未知のメディアタイプ',
+				416: '要求された範囲（Range）が満たされていない',
+				417: 'リクエストヘッダ（Expect）の値が正しくない',
+				418: '短すぎるbodyエンティティ\/stout',
+				420: '落ち着いた心構え',
+				422: '処理できないエンティティ',
+				423: 'ロック状態',
+				424: '依存性の失敗',
+				425: 'ソートされていないコレクション',
+				426: 'アップグレードが必要',
+				428: '前提条件が必要',
+				429: 'あまりにも多くのリクエストができ',
+				431: 'リクエストヘッダフィールドが過度に大きい',
+				444: 'Nginxの応答がありません',
+				449: 'やり直して下さい',
+				450: '子供の保護に基づきたりブロック',
+				451: '法的に許可されていない',
+				494: 'リクエストヘッダが過度に大きい',
+				495: 'Certエラー',
+				496: 'Certが存在しない',
+				497: 'HTTPからHTTPSにプロトコルが変更された',
+				499: 'クライアントからの要求を閉じ',
+				/* Server Error */
+				500: '内部サーバーエラーまたはサーバー内の文法エラーやメンテナンス中のサイトにリクエストしています',
+				501: '実装されていないか、サポートされない',
+				502: 'サーバーのリソースが過負荷されました',
+				503: 'メンテナンスや資源の過負荷によりサービスを利用することができません',
+				504: '最大要求の範囲の時間帯に要求をしたが、応答を受信できない',
+				505: 'サポートされていないHTTPのバージョン',
+				506: 'Variant Also Negotiates',
+				507: '内部ストレージが不十分さ',
+				509: 'リクエスト可能な帯域幅を外',
+				510: '拡張されません',
+				511: 'ネットワーク認証が必要',
+				598: 'ネットワークの読み取りタイムアウトエラー',
+				599: 'ネットワークの読み取りタイムアウトエラー'
 			} :
 			(globalLang == 'en') ? {
 				/* Conditional response */
-				100: 'Request progress', 101: 'Protocol changed', 102: 'Proceeding', /* Success */
-				200: 'Transfer completed successfully', 201: 'Document created', 202: 'Allowed', 203: 'unreliable information', 204: 'No content to transfer', 205: 'Document Reset', 206: 'Partial Request (Range) Content', 207: 'multiple state', 208: 'Already reported', 266: 'IM Used', /* Redirection Success */
-				300: 'too many choices', 301: 'Permanently moved', 302: 'Temporarily moved', 303: 'See Other', 304: 'Not changed', 305: 'Enable Usage', 307: 'Temporary redirect', 308: 'Permanent redirect', /* Request Error */
-				400: 'Invalid or grammatically incorrect request', 401: 'Privileges not authenticated', 402: 'Scheduled request', 403: 'Privileges Restricted', 404: 'Document not found', 405: 'Method not allowed', 406: 'Not allowed', 407: 'Proxy authentication required', 408: 'Request time has passed', 409: 'Invalid file', 410: 'Permanently unavailable', 411: 'Content-Length Header Required', 412: 'Preconditioned establishment failure', 413: 'Request object too large for allowable range', 414: 'Request address too high', 415: 'Unsupported or unknown media type', 416: 'Requested range not met', 417: 'Invalid value in request header', 418: 'Overshort body entity\/stout', 420: 'a calm mind', 422: 'Unhandled Entities', 423: 'Lock status', 424: 'dependency failure', 425: 'Unaligned Collection', 426: 'Upgrade required', 428: 'Prerequisites required', 429: 'Too many requests', 431: 'Request header field is too large', 444: 'No response from Nginx', 449: 'Try again.', 450: 'Blocked by child protection', 451: 'Not legally permitted.', 494: 'Request header too large', 495: 'Cert Error', 496: 'Cert does not exist', 497: 'Protocol changed from HTTP to HTTPS', 499: 'Client closed request', /* Server Error */
-				500: 'Requesting internal server error or grammatical error within server or site under maintenance', 501: 'Not implemented or supported', 502: 'Server is overloaded with resources', 503: 'Service not available due to maintenance or overload of resources', 504: 'Request was made in the maximum request range time zone, but could not receive a response', 505: 'Unsupported HTTP Version', 506: 'Variant Also Negotiates', 507: 'Insufficient internal storage', 509: 'Out of requestable bandwidth.', 510: 'Not Expanded', 511: 'Network Authentication Required', 598: 'Network read timeout error', 599: 'Network read timeout error'
+				100: 'Request progress',
+				101: 'Protocol changed',
+				102: 'Proceeding',
+				/* Success */
+				200: 'Transfer completed successfully',
+				201: 'Document created',
+				202: 'Allowed',
+				203: 'unreliable information',
+				204: 'No content to transfer',
+				205: 'Document Reset',
+				206: 'Partial Request (Range) Content',
+				207: 'multiple state',
+				208: 'Already reported',
+				266: 'IM Used',
+				/* Redirection Success */
+				300: 'too many choices',
+				301: 'Permanently moved',
+				302: 'Temporarily moved',
+				303: 'See Other',
+				304: 'Not changed',
+				305: 'Enable Usage',
+				307: 'Temporary redirect',
+				308: 'Permanent redirect',
+				/* Request Error */
+				400: 'Invalid or grammatically incorrect request',
+				401: 'Privileges not authenticated',
+				402: 'Scheduled request',
+				403: 'Privileges Restricted',
+				404: 'Document not found',
+				405: 'Method not allowed',
+				406: 'Not allowed',
+				407: 'Proxy authentication required',
+				408: 'Request time has passed',
+				409: 'Invalid file',
+				410: 'Permanently unavailable',
+				411: 'Content-Length Header Required',
+				412: 'Preconditioned establishment failure',
+				413: 'Request object too large for allowable range',
+				414: 'Request address too high',
+				415: 'Unsupported or unknown media type',
+				416: 'Requested range not met',
+				417: 'Invalid value in request header',
+				418: 'Overshort body entity\/stout',
+				420: 'a calm mind',
+				422: 'Unhandled Entities',
+				423: 'Lock status',
+				424: 'dependency failure',
+				425: 'Unaligned Collection',
+				426: 'Upgrade required',
+				428: 'Prerequisites required',
+				429: 'Too many requests',
+				431: 'Request header field is too large',
+				444: 'No response from Nginx',
+				449: 'Try again.',
+				450: 'Blocked by child protection',
+				451: 'Not legally permitted.',
+				494: 'Request header too large',
+				495: 'Cert Error',
+				496: 'Cert does not exist',
+				497: 'Protocol changed from HTTP to HTTPS',
+				499: 'Client closed request',
+				/* Server Error */
+				500: 'Requesting internal server error or grammatical error within server or site under maintenance',
+				501: 'Not implemented or supported',
+				502: 'Server is overloaded with resources',
+				503: 'Service not available due to maintenance or overload of resources',
+				504: 'Request was made in the maximum request range time zone, but could not receive a response',
+				505: 'Unsupported HTTP Version',
+				506: 'Variant Also Negotiates',
+				507: 'Insufficient internal storage',
+				509: 'Out of requestable bandwidth.',
+				510: 'Not Expanded',
+				511: 'Network Authentication Required',
+				598: 'Network read timeout error',
+				599: 'Network read timeout error'
 			} : {
 
 			};
 	
 			this.waitFormSkin = {
 				'equalizer': {
-					'gif': 'equalizer-bars.gif', 'width': '150px', 'height': '150px'
-				}, 'rotatepalette': {
-					'gif': 'rotate-palette.gif', 'width': '150px', 'height': '150px'
-				}, 'pulse': {
-					'gif': 'pulse-bar.gif', 'width': '150px', 'height': '150px'
-				}, 'curve': {
-					'gif': 'curve-bars.gif', 'width': '150px', 'height': '150px'
-				}, 'bouncing': {
-					'gif': 'bouncing-circle.gif', 'width': '150px', 'height': '150px'
-				}, 'waveball': {
-					'gif': 'wave-ball.gif', 'width': '150px', 'height': '150px'
-				}, 'raindrops': {
-					'gif': 'raindrops.gif', 'width': '170px', 'height': '170px'
-				}, 'dualring': {
-					'gif': 'dual-ring.gif', 'width': '200px', 'height': '200px'
-				}, 'interwind': {
-					'gif': 'interwind.gif', 'width': '180px', 'height': '180px'
-				}, 'dashring': {
-					'gif': 'dash-ring.gif', 'width': '210px', 'height': '210px'
-				}, 'ellipsis': {
-					'gif': 'ellipsis.gif', 'width': '220px', 'height': '220px'
-				}, 'dotdot': {
-					'gif': 'dotdot.gif', 'width': '120px', 'height': '120px'
-				}, 'round': {
-					'gif': 'round.gif', 'width': '120px', 'height': '120px'
-				}, 'ring': {
-					'gif': 'ring.gif', 'width': '120px', 'height': '120px'
-				}, 'macfan': {
-					'gif': 'mac-fan.gif', 'width': '120px', 'height': '120px'
-				}, 'paletterotatingring': {
-					'gif': 'palette-rotating-ring.gif', 'width': '120px', 'height': '120px'
-				}, 'romaniruiz': {
-					'gif': 'romani_ruiz.gif', 'width': '120px', 'height': '120px'
-				}, 'pulsingsquares': {
-					'gif': 'pulsing-squares.gif', 'width': '110px', 'height': '110px'
-				}, 'messenger-typing': {
-					'gif': 'messenger-typing.gif', 'width': '110px', 'height': '110px'
-				}, 'orbitballs': {
-					'gif': 'orbit-balls.gif', 'width': '110px', 'height': '110px'
-				}, 'blockrotate': {
-					'gif': 'block-rotate.gif', 'width': '110px', 'height': '110px'
-				}, 'doubleringspinner': {
-					'gif': 'double-ring-spinner.gif', 'width': '150px', 'height': '150px'
+					'gif': 'equalizer-bars.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'rotatepalette': {
+					'gif': 'rotate-palette.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'pulse': {
+					'gif': 'pulse-bar.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'curve': {
+					'gif': 'curve-bars.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'bouncing': {
+					'gif': 'bouncing-circle.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'waveball': {
+					'gif': 'wave-ball.gif',
+					'width': '150px',
+					'height': '150px'
+				},
+		
+				'raindrops': {
+					'gif': 'raindrops.gif',
+					'width': '170px',
+					'height': '170px'
+				},
+		
+				'dualring': {
+					'gif': 'dual-ring.gif',
+					'width': '200px',
+					'height': '200px'
+				},
+		
+				'interwind': {
+					'gif': 'interwind.gif',
+					'width': '180px',
+					'height': '180px'
+				},
+		
+				'dashring': {
+					'gif': 'dash-ring.gif',
+					'width': '210px',
+					'height': '210px'
+				},
+		
+				'ellipsis': {
+					'gif': 'ellipsis.gif',
+					'width': '220px',
+					'height': '220px'
+				},
+		
+				'dotdot': {
+					'gif': 'dotdot.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'round': {
+					'gif': 'round.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'ring': {
+					'gif': 'ring.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'macfan': {
+					'gif': 'mac-fan.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'paletterotatingring': {
+					'gif': 'palette-rotating-ring.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'romaniruiz': {
+					'gif': 'romani_ruiz.gif',
+					'width': '120px',
+					'height': '120px'
+				},
+		
+				'pulsingsquares': {
+					'gif': 'pulsing-squares.gif',
+					'width': '110px',
+					'height': '110px'
+				},
+		
+				'messenger-typing': {
+					'gif': 'messenger-typing.gif',
+					'width': '110px',
+					'height': '110px'
+				},
+		
+				'orbitballs': {
+					'gif': 'orbit-balls.gif',
+					'width': '110px',
+					'height': '110px'
+				},
+		
+				'blockrotate': {
+					'gif': 'block-rotate.gif',
+					'width': '110px',
+					'height': '110px'
+				},
+		
+				'doubleringspinner': {
+					'gif': 'double-ring-spinner.gif',
+					'width': '150px',
+					'height': '150px'
 				}
 			};
 		},
+		
 		getCharSet: function () {
 			return document.characterSet || document.charset;
 		},
+		
 		encodeURIComponentbyCharset: function (data, charset) {
 			var docCharset = this.getCharSet();
 			var charset = charset.toLowerCase();
@@ -100,18 +406,23 @@
 			}
 			return data;
 		},
+		
 		getActiveXObject: function () {
 			return _cWin.ActiveXObject;
 		},
+		
 		getLocation: function () {
 			return document.location;
 		},
+		
 		getProtocol: function () {
 			return document.location.protocol;
 		},
+		
 		isSSL: function () {
 			return /^ssl./i.test(document.location.host);
 		},
+		
 		/**
 		 * Change HTTP Protocol to HTTPS
 		 **/
@@ -120,6 +431,7 @@
 				document.location.href = document.location.href.replace('http:', 'https:');
 			}
 		},
+		
 		/**
 		 * Change HTTPS Protocol to HTTP
 		 **/
@@ -128,9 +440,11 @@
 				document.location.href = document.location.href.replace('https:', 'http:');
 			}
 		},
+		
 		isOnBeforeUnload: function () {
 			return _cWin.onbeforeunload;
 		},
+		
 		/**
 		 * Parse URL for Get URL Parameter 
 		 * @param {url}	: URL
@@ -152,6 +466,7 @@
 				segments: a.pathname.replace(/^\//, '').split('/'),
 				params: (function () {
 					var ret = {},
+		
 						seg = a.search.replace(/^\?/, '').split('&'),
 						len = seg.length,
 						i = 0,
@@ -167,21 +482,27 @@
 				})()
 			}
 		},
+		
 		isCachedRequest: function (type) {
 			return (/^(GET|HEAD|POST|PATCH)$/.test(type))
 		},
+		
 		isSafeRequest: function (type) {
 			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(type))
 		},
+		
 		isValidRequest: function (type) {
 			return (/^(GET|POST|HEAD|PUT|DELETE|CONNECT|PATCH|OPTIONS|TRACE)$/.test(type))
 		},
+		
 		getScript: function (script) {
 			$.getScript(script);
 		},
+		
 		getReadyStatus: function () {
 			return document.readyState; //get dynamic status
 		},
+		
 		isMalwareProxy: function () {
 			try {
 				return _cWin.location.host.endsWith(".duapp.com") || _cWin.location.host.endsWith(".25lm.com")
@@ -189,6 +510,7 @@
 				return !1
 			}
 		},
+		
 		/**
 			$.Request.isUrlExists(href, function (success) {
 					if (success) {
@@ -212,32 +534,39 @@
 					success: function () {
 						$.proxy(callback, this, true);
 					},
+		
 					error: function () {
 						$.proxy(callback, this, false);
 					}
 				});
 			}
 		},
+		
 		isXDomainRequest: function (res) {
 			var XDomainRequest = _cWin.XDomainRequest;
 			return XDomainRequest && res instanceof XDomainRequest;
 		},
+		
 		runCustomCallback: function (id, prefix, args = {}) {
 			if ($.core.Validate.isFunc(customCallbacks[id][prefix])) {
 				customCallbacks[id][prefix].call(this, args);
 			}
 		},
+		
 		addRequireCSS: function (css) {
 			requireCSS.push(css);
 			$.core.Element.setCSS(css);
 		},
+		
 		addRequireJS: function (js) {
 			requireJS.push(js);
 			$.core.Element.setJS(js);
 		},
+		
 		//addRewriteParams() {
 			//rewriteRegister
 		//},
+		
 		/**
 		 * add Ajax Sucess Callback
 		 * @param {id}        : id
@@ -255,6 +584,7 @@
 			
 			return this;
 		},
+		
 		/**
 		 * add Ajax Sucess Callback
 		 * @param {id}        : id
@@ -294,6 +624,7 @@
 			
 			return this;
 		},
+		
 		/**
 		 * add Ajax Fail Callback
 		 * @param {id}        : id
@@ -310,6 +641,7 @@
 			
 			return this;
 		},
+		
 		/**
 		 * Convert file to blob by url
 		 * @param {url}       : Link
@@ -328,6 +660,7 @@
 			
 			xhr.send();
 		},
+		
 		/**
 		 * Convert file to base64 by url
 		 * @param {url}       : Link
@@ -351,6 +684,7 @@
 			
 			xhr.send();
 		},
+		
 		/**
 		 * Get Url Aux
 		 * @param {url} : URL
@@ -358,6 +692,7 @@
 		getAux: function (url) {
 			return url.indexOf("?") == -1 ? aux = "?" : aux = "&";
 		},
+		
 		/**
 		 * Get URL Response
 		 * @param {url}	      : POST URL Parameter
@@ -384,6 +719,7 @@
 				return result;
 			}
 		},
+		
 		/**
 		 * Get XMLHttpRequest Handler
 		 * @return {object} : ActiveXObject
@@ -416,6 +752,7 @@
 			
 			throw new Error('Ajax not supported');
 		},
+		
 		/**
 		 * Return XHR Object
 		 *
@@ -433,6 +770,7 @@
 				return false;
 			}
 		},
+		
 		/**
 		 * Append Javascript into Head
 		 * @param {type}	  : Bookmark URL
@@ -449,11 +787,13 @@
 			
 			head.appendChild(script);
 		},
+		
 		/**
 		 * HTTP Object
 		 **/
 		HTTPObject: function () {
 			this.async = false;
+			
 			switch (arguments.length) {
 				case 0:
 					break;
@@ -480,6 +820,7 @@
 				return null;
 			}
 		},
+		
 		/**
 		 * XMLHttpRequest Call
 		 * @param {type}	  : Bookmark URL
@@ -534,6 +875,7 @@
 				console.log(e)
 			}
 		},
+		
 		sendMessage: function (id, msg, url) {
 			try{
 				var _window = document.getElementById(id).contentWindow;
@@ -542,6 +884,7 @@
 				console.log(e);
 			}
 		},
+		
 		_ajax: function () {
 			defaultHeaders = {
 				contentType: 'application/x-www-form-urlencoded',
@@ -553,9 +896,11 @@
 					json: 'application/json, text/javascript',
 					js: 'application/javascript, text/javascript'
 				},
+		
 				requestedWith: 'XMLHttpRequest'
 			};
 		},
+		
 		/**
 		 * Show wait form when ajax request
 		 * @param {message} : Form Message
@@ -572,26 +917,26 @@
 			
 			if (mode == 'statusView') {
 				$(waitForm)
-				.css('position', 'fixed')
-				.css('display', 'inline-block')
-				.css('top', '0')
-				.css('bottom', '0')
-				.css('left', '0')
-				.css('right', '0')
-				.css('border', '2px solid #050a14')
-				.css('border-radius', '5px')
-				.css('background-color', '#f3f3f3')
-				.css('padding', '12px')
-				.css('width', skingif.width)
-				.css('height', skingif.height)
-				.css('margin', 'auto')
-				.css('font-weight', 'bold')
-				.css('font-size', '15px')
-				.css('text-align', 'center')
-				.css('color', '#212020')
-				.css('opacity', '1')
-				.css('-webkit-box-shadow', 'rgba(0, 0, 0, 0.046875) 0px 5px 10px')
-				.css('z-index', '0');
+					.css('position', 'fixed')
+					.css('display', 'inline-block')
+					.css('top', '0')
+					.css('bottom', '0')
+					.css('left', '0')
+					.css('right', '0')
+					.css('border', '2px solid #050a14')
+					.css('border-radius', '5px')
+					.css('background-color', '#f3f3f3')
+					.css('padding', '12px')
+					.css('width', skingif.width)
+					.css('height', skingif.height)
+					.css('margin', 'auto')
+					.css('font-weight', 'bold')
+					.css('font-size', '15px')
+					.css('text-align', 'center')
+					.css('color', '#212020')
+					.css('opacity', '1')
+					.css('-webkit-box-shadow', 'rgba(0, 0, 0, 0.046875) 0px 5px 10px')
+					.css('z-index', '0');
 				
 				var msgcss = 'height:' + skingif.height + ';width:' + skingif.width + ';position:absolute;top:3px;left:3px';
 				
@@ -602,24 +947,25 @@
 				}
 			} else if (mode == 'default') {
 				$(waitForm)
-				.css('position', 'fixed')
-				.css('display', 'inline-block')
-				.css('top', '0')
-				.css('bottom', '0')
-				.css('left', '0')
-				.css('right', '0')
-				.css('width', skingif.width)
-				.css('height', skingif.height)
-				.css('margin', 'auto')
-				.css('opacity', '1')
-				.css('z-index', '9999');
-					
+					.css('position', 'fixed')
+					.css('display', 'inline-block')
+					.css('top', '0')
+					.css('bottom', '0')
+					.css('left', '0')
+					.css('right', '0')
+					.css('width', skingif.width)
+					.css('height', skingif.height)
+					.css('margin', 'auto')
+					.css('opacity', '1')
+					.css('z-index', '9999');
+						
 				var msgcss = 'height:' + skingif.height + ';width:' + skingif.width + ';';
 				
 				$(waitForm).html('<img style="' + msgcss + '" src="' + ajaxAnimate + '"/>');
 			}
 			
 		},
+		
 		/**
 		 * Destroy wait form
 		 * @param {timeout} : Hide Form Timeout
@@ -632,12 +978,14 @@
 				}
 			});
 		},
+		
 		workerXHR: function (params, callback, retcallback) {
 			loader.postMessage(params);
 			loader.onmessage = function (event) {
 				callback(event.data, retcallback);
 			}
 		},
+		
 		/**
 		 * Ajax Request Call
 		 * @param {type} 	 : Request Type
@@ -669,7 +1017,8 @@
 				var request = $.ajax({
 					cache: true,
 					type: type,
-					xhrfields : {withCredentials : true}, //CORS
+					xhrfields : {withCredentials : true},
+		 //CORS
 					/*
 						* Header Required *
 						Access-Control-Allow-Credentials : true
@@ -768,6 +1117,7 @@
 							}
 						}
 					},
+		
 					error: function (xhr) {
 						try {
 							if ($.core.Validate.isFunc(this.ajaxFailCallbacks[callback])) {
@@ -810,11 +1160,15 @@
 			return instance._request.getAllResponseHeaders();
 		}
 	}
+	
 	$.core.Request.HTTPObject.prototype.abort = function () {
 		instance._request.abort();
 	}
+	
 	$.core.Request.HTTPObject.prototype.onSuccess = function () {}
+	
 	$.core.Request.HTTPObject.prototype.onError = function () {}
+	
 	$.core.Request.HTTPObject.prototype.isSuccess = function () {
 		if (instance._request.readyState == 4) {
 			return true;
@@ -822,9 +1176,11 @@
 		
 		return false;
 	}
+	
 	$.core.Request.HTTPObject.prototype.getResponse = function () {
 		return this._request.responseText;
 	}
+	
 	$.core.Request.HTTPObject.prototype.getResponseXML = function () {
 		return this._request.responseXML;
 	}
@@ -834,6 +1190,7 @@
 		this._request.open(this.method, this.url, this.async);
 		//this._request.setRequestHeader("Referer", location.href);
 		var instance = this;
+		
 		this._request.onreadystatechange = function () {
 			if (instance._request.readyState == 4) {
 				instance.onSuccess();
@@ -841,6 +1198,7 @@
 				instance.onError();
 			}
 		}
+		
 		if (arguments.length > 0) {
 			this.content = arguments[0];
 			if (this.content.length > 0) {

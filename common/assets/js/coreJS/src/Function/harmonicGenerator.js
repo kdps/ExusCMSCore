@@ -70,115 +70,313 @@
 				"italianAugmentedSixthChord": this.italianAugmentedSixthChord
 			},
 
+
 			this.aeolianChord = {
 				"Cm7": {
-					"root": 0, "chord": this.minorSeventhChord, "romename": "Im7", "yamahaname": "Cm7", "symbols": "C-7", "type": "Tonic Minor", "scale": {
+					"root": 0,
+					"chord": this.minorSeventhChord,
+					"romename": "Im7",
+					"yamahaname": "Cm7",
+					"symbols": "C-7",
+					"type": "Tonic Minor",
+					"scale": {
 						"aeolian": {
 							"avoidnote": 8
-						}, "dorian": {
+						},
+
+						"dorian": {
 							"avoidnote": 8
 						}
 					}
 				}, // Cm7
 				"Dm7b5": {
-					"root": 2, "chord": this.minorSeventhFlat5Chord, "romename": "IIm7b5", "yamahaname": "Dm7b5", "symbols": "D-7b5", "type": "SubDominant Minor", "scale": {
+					"root": 2,
+					"chord": this.minorSeventhFlat5Chord,
+					"romename": "IIm7b5",
+					"yamahaname": "Dm7b5",
+					"symbols": "D-7b5",
+					"type": "SubDominant Minor",
+					"scale": {
 						"locrian": {
 							"avoidnote": 1
-						}, "locrian9": {}
+						},
+
+						"locrian9": {}
 					}
 				}, // Dm7b5
 				"DbM7": {
-					"root": 2, "chord": this.majorSeventhChord, "romename": "IIbM7", "yamahaname": "DbM7", "symbols": "Db-7", "type": "SubDominant Minor", "scale": {
+					"root": 2,
+					"chord": this.majorSeventhChord,
+					"romename": "IIbM7",
+					"yamahaname": "DbM7",
+					"symbols": "Db-7",
+					"type": "SubDominant Minor",
+					"scale": {
 						"locrian": {
 							"avoidnote": 1
-						}, "locrian9": {}
+						},
+
+						"locrian9": {}
 					}
 				}, // DbM7
 				"EbM7": {
-					"root": 4, "chord": this.majorSeventhChord, "romename": "IIIbM7", "yamahaname": "EbM7", "symbols": "EbΔ7", "type": "Tonic Minor", "scale": {
+					"root": 4,
+					"chord": this.majorSeventhChord,
+					"romename": "IIIbM7",
+					"yamahaname": "EbM7",
+					"symbols": "EbΔ7",
+					"type": "Tonic Minor",
+					"scale": {
 						"lydian": {}
 					}
 				}, // EbM7
 				"IVm7": {
-					"root": 5, "chord": this.minorSeventhChord, "romename": "IVm7", "yamahaname": "Fm7", "symbols": "F-7", "type": "SubDominant Minor", "scale": {
+					"root": 5,
+					"chord": this.minorSeventhChord,
+					"romename": "IVm7",
+					"yamahaname": "Fm7",
+					"symbols": "F-7",
+					"type": "SubDominant Minor",
+					"scale": {
 						"dorian": {
 							"avoidnote": 9
 						}
 					}
 				}, // IVm7
 				"IVm6": {
-					"root": 5, "chord": this.minorSeventhChord, "romename": "IVm6", "yamahaname": "Fm6", "symbols": "F-6", "type": "SubDominant Minor", "scale": {
+					"root": 5,
+					"chord": this.minorSeventhChord,
+					"romename": "IVm6",
+					"yamahaname": "Fm6",
+					"symbols": "F-6",
+					"type": "SubDominant Minor",
+					"scale": {
 						"dorian": {
 							"avoidnote": 10
 						}
 					}
 				}, // IVm6
 				"IVmM7": {
-					"root": 5, "chord": this.minorSeventhChord, "romename": "IVmM7", "yamahaname": "FmM7", "symbols": "F-Δ7", "type": "SubDominant Minor", "scale": {
+					"root": 5,
+					"chord": this.minorSeventhChord,
+					"romename": "IVmM7",
+					"yamahaname": "FmM7",
+					"symbols": "F-Δ7",
+					"type": "SubDominant Minor",
+					"scale": {
 						"melodicminor": {}
 					}
 				}, // IVmM7
 				"Vm7": {
-					"root": 7, "chord": this.minorSeventhChord, "romename": "Vm7", "yamahaname": "Vm7", "symbols": "G-7", "type": "Tonic Minor", "scale": {
+					"root": 7,
+					"chord": this.minorSeventhChord,
+					"romename": "Vm7",
+					"yamahaname": "Vm7",
+					"symbols": "G-7",
+					"type": "Tonic Minor",
+					"scale": {
 						"dorian": {
 							"avoidnote": 9
-						}, "aeolian": {
+						},
+
+						"aeolian": {
 							"avoidnote": 8
 						}
 					}
 				}, // Vm7
 				"AbM7": {
-					"root": 9, "chord": this.majorSeventhChord, "romename": "VIbM7", "yamahaname": "AbM7", "symbols": "VIbΔ7", "type": "Tonic", "SubDominant Minor": {
+					"root": 9,
+					"chord": this.majorSeventhChord,
+					"romename": "VIbM7",
+					"yamahaname": "AbM7",
+					"symbols": "VIbΔ7",
+					"type": "Tonic",
+					"SubDominant Minor": {
 						"lydian": {}
 					}
 				}, // AbM7
 				"Bb7": {
-					"root": 11, "chord": this.SeventhChord, "romename": "VII7", "yamahaname": "Bb7", "symbols": "VII7", "type": "SubDominant Minor", "scale": {
-						"locrianb7": {}, "mixolydian": {
+					"root": 11,
+					"chord": this.SeventhChord,
+					"romename": "VII7",
+					"yamahaname": "Bb7",
+					"symbols": "VII7",
+					"type": "SubDominant Minor",
+					"scale": {
+						"locrianb7": {},
+
+						"mixolydian": {
 							"avoidnote": 5
 						}
 					}
 				} // Bb7
 			},
 
+
 			this.diatonicChord = {
 				"CM7": {
-					"root": 0, "chord": this.majorSeventhChord, "romename": "IM7", "yamahaname": "CM7", "symbols": "CΔ7", "type": "Tonic"
+					"root": 0,
+					"chord": this.majorSeventhChord,
+					"romename": "IM7",
+					"yamahaname": "CM7",
+					"symbols": "CΔ7",
+					"type": "Tonic"
 				}, // CM7
 				"Dm7": {
-					"root": 2, "chord": this.minorSeventhChord, "romename": "IIm7", "yamahaname": "Dm7", "symbols": "D-7", "type": "SubDominant"
+					"root": 2,
+					"chord": this.minorSeventhChord,
+					"romename": "IIm7",
+					"yamahaname": "Dm7",
+					"symbols": "D-7",
+					"type": "SubDominant"
 				}, // Dm7
 				"Em7": {
-					"root": 4, "chord": this.minorSeventhChord, "romename": "IIIm7", "yamahaname": "Em7", "symbols": "E-7", "type": "Dominant"
+					"root": 4,
+					"chord": this.minorSeventhChord,
+					"romename": "IIIm7",
+					"yamahaname": "Em7",
+					"symbols": "E-7",
+					"type": "Dominant"
 				}, // Em7
 				"FM7": {
-					"root": 5, "chord": this.majorSeventhChord, "romename": "IVM7", "yamahaname": "FM7", "symbols": "FΔ7", "type": "SubDominant"
+					"root": 5,
+					"chord": this.majorSeventhChord,
+					"romename": "IVM7",
+					"yamahaname": "FM7",
+					"symbols": "FΔ7",
+					"type": "SubDominant"
 				}, // F7
 				"G7": {
-					"root": 7, "chord": this.SeventhChord, "romename": "VM7", "yamahaname": "G7", "symbols": "G7", "type": "Dominant"
+					"root": 7,
+					"chord": this.SeventhChord,
+					"romename": "VM7",
+					"yamahaname": "G7",
+					"symbols": "G7",
+					"type": "Dominant"
 				}, // G7
 				"Am7": {
-					"root": 9, "chord": this.minorSeventhChord, "romename": "VIm7", "yamahaname": "Am7", "symbols": "VI-7", "type": "Tonic"
+					"root": 9,
+					"chord": this.minorSeventhChord,
+					"romename": "VIm7",
+					"yamahaname": "Am7",
+					"symbols": "VI-7",
+					"type": "Tonic"
 				}, // Am7
 				"Bdim7": {
-					"root": 11, "chord": this.diminishedSeventhChord, "romename": "VIIdim7", "yamahaname": "Bdim7", "symbols": "VIIo7", "type": ["Dominant", "SubDominant"]
+					"root": 11,
+					"chord": this.diminishedSeventhChord,
+					"romename": "VIIdim7",
+					"yamahaname": "Bdim7",
+					"symbols": "VIIo7",
+					"type": ["Dominant", "SubDominant"]
 				} // Bdim7
 			},
 
+	
 			// Music
 			this.OctaveTone = 12,
 			
 			this.toneYamaha = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
 			
 			this.yamahaTone = {
-				"C": 0, "Dbb": 0, "C#": 1, "Db": 1, "D": 2, "Cx": 2, "Ebb": 2, "D#": 3, "Eb": 3, "E": 4, "Fb": 4, "F": 5, "E#": 5, "Gbb": 5, "F#": 6, "Gb": 6, "G": 7, "Fx": 7, "Abb": 7, "G#": 8, "Ab": 8, "A": 9, "Gx": 9, "Bbb": 9, "A#": 10, "Bb": 10, "B": 11, "Ax": 11, "Cb": 11, "B#": 12
+				"C": 0,
+				"Dbb": 0,
+				"C#": 1,
+				"Db": 1,
+				"D": 2,
+				"Cx": 2,
+				"Ebb": 2,
+				"D#": 3,
+				"Eb": 3,
+				"E": 4,
+				"Fb": 4,
+				"F": 5,
+				"E#": 5,
+				"Gbb": 5,
+				"F#": 6,
+				"Gb": 6,
+				"G": 7,
+				"Fx": 7,
+				"Abb": 7,
+				"G#": 8,
+				"Ab": 8,
+				"A": 9,
+				"Gx": 9,
+				"Bbb": 9,
+				"A#": 10,
+				"Bb": 10,
+				"B": 11,
+				"Ax": 11,
+				"Cb": 11,
+				"B#": 12
 			},
+
 			this.romeTone = {
-				"I": 0, "IIbb": 0, "I#": 1, "IIb": 1, "II": 2, "Ix": 2, "IIIbb": 2, "II#": 3, "IIIb": 3, "III": 4, "IVb": 4, "IV": 5, "III#": 5, "Vbb": 5, "IV#": 6, "Vb": 6, "V": 7, "IVx": 7, "VIbb": 7, "V#": 8, "VIb": 8, "VI": 9, "Vx": 9, "VIIbb": 9, "VI#": 10, "VIIb": 10, "VII": 11, "VIx": 11, "Ib": 11, "VII#": 12
+				"I": 0,
+				"IIbb": 0,
+				"I#": 1,
+				"IIb": 1,
+				"II": 2,
+				"Ix": 2,
+				"IIIbb": 2,
+				"II#": 3,
+				"IIIb": 3,
+				"III": 4,
+				"IVb": 4,
+				"IV": 5,
+				"III#": 5,
+				"Vbb": 5,
+				"IV#": 6,
+				"Vb": 6,
+				"V": 7,
+				"IVx": 7,
+				"VIbb": 7,
+				"V#": 8,
+				"VIb": 8,
+				"VI": 9,
+				"Vx": 9,
+				"VIIbb": 9,
+				"VI#": 10,
+				"VIIb": 10,
+				"VII": 11,
+				"VIx": 11,
+				"Ib": 11,
+				"VII#": 12
 			},
+
 			this.symbolTone = {
-				"C": 0, "D--": 0, "C+": 1, "D-": 1, "D": 2, "C++": 2, "E--": 2, "D+": 3, "E-": 3, "E": 4, "F-": 4, "F": 5, "E+": 5, "G--": 5, "F+": 6, "G-": 6, "G": 7, "F++": 7, "A--": 7, "G+": 8, "A-": 8, "A": 9, "G++": 9, "B--": 9, "A+": 10, "B-": 10, "B": 11, "A++": 11, "C-": 11, "B+": 12
+				"C": 0,
+				"D--": 0,
+				"C+": 1,
+				"D-": 1,
+				"D": 2,
+				"C++": 2,
+				"E--": 2,
+				"D+": 3,
+				"E-": 3,
+				"E": 4,
+				"F-": 4,
+				"F": 5,
+				"E+": 5,
+				"G--": 5,
+				"F+": 6,
+				"G-": 6,
+				"G": 7,
+				"F++": 7,
+				"A--": 7,
+				"G+": 8,
+				"A-": 8,
+				"A": 9,
+				"G++": 9,
+				"B--": 9,
+				"A+": 10,
+				"B-": 10,
+				"B": 11,
+				"A++": 11,
+				"C-": 11,
+				"B+": 12
 			},
+
 
 			// Scale
 			this.majorScale = [0, 2, 4, 5, 7, 9, 11],
@@ -233,6 +431,7 @@
 				"hypolocrianMode": this.hypolocrianMode
 			};
 		},
+
 		getAvoidNotes: function (scale) {
 			var scaleArr = [];
 			var index = 0;
@@ -248,6 +447,7 @@
 			
 			return scaleArr;
 		},
+
 		setScaleOctave: function (scale, octave) {
 			var scaleArr = [];
 			scale.forEach(function(note) {
@@ -256,6 +456,7 @@
 			
 			return scaleArr;
 		},
+
 		getChord: function (root, type) {
 			var scaleArr = [];
 			var Scale = this.chordList[type];
@@ -265,6 +466,7 @@
 			
 			return scaleArr;
 		},
+
 		getScaleDiff: function (scale) {
 			var scaleArr = [];
 			var scaleCompare;
@@ -283,52 +485,66 @@
 			
 			return scaleArr;
 		},
+
 		getMajorChord: function (root) {
 			return this.getChord(root, "majorChord");
 		},
+
 		getMinorChord: function (root) {
 			return this.getChord(root, "minorChord");
 		},
+
 		getAugmentedChord: function (root) {
 			return this.getChord(root, "augmentedChord");
 		},
+
 		getSuspendedChord: function (root) {
 			return this.getChord(root, "suspendedChord");
 		},
+
 		getDiminishedChord: function (root) {
 			return this.getChord(root, "diminishedChord");
 		},
+
 		getMajorSeventhChord: function (root) {
 			return this.getChord(root, "majorSeventhChord");
 		},
+
 		getMinorSeventhChord: function (root) {
 			return this.getChord(root, "minorSeventhChord");
 		},
+
 		getMinorSeventhFlat5Chord: function (root) {
 			return this.getChord(root, "minorSeventhFlat5Chord");
 		},
+
 		getSeventhChord: function (root) {
 			return this.getChord(root, "SeventhChord");
 		},
+
 		getDiminishedSeventhChord: function (root) {
 			return this.getChord(root, "diminishedSeventhChord");
 		},
+
 		getAugmentedSeventhChord: function (root) {
 			return this.getChord(root, "augmentedSeventhChord");
 		},
+
 		getSeventhFlat5Chord: function (root) {
 			return this.getChord(root, "SeventhFlat5Chord");
 		},
+
 		getSeventhSharp5Chord: function (root) {
 			return this.getChord(root, "SeventhSharp5Chord");
 		},
+
 		getNoteList: function (scale) {
 			var scaleArr = [];
 			var objectKeys = Object.keys(yamahaTone);
 			var objectVars = Object.values(yamahaTone);
 			
 			function getYamahaNote(value) {
-				var arrIndex = objectVars.indexOf(value % 12); // remove Octave
+				var arrIndex = objectVars.indexOf(value % 12); // Remove Octave
 				return objectKeys[arrIndex];
 			}
 			
@@ -338,6 +554,7 @@
 			
 			return scaleArr;
 		},
+
 		getScale: function (root, type) {
 			var scaleArr = [];
 			var Scale = this.scaleList[type];
@@ -348,18 +565,23 @@
 			
 			return scaleArr;
 		},
+
 		getMajorScale: function (root) {
 			return this.getScale(root, 'majorScale');
 		},
+
 		getMinorScale: function (root) {
 			return this.getScale(root, 'minorScale');
 		},
+
 		getPentatonicScale: function (root) {
 			return this.getScale(root, 'pentatonicScale');
 		},
+
 		getBluesScale: function (root) {
 			return this.getScale(root, 'bluesScale');
 		},
+
 		getMode: function (root, type) {
 			var scaleArr = [];
 			var Scale = this.modeList[type];
@@ -369,48 +591,63 @@
 			
 			return scaleArr;
 		},
+
 		getIonianMode: function (root) {
 			return this.getMode(root, 'ionianMode');
 		},
+
 		getDorianMode: function (root) {
 			return this.getMode(root, 'dorianMode');
 		},
+
 		getPhrygianMode: function (root) {
 			return this.getMode(root, 'phrygianMode');
 		},
+
 		getLydianMode: function (root) {
 			return this.getMode(root, 'lydianMode');
 		},
+
 		getMixolydianMode: function (root) {
 			return this.getMode(root, 'mixolydianMode');
 		},
+
 		getAeolianMode: function (root) {
 			return this.getMode(root, 'aeolianMode');
 		},
+
 		getLocrianMode: function (root) {
 			return this.getMode(root, 'locrianMode');
 		},
+
 		getHypoionianMode: function (root) {
 			return this.getMode(root, 'hypoionianMode');
 		},
+
 		getHypodorianMode: function (root) {
 			return this.getMode(root, 'hypodorianMode');
 		},
+
 		getHypophrygianMode: function (root) {
 			return this.getMode(root, 'hypophrygianMode');
 		},
+
 		getHypolydianMode: function (root) {
 			return this.getMode(root, 'hypolydianMode');
 		},
+
 		getHypomixolydianMode: function (root) {
 			return this.getMode(root, 'hypomixolydianMode');
 		},
+
 		getHypoaeolianMode: function (root) {
 			return this.getMode(root, 'hypoaeolianMode');
 		},
+
 		getHypolocrianMode: function (root) {
 			return this.getMode(root, 'hypolocrianMode');
 		}
+		
 	};
 	
 	A.constructor();

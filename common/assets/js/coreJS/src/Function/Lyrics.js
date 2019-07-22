@@ -102,15 +102,18 @@
 				});
 			});
 		},
+		
 		setResizable: function () {
 			$.core.Evt.setResizeHorizontalEvent(70, '.lyrics_display_expand', '#resizable');
 			$.core.Lyrics.setLyricsMoveEvent();
 		},
+		
 		isValidLyricsData: function (lyrics) {
 			if (lyrics == null) return;
 			var lyricsData = lyrics.match(/<div(.*)ms=(\d{1,2})(.*)timestamp=(\d{1,4})/);
 			if (lyricsData.length > 0) return true;
 		},
+		
 		getUserVolume: function () {
 			try {
 				var volume = $.core.Storage.getItem('volume');
@@ -120,13 +123,16 @@
 				}
 			}catch(e) {}
 		},
+		
 		getAudioLyrics: function (srl) {
 			$.core.Request.ajax("POST", "index.php", {
 				[core_flower.def_mid]: core_flower.mid,
 				srl: srl,
 				act: "getAudiolyrics"
-			}, 'completeLyrics', "json", "가사를 요청중입니다");
+			},
+		 'completeLyrics', "json", "가사를 요청중입니다");
 		},
+		
 		setLyricsContainer: function () {
 			// Append lyrics container
 			if ($('.lyrics_display').length === 0) {
@@ -138,6 +144,7 @@
 			
 			$.core.Lyrics.Equalizer.makeEffect();
 		},
+		
 		setOnlyEqualizer: function () {
 			A.config.dump.audioElement = $("video")[0];
 			
@@ -151,6 +158,7 @@
 			
 			this.setLyricsContainer();
 		},
+		
 		getLyricsData: function (srl) {
 			A.config.dump.audioElement = $("video")[0];
 			
@@ -165,6 +173,7 @@
 			this.setLyricsContainer();
 			this.getAudioLyrics(srl);
 		},
+		
 		removeFocusReadedLyrics: function () {
 			// If has temp timestamp
 			if (typeof A.config.dump.lyrics_temp_time !== 'undefined') {
@@ -172,6 +181,7 @@
 				$('.' + A.config.settings.lyrics_box + '[' + A.config.settings.timestamp + '="' + A.config.dump.lyrics_temp_time + '"]').css("display", "none");
 			}
 		},
+		
 		setEventListener: function () {
 			// Start event when click the extended lyrics container
 			$('.lyrics_display_expand').click(function(e) {
@@ -206,6 +216,7 @@
 				A.config.dump.bool_change = true, A.Display.dispLyrics()
 			});
 		},
+		
 		arrangeLyrics: function (type) {
 			var $i = 0;
 			var $z = 0;
@@ -227,7 +238,8 @@
 					if (type == 'user') {
 						$(item).css('left', width);
 					} else {
-						$(item).animate({left: width}, 10, "easeOutBounce");
+						$(item).animate({left: width},
+		 10, "easeOutBounce");
 					}
 				}
 			});
@@ -239,7 +251,8 @@
 					if (type == 'user') {
 						$(item).css('bottom', $i);
 					} else {
-						$(item).animate({bottom: $i}, 100, "easeOutBounce");
+						$(item).animate({bottom: $i},
+		 100, "easeOutBounce");
 					}
 					
 					$i = $i - ($(item).height() + 30);
@@ -262,6 +275,7 @@
 					break;
 			}
 		},
+		
 		setEqualizerAttribute: function (range, type, value) {
 			switch (type) {
 				case "gain":
@@ -275,6 +289,7 @@
 					break;
 			}
 		},
+		
 		setPreset: function (p1, p2, p3) {
 			// Set Low Equalizer Gain
 			this.setEqualizerAttribute('low', 'detune', -1200);
@@ -301,9 +316,11 @@
 				$.core.Storage.setItem('high_gain', p3);
 			}
 		},
+		
 		changeFreq: function (string, type) {
 			this.setEqualizerAttribute(type, 'frequency', parseFloat(string));
 		},
+		
 		changeGain: function (string, type) {
 			if ($.core.Storage.isSupport) {
 				$.core.Storage.setItem(type + '_gain', (parseFloat(string) / 100.0));
@@ -311,6 +328,7 @@
 			
 			this.setEqualizerAttribute(type, 'gain', (parseFloat(string) / 100.0));
 		},
+		
 		closeEffect: function () {
 			if (A.config.components.context) {
 				$('video').each(function() {
@@ -318,6 +336,7 @@
 				});
 			}
 		},
+		
 		drawBuffer: function(width, height, context, buffer) {
 			var data = buffer.getChannelData(0);
 			var step = Math.ceil(data.length / width);
@@ -344,6 +363,7 @@
 				context.fillRect(i * 2, (1 + min) * amp, 1, Math.max(1, (max - min) * amp));
 			}
 		},
+		
 		getAudioBuffer: function () {
 			var audioContext = new AudioContext();
 			
@@ -360,6 +380,7 @@
 			}
 			audioRequest.send();
 		},
+		
 		analyseEqualizer: function (analyser) {
 			var canvas = document.querySelector('canvas');
 			var ctx = canvas.getContext('2d');
@@ -397,6 +418,7 @@
 				ctx.fillRect(i * 6, height, 3, -magnitude);
 			}
 		},
+		
 		getEqualizerSetting: function () {
 			if ($.core.Storage.isSupport) {
 				var low_gain = $.core.Storage.getItem('low_gain');
@@ -418,6 +440,7 @@
 				}
 			}
 		},
+		
 		makeEffect: function () {
 			try {
 				if (A.config.components.context) {
@@ -453,6 +476,7 @@
 				}
 			}catch(e) {}
 		},
+		
 		applyFilter: function (_name, processor, shelf, bandwidth, gains, value) {
 			A.config.vr_eq.section[_name] = {}
 			A.config.vr_eq.section[_name]['band'] = A.config.vr_eq._band = this.createFilter(shelf, bandwidth, gains);
@@ -462,15 +486,18 @@
 			A.config.vr_eq.section[_name]['invert'].connect(A.config.components.context.createGain());
 			A.config.vr_eq.section[_name]['gain'].connect(processor);
 		},
+		
 		createFilter: function (type, freq, gain) {
 			A.config.vr_eq.temp = $.core.Audio.setBiquadFilter(A.config.components.context, type, freq, gain);
 			return A.config.vr_eq.temp;
 		},
+		
 		invert: function (element, value) {
 			value = value || -1.0;
 			A.config.vr_eq.temp = $.core.Audio.setInvert(-1.0, A.config.components.context, element);
 			return A.config.vr_eq.temp;
 		},
+		
 		gain: function (element) {
 			A.config.vr_eq.temp = $.core.Audio.setGain(A.config.components.context, element);
 			return A.config.vr_eq.temp;
@@ -485,6 +512,7 @@
 				(null === t || Math.abs(this - e) < Math.abs(t - e)) && (t = this)
 			}), t.valueOf();
 		},
+		
 		// Find adjacent milliseconds attribute in lyrics
 		_ms: function (ms, timestamp) {
 			var s = null;
@@ -525,7 +553,8 @@
 						$(elements_lyrics_box).offset().top - 
 						$(elements_lyrics_box).parent().offset().top
 					) - ($('.lyrics_display_expand').height() / 2)
-				}, {
+				},
+		 {
 					duration: 300,
 					specialEasing: {width: 'linear', height: 'easeInBounce'}
 				});
@@ -534,6 +563,7 @@
 			A.config.dump.lyrics_temp_time = time;
 			A.config.dump.bool_change = false;
 		},
+		
 		dispLyrics: function () {
 			var currentTime = A.config.dump.audioElement.currentTime - A.config.settings.delay;
 			
@@ -600,6 +630,7 @@
 	A.config.dump = {
 		unique_s: [],
 		lyrics: {},
+		
 		audioSrc: null,
 		proclyric: null,
 		_b_lyric: false,
@@ -609,6 +640,7 @@
 		mousePositionX: null,
 		mousePositionY: null
 	},
+		
 	A.config.settings = {
 		lyrics_box: 'lyrics_display',
 		timestamp: 'timestamp',
@@ -618,20 +650,24 @@
 		lyrics_Xmargin : -20,
 		lyrics_top_position : 12 /* Don't fix */
 	},
+		
 	A.config.playmeta = {
 		time: null,
 		ms: null
 	},
+		
 	A.config.components = {
 		context: null,
 		audionode: null,
 		pannode: null
 	},
+		
 	A.config.effect = {
 		gain: null,
 		biquad: null,
 		processor: null
 	},
+		
 	A.config.vr_eq = {
 		pan: null,
 		temp: null,
@@ -640,16 +676,19 @@
 		_gain: null,
 		section: {}
 	},
+		
 	A.config.band = {
 		high: null,
 		mid: null,
 		low: null
 	},
+		
 	A.config.gain = {
 		high: null,
 		mid: null,
 		low: null
 	},
+		
 	A.config.invert = {
 		high: null,
 		mid: null,

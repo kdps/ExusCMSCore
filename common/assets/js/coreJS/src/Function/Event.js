@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Evt = {
+		
 		getHiddenDocumentType: function () {
 			var hidden;
 			
@@ -17,6 +18,7 @@
 			
 			return hidden;
 		},
+
 		getHiddenDocumentVisibilityChangeType: function () {
 			var visibilityChange;
 			
@@ -30,11 +32,13 @@
 			
 			return visibilityChange;
 		},
+
 		setDocumentHiddenListener: function (callback) {
 			var visibilityChange = this.getHiddenDocumentVisibilityChangeType();
 			
 			$.core.Evt.addListener(document, visibilityChange, callback);
 		},
+
 		isDocumentHidden: function () {
 			var hidden = this.getHiddenDocumentType();
 			
@@ -44,6 +48,7 @@
 			
 			return false;
 		},
+
 		setResizeHorizontalEvent(minimumSize, target, handler) {
 			if (!minimumSize) minimumSize = 0;
 			
@@ -68,6 +73,7 @@
 				$(document).unbind('mousemove');
 			});
 		},
+
 		getCallerScriptPath: function () {
 			var scriptPath = '';
 			
@@ -85,6 +91,7 @@
 			
 			return stack;
 		},
+
 		getMouseEventWhichType: function (e) {
 			var which;
 			
@@ -105,6 +112,7 @@
 			
 			return which;
 		},
+
 		onBackSpaceClick: function (callback) {
 			function keyDownDetector(e) {
 				if (e.target.nodeName != "INPUT" && e.target.nodeName != "TEXTAREA") {    
@@ -124,6 +132,7 @@
 				});
 			}
 		},
+
 		addClickEvent: function (callback, chkRegEx) {
 			var links = document.body.getElementsByTagName("A");
 			var length = links.length;
@@ -150,6 +159,7 @@
 				}
 			}
 		},
+
 		onClickHandler: function (event, callback) {
 			var link = this.getEventSource(event);
 			
@@ -163,6 +173,7 @@
 			
 			callback(window, {'href':link.href,'title':link.title});
 		},
+
 		getEventSource: function (event) {
 			try {
 				var obj = event.srcElement ? event.srcElement : event.target;
@@ -171,11 +182,13 @@
 				obj = null;
 			}
 		},
+
 		iframeOnClick: function (id, callback) {
 			document.getElementById(id).contentWindow.document.body.onclick = function () {
 				callback();
 			};
 		},
+
 		normalize: function (event) {
 			var eventNormalize = {};
 			
@@ -184,12 +197,14 @@
 			
 			return eventNormalize;
 		},
+
 		isSupport: function (eventName, element) {
 			var eventName = 'on' + eventName;
 			var isSupported = eventName in element;
 			
 			return isSupported;
 		},
+
 		disableDraggable: function (element) {
 			element.draggable = false;
 			
@@ -198,9 +213,11 @@
 				return false;
 			};
 		},
+
 		prefixMouseEvent: function (pointerEvent) {
 			return _cWin.MSPointerEvent ? 'MSPointer' + pointerEvent.charAt(7).toUpperCase() + pointerEvent.substr(8) : pointerEvent;
 		},
+
 		when: function (element, type, fn, condition) {
 			var func = function () {
 				if (condition()) {
@@ -211,6 +228,7 @@
 			
 			element.on(type, func);
 		},
+
 		addNN4EventListener: function (element, event, listener) {
 			if (!element.NN4Event) element.NN4Event = {};
 			if (!element.NN4Event[event]) element.NN4Event[event] = [];
@@ -218,6 +236,7 @@
 			var event_arr = element.NN4Event[event];
 			event_arr[event_arr.length] = listener;
 		},
+
 		getNN4Event: function (element, event) {
 			if (element.NN4Event && element.NN4Event[event]) {
 				var event_arr = element.NN4Event[event];
@@ -228,6 +247,7 @@
 				}
 			}
 		},
+
 		addListener: function (element, event, listener) {
 			if ($.core.Validate.isNull(element) || $.core.Validate.isUndefined(element) || !$.core.Validate.isObject(element)) {
 				return;
@@ -240,7 +260,9 @@
 			// If IE event model is used
 			// Support: IE 9 - 10 only
 			} else if (element.attachEvent) {
-				element.attachEvent('on' + event, listener);
+				element.attachEvent('on' + event, listener | function () {
+					handler.call(element);
+				});
 			} else {
 				addNN4EventListener(element, event, listener);
 				element['on' + event] = function () {
@@ -248,6 +270,7 @@
 				};
 			}
 		},
+
 		removeEvent: function (element, eventType, fn) {
 			if (element.addEventListener) {
 				return element.removeEventListener(eventType, fn, false);
@@ -255,15 +278,7 @@
 				return element.detachEvent("on" + eventType, fn);
 			}
 		},
-		addEventListener: function (element, eventName, handler) {
-			if (element.addEventListener) {
-				element.addEventListener(eventName, handler);
-			} else if (element.attachEvent) {
-				element.attachEvent('on' + eventName, function () {
-					handler.call(element);
-				});
-			}
-		},
+
 		preventEvent: function (evt) {
 			var evt = evt || _cWin.event;
 			
@@ -274,6 +289,7 @@
 				evt.cancelBubble = true;
 			}
 		},
+
 		onReady: function (doc, callback) {
 			var fired = false;
 			
@@ -297,6 +313,7 @@
 				}
 			});
 		},
+
 		addNodeEvent: document.addEventListener ? 
 			(function (node, type, handler) {
 				node.addEventListener(type, handler, false);
@@ -318,11 +335,13 @@
 				$($elements).trigger($event);
 			}
 		},
+
 		loopCallback: function (start, end, callback) {
 			for (i = start; i < end; i++) {
 				callback();
 			}
 		},
+
 		getShortCutKeyType: function (event) {
 			if ($.core.Browser.isIE()) {
 				event = window.event;
@@ -345,6 +364,7 @@
 			}
 
 		},
+
 		Try: function (fn, err) {
 			try {
 				fn();
@@ -355,6 +375,7 @@
 			
 			return false;
 		},
+
 		exceptionMsg: function ($exception) {
 			var error = '';
 			for (var i in $exception) {
@@ -363,5 +384,7 @@
 			
 			alert(error);
 		}
+		
 	};
+	
 })(jQuery, $.core);

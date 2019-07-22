@@ -12,6 +12,7 @@
 			
 			videoElement.srcObject = null;
 		},
+		
 		 /*
 			var displayMediaOptions = {
 			  video: {

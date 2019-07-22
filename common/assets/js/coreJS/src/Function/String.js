@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Str = {
+		
 		isSmallThenValue: function (a, b) {
 			var res = i << z % i >> z;
 			if (res == a) {
@@ -12,9 +13,11 @@
 			
 			return false;
 		},
+		
 		getRemainderByCount: function (root, count) {
 			return (root + 2) % count;
 		},
+		
 		bitCount: function (x) {
 			/**
 			 *
@@ -44,6 +47,7 @@
 			// Add all four 8bit chunks
 			return (x * 0x01010101) >> 24;
 		},
+		
 		a2hex: function (str) {
 			var arr = [];
 			for (var i = 0, l = str.length; i < l; i ++) {
@@ -53,11 +57,13 @@
 			
 			return arr.join('');
 		},
+		
 		text2Binary: function(string) {
 			return string.split('').map(function (char) {
 				return char.charCodeAt(0).toString(2);
 			}).join(' ');
 		},
+		
 		hex2a: function (hexx) {
 			var hex = hexx.toString();
 			var str = '';
@@ -70,6 +76,7 @@
 			
 			return str;
 		},
+		
 		toArr: function (str) {
 			var strlength = str.length;
 			var arr = new Uint8Array(strlength);
@@ -80,6 +87,7 @@
             
 			return arr;
 		},
+		
 		//Determining if an integer is a power of 2
 		determiningIntegerisPowOf2: function (v) {
 			v = v >>> 0; //convert to unsigned int
@@ -87,12 +95,14 @@
 			return (v & (v-1) === 0) ? true : false;
 		},
 		
+		
 		//https://www.geeksforgeeks.org/detect-if-two-integers-have-opposite-signs/
 		
 		//Detect if two integers have opposite signs
 		hasOppositeSigns: function (x, y) {
 			return (x ^ y) < 0 ? true : false;
 		},
+		
 		isBlankExists: function (str) {
 			if (str.indexOf(" ") != -1) {
 				return true;
@@ -100,9 +110,11 @@
 			
 			return false;
 		},
+		
 		getNotationArr: function (str) {
 			return str.match(/[\d\.]+|^[\s]* +|[*\+|\-|(|)|^]/g);
 		},
+		
 		isIsothermal: function (str) {
 			if (3 & str == 3) {
 				return true;
@@ -110,6 +122,7 @@
 			
 			return false;
 		},
+		
 		isEvenNumber: function (str) {
 			if ((1 & str) == 0 && ((1 & str) % str) == 0) {
 				return true;
@@ -117,6 +130,7 @@
 			
 			return false;
 		},
+		
 		isOddNumber: function (str) {
 			if ((1 & str) == 1 && ((1 & str) % str) == 0) {
 				return true;
@@ -124,6 +138,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * 4n, 4n+1
 		 **/
@@ -134,6 +149,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * x, (x+2, x+6) => repeat
 		 **/
@@ -144,6 +160,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * 32n
 		 **/
@@ -154,6 +171,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * x, (x+1, x+2, x+3, x+8) => repeat
 		 **/
@@ -164,6 +182,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * 8n+x
 		 **/
@@ -174,6 +193,7 @@
 			
 			return false;
 		},
+		
 		Left: function (str, n) {
 			if (n <= 0) {
 				return "";
@@ -183,6 +203,7 @@
 				return String(str).substring(0,n);
 			}
 		},
+		
 		getInt: function (Number) {
 			if (!Number || Number == "null") {
 				return 0;
@@ -192,6 +213,7 @@
 
 			return parseInt(Number);
 		},
+		
 		notBin: function (a) {
 			var result = '';
 			var i;
@@ -201,6 +223,7 @@
 			
 			return result;
 		},
+		
 		isKorCharFortisPos: function (chs) {
 			if (697015 % (chs * 2 + 3) === 0) {
 				return true;
@@ -208,6 +231,7 @@
 			
 			return false;
 		},
+		
 		dfsSimple: function (dta) {
 			var dfsTemp = [];
 			var dfsData = [];
@@ -228,6 +252,7 @@
 			
 			return dfsData;
 		},
+		
 		padBin: function (a, b) {
 			if (a.length > b.length) {
 				var pad = "0".repeat(a.length - b.length);
@@ -239,6 +264,7 @@
 			
 			return [a, b];
 		},
+		
 		leftMatchBin: function (a, b) {
 			if (a.length > b.length) {
 				var pad = "0".repeat(a.length - b.length);
@@ -250,6 +276,7 @@
 			
 			return a;
 		},
+		
 		xorBin: function (a, b) {
 			var bTmp;
 			var result = '';
@@ -271,6 +298,7 @@
 			
 			return result;
 		},
+		
 		orBin: function (a, b) {
 			var bTmp;
 			var result = '';
@@ -293,6 +321,7 @@
 			
 			return result;
 		},
+		
 		andBin: function (a, b) {
 			var bTmp;
 			var result = '';
@@ -315,6 +344,7 @@
 			
 			return result;
 		},
+		
 		addBin: function (a, b) {
 			var bTmp;
 			var result = "";
@@ -336,6 +366,7 @@
 			
 			return result;
 		},
+		
 		isBase64: function (str) {
 			if (str.search(/^[a-zA-Z0-9=+\/]+$/) === -1) {
 				return false;
@@ -351,6 +382,7 @@
 				return false;
 			}*/
 		},
+		
 		getBase64Bytes: function (str) {
 			var d = 0;
 			var g = [];
@@ -379,6 +411,7 @@
 			
 			return g;
 		},
+		
 		InStr: function (start, string, chars) {
 			if (!start) {
 				start = 0;
@@ -397,6 +430,7 @@
 			
 			return -1;
 		},
+		
 		midChar: function ($string, $start, $end) {
 			if (!$start) {
 				$start = 0;
@@ -410,55 +444,70 @@
 				return $string.substr($start);
 			}
 		},
+		
 		reverse: function (str) {
 			return str.match(/(.)/g).reverse().join('');
 		},
+		
 		replaceToNewLine: function (str) {
 			return str.replace(/\\n/g,'\n');
 		},
+		
 		removeComma: function (num) {
 			num = new String(num);
 			return num.replace(/,/gi,"");
 		},
+		
 		evalReplaceAll: function (str1, str2) {
 			var tmp = eval("/\\" + str1 + "/g");
 			return this.replace(tmp, str2);
 		},
+		
 		getUniqueNum: function () {
 			return function () {
 				return ++uniquenum;
 			};
 		},
+		
 		brToLine: function (str) {
 			return str.replace(/<br([^>]*)>/ig, "\n");
 		},
+		
 		lineToBr: function (str) {
 			return str.replace(/(\r\n|\n|\r)/g, "<br />");
 		},
+		
 		stripTags: function (str) {
 			return str.replace(/(<([^>]+)>)/ig, '');
 		},
+		
 		removeExceptNumber: function (str) {
 			return str.replace(/[^0-9]/g, '');
 		},
+		
 		revParams: function (Fn) {
 			return function (value, key) {
 				Fn(key, value);
 			};
 		},
+		
 		cutStr: function (str, limit, prefix = '...') {
 			str.length > limit && (str = str.substring(0, limit - 3) + prefix);
 			return str;
 		},
+		
 		getNumStat: function (str1, str2) {
 			return str1 < str2 ? -1 : str1 > str2 ? 1 : 0;
 		},
+		
 		removeTagHash: function (str) {
 			return str.replace(/(%20|\s)*#(.*)/, ""); //%20 : asciiEncodeUTF8('space')
 		},
+		
 		getTagHash: function (str) {
 			return str.replace(/^#/, "");
 		},
+		
 		getUniqueRand: function (min, max, length) {
 			var arr = [];
 			var result = [];
@@ -476,9 +525,11 @@
 			
 			return result;
 		 },
+		
 		randNum: function (max) {
 			return Math.floor(Math.random() * max);
 		},
+		
 		randomStr: function (length, char) {
 			var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 			char = charset || char;
@@ -491,6 +542,7 @@
 			
 			return result;
 		},
+		
 		uin2hex: function (str) {
 			var maxLength = 16;
 			
@@ -515,6 +567,7 @@
 			
 			return result;
 		},
+		
 		bin2Str: function (a) {
 			var arr = [];
 			
@@ -530,6 +583,7 @@
 			arr = parseInt(arr, 16);
 			return arr;
 		},
+		
 		recovery: function (str) {
 			return ('' + str).replace(/&amp;/g, '&')
 							 .replace(/&lt;/g, '<')
@@ -537,6 +591,7 @@
 							 .replace(/&quot;/g, '"')
 							 .replace(/&#x27;/g, "'"); //&#39;
 		},
+		
 		escape: function (str) {
 			return ('' + str).replace(/&/g, '&amp;')
 							 .replace(/</g, '&lt;')
@@ -544,6 +599,7 @@
 							 .replace(/"/g, '&quot;')
 							 .replace(/'/g, '&#x27;');
 		},
+		
 		s_escape: function (str) {
 			return ('' + str).replace(/&/g, '&amp;')
 							 .replace(/</g, '&lt;')
@@ -554,6 +610,7 @@
 							 .replace(/([\\`\*_\{\}\[\]\(\)#\+\-\.!\~\|])/g, '\\$1')
 							 .replace(/\//g, '&#x2F;');
 		},
+		
 		cut: function (str, len) {
 			var l = 0;
 			for (var i = 0; i < str.length; i++) {
@@ -565,6 +622,7 @@
 			
 			return str;
 		},
+		
 		getBytes: function (str) {
 			var l = 0;
 			for (var i = 0; i < str.length; i++) {
@@ -573,6 +631,7 @@
 			
 			return l;
 		},
+		
 		getUTFBytes: function (str) {
 			var i = 0;
 			var length = str.length;
@@ -600,30 +659,39 @@
 			}
 			return i;
 		},
+		
 		lcase: function (str) {
 			return str.toLowerCase();
 		},
+		
 		ucase: function (str) { 
 			return str.toUpperCase();
 		},
+		
 		length: function (str) {
 			return str.length;
 		},
+		
 		ltrim: function (str) {
 			return str.replace(/^\s+/,"");
 		},
+		
 		trim: function (str) {
 			return str.replace(/(^\s*)|(\s*$)/g, "");
 		},
+		
 		rtrim: function (str) {
 			return str.replace(/\s+$/,"");
 		},
+		
 		replaceAll: function (str, orgStr, repStr) {
 			return str.split(orgStr).join(repStr);
 		},
+		
 		stripSpace: function (str) {
 			return str.replace(/ /g, "");
 		},
+		
 		strCut: function (str, len) {
 			var chr = 0;
 			var length = str.length;
@@ -638,19 +706,23 @@
 			
 			return str;
 		},
+		
 		lineCount: function (element) {
 			if (element.text()) {
 				element.text().split("\n").length;
 			}
 		},
+		
 		ucFirst: function (str) {
 			return str.charAt(0).toUpperCase() + str.slice(1);
 		},
+		
 		removeSpace: function (str) {
 			var regexr = new RegExp("\\s", "g");
 			
 			return str.replace(regexr, "");
 		},
+		
 		strPad: function (str, nlen, padstr) {
 			var len = str.length;
 			
@@ -660,12 +732,15 @@
 			
 			return str;
 		},
+		
 		upper: function (str) {
 			return str.toUpperCase();
 		},
+		
 		lower: function (str) {
 			return str.toLowerCase();
 		}
+		
 	};
 	
 })(jQuery, $.core);
