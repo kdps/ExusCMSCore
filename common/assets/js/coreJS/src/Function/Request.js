@@ -260,7 +260,7 @@
 		 * @param {id}        : id
 		 * @param {callback}  : Callback
 		 **/
-		addAjaxCallback: function (id, callback) {
+		addAjaxCallback: function (id, callback, preFetch) {
 			var callerScript = $.core.Evt.getCallerScriptPath();
 			callerScript = callerScript[3];
 			
@@ -285,7 +285,11 @@
 			}
 			
 			if ($.core.Validate.isFunc(callback)) {
-				this.ajaxCallbacks[id] = callback;
+				if (preFetch) {
+					$.core.Evt.addListener(document, id, callback);
+				} else {
+					this.ajaxCallbacks[id] = callback;
+				}
 			}
 			
 			return this;
@@ -372,9 +376,11 @@
 			
 			if ($.core.Browser.isSafari() || $.core.Browser.isOpera()) {
 				resultNodes = xhr.responseXML.firstChild.childNodes;
+				
 				for (var i = 0; i < resultNodes.length; i++) {
 					null != resultNodes.item(i).firstChild && (result[resultNodes.item(i).nodeName] = resultNodes.item(i).firstChild.nodeValue);
 				}
+				
 				return result;
 			}
 		},
@@ -676,6 +682,16 @@
 					data: params,
 					success: function (args, txtStatus, xhr) {
 						if (typeof callback == 'function') {
+							
+							// Dispatch Event
+							if (typeof document.getAttribute(callback) === 'function') {
+								let event = new Event(callback, args);
+								document.dispatchEvent(event);
+								
+								return;
+							}
+							
+							// User Custom Function
 							if ($.core.Promise.isSupport()) {
 								return new Promise(function (resolve, reject) {
 									args = (args === null) ? '' : args;
@@ -705,6 +721,8 @@
 									} catch (e) {}
 								}
 							}
+							
+							return;
 						}
 						
 						if (!callback) return;
@@ -713,6 +731,7 @@
 							return new throws(callback + " is not callback");
 						}
 						
+						// Ajax Callback
 						if ($.core.Validate.isFunc(A.ajaxCallbacks[callback])) {
 							try {
 								args = (args === null) ? '' : args;

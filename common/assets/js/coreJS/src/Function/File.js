@@ -109,4 +109,5 @@
 			return false;
 		}
 	};
+	
 })(jQuery, $.core);

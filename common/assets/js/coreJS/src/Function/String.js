@@ -4,7 +4,7 @@
 (function ($, core) {
 
 	var A = core.Str = {
-		BisSmallThenA: function (a, b) {
+		isSmallThenValue: function (a, b) {
 			var res = i << z % i >> z;
 			if (res == a) {
 				return true;
@@ -355,14 +355,13 @@
 			var d = 0;
 			var g = [];
 			var str = str.replace(/\=/g, "");
-			var e;
 			var h;
 			var n;
 			var l;
 			
 			//Split Word by 4 Length
 			var length = str.length;
-			for (e = 0; e < length; e += 4) {
+			for (var e = 0; e < length; e += 4) {
 				for (l = str.substr(e, 4), h = n = 0; h < l.length; ++h) {
 					f = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(l[h]);
 					n |= f << 18 - 6 * h;
@@ -494,17 +493,21 @@
 		},
 		uin2hex: function (str) {
 			var maxLength = 16;
+			
+			// Convert to Integer
 			str = parseInt(str);
+			
+			// Convert to Hexadecimal
 			var hex = str.toString(16);
 			var len = hex.length;
 			
 			for (var i = len; i < maxLength; i++) {
-				hex = "0" + hex
+				hex = "0" + hex; // 0A
 			}
 			
 			var arr = [];
 			for (var j = 0; j < maxLength; j += 2) {
-				arr.push("\\x" + hex.substr(j, 2))
+				arr.push("\\x" + hex.substr(j, 2)); // \\x0A
 			}
 			
 			var result = arr.join("");
@@ -554,8 +557,10 @@
 		cut: function (str, len) {
 			var l = 0;
 			for (var i = 0; i < str.length; i++) {
-				l += (str.charCodeAt(i) > 128) ? 2 : 1;
-				if (l > len) return str.substring(0, i);
+				l += (str.charCodeAt(i) > 128) ? 2 : 1; // ASCII <= 128
+				if (l > len) {
+					return str.substring(0, i);
+				}
 			}
 			
 			return str;
@@ -563,7 +568,7 @@
 		getBytes: function (str) {
 			var l = 0;
 			for (var i = 0; i < str.length; i++) {
-				l += (str.charCodeAt(i) > 128) ? 2 : 1;
+				l += (str.charCodeAt(i) > 128) ? 2 : 1; // ASCII <= 128
 			}
 			
 			return l;
@@ -624,7 +629,7 @@
 			var length = str.length;
 			
 			for (var i = 0; i < length; i++) {
-				chr += (str.charCodeAt(i) > 128) ? 2 : 1;
+				chr += (str.charCodeAt(i) > 128) ? 2 : 1; // ASCII <= 128
 				
 				if (chr > len) {
 					return str.substring(0, i);
