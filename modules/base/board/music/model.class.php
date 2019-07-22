@@ -56,13 +56,11 @@ class board_model extends board {
 		return str::getUrl('', __MODULEID, $this->base->get_params(__MODULEID), 'category', $category_srl, 'bdstyle', $this->base->get_params('bdstyle'), 'keyword', $this->base->get_params('keyword'), 'type', $this->base->get_params('type'));
 	}
 	
-	function getSortIndexLink($sort_index):string
-	{
+	function getSortIndexLink($sort_index):string {
 		return str::getUrl('', __MODULEID, $this->base->get_params(__MODULEID), 'sort_index', $sort_index, 'bdstyle', $this->base->get_params('bdstyle'));
 	}
 	
-	function getListCountLink($sort_index):string
-	{
+	function getListCountLink($sort_index):string {
 		return str::getUrl('', __MODULEID, $this->base->get_params(__MODULEID), 'list_count', $sort_index, 'bdstyle', $this->base->get_params('bdstyle'));
 	}
 	
@@ -85,8 +83,7 @@ class board_model extends board {
 				}
 				$fileExtension = substr(strrchr($filename, '.'), 1);
 				$fileSrl = sprintf(".%s%s/%s", __EXTRA__ATTACH, $val->getTargetSrl(), $filename);
-				switch($fileExtension)
-				{
+				switch($fileExtension) {
 					case "jpg":
 						$output = "<img src=\"{$fileSrl}\">";
 						break;
@@ -101,6 +98,7 @@ class board_model extends board {
 						$output = "<a href=\"{$fileSrl}\">Attached File</a>";
 						break;
 				}
+				
 				break;
 			default:
 				$output = $var;
@@ -117,52 +115,40 @@ class board_model extends board {
 				$srl = $value['file_sequence'];//$oFilesModel->getDocumentFileSequence($value['file_sequence']);
 				$thumbnail = $this->base->makeThumbnail($fileInfo['files'], $value['file_sequence'], $this->board->config->thumbnail_width, $this->board->config->thumbnail_height);
 				
-				if (!isset($this->img_index)) 
-				{
+				if (!isset($this->img_index)) {
 					$this->img_index = 0;
 				}
 				
-				if (!isset($this->tmp_md5)) 
-				{
+				if (!isset($this->tmp_md5)) {
 					$this->tmp_md5 = null;
 				}
 				
-				if ($value['thumbmd5'] !== $this->tmp_md5) 
-				{
+				if ($value['thumbmd5'] !== $this->tmp_md5) {
 					$this->img_index++;
 					$this->tmp_md5 = $value['thumbmd5'];
 					$thumbArray = array(
 						'index' => $this->img_index, 
 						'img' => sprintf("%s?%s", $thumbnail, substr(md5(date("YmdHis", (filemtime(__DIR.$thumbnail)))),0,7))
 					);
-				} 
-				else if ($value['thumbmd5'] === $this->tmp_md5) 
-				{
-					if ($this->img_index === 1) 
-					{
+				} else if ($value['thumbmd5'] === $this->tmp_md5) {
+					if ($this->img_index === 1) {
 						$this->tmp_md5 = $value['thumbmd5'];
 						$thumbArray = array(
 							'index' => $this->img_index,
 							'img' => sprintf("%s?%s", $thumbnail, substr(md5(date("YmdHis", (filemtime(__DIR.$thumbnail)))),0,7))
 						);
-					} 
-					else 
-					{
+					} else {
 						$thumbArray = array('index'=>$this->img_index);
 					}
 				}
 				
-				if ($value['thumbmd5'] === null) 
-				{
+				if ($value['thumbmd5'] === null) {
 					$image = sprintf("%s%s%d/%dx%d.jpg", __DIR, __THUMB__ATTACH, $srl, $this->board->config->thumbnail_width, $this->board->config->thumbnail_height);
 					
-					if (file_exists($image)) 
-					{
+					if (file_exists($image)) {
 						$this->board->query->UpdateThumbMd5($value['srl'], $value['module'], md5(file_get_contents($image)));
 					}
-				} 
-				else 
-				{
+				} else {
 					$this->tmp_md5 = $value['thumbmd5'];
 				}
 			}
@@ -189,9 +175,7 @@ class board_model extends board {
 			getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.tag.id3v2.php', __FILE__);
 			
 			return $finfo;
-		} 
-		else 
-		{
+		} else {
 			return false;
 		}
 	}
@@ -248,8 +232,7 @@ class board_model extends board {
 		
 		if ($mediaInfo['bitrate'] == null) {
 			$bitrate = $id3Info['bitrate'];
-			if (!$bitrate)
-			{
+			if (!$bitrate) {
 				$bitrate = "Unknown";
 			}
 			
@@ -259,8 +242,7 @@ class board_model extends board {
 		if ($mediaInfo['playtime'] == null || $mediaInfo['playtime'] == 0) {
 			if ($this->board->config->none_id3!=1) {
 				$artist = $id3Info['playtime_seconds'];
-				if (!$artist) 
-				{
+				if (!$artist) {
 					$artist = 0;
 				}
 				
@@ -364,8 +346,7 @@ class board_model extends board {
 			$pg_x++;
 			if (isset($pg_index)) {
 				$pg_insert = $pg_x + $pg_index;
-				if ($pg_insert > 0) 
-				{
+				if ($pg_insert > 0) {
 					array_push($arr_page, $pg_insert);
 				}
 			} else {

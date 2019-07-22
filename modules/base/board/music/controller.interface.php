@@ -1,7 +1,6 @@
 <?php
 
-	interface controllerInterface 
-	{
+	interface controllerInterface {
 		
 		public function __construct();
 		public function init($args);

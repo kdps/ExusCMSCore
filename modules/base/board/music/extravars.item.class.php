@@ -3,28 +3,23 @@
 class extravars_item extends board
 {
 	
-	function __construct($query = array()) 
-	{
+	function __construct($query = array()) {
 		$this->query = $query;
 		$this->base = new base();
 	}
 	
-	function get($args)
-	{
+	function get($args) {
 		return $this->query[$args];
 	}
 	
-	function getInputTag()
-	{
-		switch($this->getType())
-		{
+	function getInputTag() {
+		switch($this->getType()) {
 			default:
 				$html = "<input style=\"width:100%\" type=\"text\" class=\"text itx\" name=\"{$this->getName()}\" value=\"{$this->getValue()}\"></input>";
 				break;
 			case "option":
 				$options = explode(",", $this->getDefault());
-				foreach($options as $val)
-				{
+				foreach($options as $val) {
 					$html .= "<option ".(($this->getValue() == $val) ? "selected " : "")."value=\"{$val}\">{$val}</option>";
 				}
 				
@@ -65,8 +60,7 @@ class extravars_item extends board
 				break;
 			case "radio":
 				$options = explode(",", $this->getDefault());
-				foreach($options as $val)
-				{
+				foreach($options as $val) {
 					$html .= "<input ".(($this->getValue() == $val) ? "checked " : "")."name=\"{$this->getName()}\" type=\"radio\" value=\"{$val}\">{$val}</input>";
 				}
 				
@@ -76,81 +70,65 @@ class extravars_item extends board
 		return $html;
 	}
 	
-	function getDefault()
-	{
+	function getDefault() {
 		$default = $this->get('default');
-		if (isset($default))
-		{
+		if (isset($default)) {
 			return $default;
 		}
 		
 		return "";
 	}
 	
-	function getValue()
-	{
+	function getValue() {
 		$type = $this->get('value');
-		if (isset($type))
-		{
+		if (isset($type)) {
 			return $type;
 		}
 		
 		return "";
 	}
 	
-	function getTargetSrl()
-	{
+	function getTargetSrl() {
 		$type = $this->get('target_srl');
-		if (isset($type))
-		{
+		if (isset($type)) {
 			return $type;
 		}
 		
 		return "";
 	}
 	
-	function getAttachedFileName()
-	{
+	function getAttachedFileName() {
 		$type = $this->get('origin');
-		if (isset($type))
-		{
+		if (isset($type)) {
 			return $type;
 		}
 		
 		return "";
 	}
 	
-	function getName()
-	{
+	function getName() {
 		$type = $this->get('val');
-		if (isset($type))
-		{
+		if (isset($type)) {
 			return $type;
 		}
 		
 		return "";
 	}
 	
-	function getType()
-	{
+	function getType() {
 		$type = $this->get('type');
-		if (isset($type))
-		{
+		if (isset($type)) {
 			return $type;
 		}
 		
 		return "";
 	}
 	
-	function getTitle()
-	{
+	function getTitle() {
 		$title = $this->get('title');
-		if (isset($title))
-		{
+		if (isset($title)) {
 			return $title;
-		}
-		else
-		{
+		} else {
 			
 		}
 	}

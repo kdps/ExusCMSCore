@@ -1,27 +1,21 @@
 <?php 
 
-class board_item extends board
-{
+class board_item extends board {
 	
-	function __construct($args = array(), $query = array()) 
-	{
+	function __construct($args = array(), $query = array()) {
 		$this->query = $query;
 		$this->base = new base();
 		
-		if (isset($args->board)) 
-		{
+		if (isset($args->board)) {
 			$this->board = $args->board;
 		}
 		
-		if (isset($this->query)) 
-		{
-			if (isset($this->query['srl']))
-			{
+		if (isset($this->query)) {
+			if (isset($this->query['srl'])) {
 				$this->documentSrl = $this->query['srl'];
 			}
 			
-			if (isset($this->query['file_sequence']))
-			{
+			if (isset($this->query['file_sequence'])) {
 				$this->fileSequence = $this->query['file_sequence'];
 			}
 		}
@@ -29,81 +23,61 @@ class board_item extends board
 		$oBoardModel = $this->base->getModel('music');
 	}
 	
-	function __registry($args, $query) 
-	{
+	function __registry($args, $query) {
 		$this->query = $query;
 		$this->base = new base();
 		$this->board = $args->board;
 		$this->documentSrl = $this->query['srl'];
 	}
 	
-	function getNickName() 
-	{
+	function getNickName() {
 		return $this->query['nick_name'];
 	}
 	
-	function getSrl() 
-	{
+	function getSrl() {
 		$srl = (int)$this->documentSrl;
 		
-		if ($srl) 
-		{
+		if ($srl) {
 			return $srl;
-		} 
-		else 
-		{
+		} else {
 			return 0;
 		}
 	}
 	
-	function isTagExists() 
-	{
+	function isTagExists() {
 		$tag = $this->query['tag'];
 		
-		if ($tag) 
-		{
+		if ($tag) {
 			return TRUE;
-		} 
-		else 
-		{
+		} else {
 			return FALSE;
 		}
 	}
 	
-	function getStarRateCount() 
-	{
+	function getStarRateCount() {
 		$star_rate = $this->board->star_rate;
 		
-		if (isset($star_rate)) 
-		{
+		if (isset($star_rate)) {
 			return $star_rate;
-		} 
-		else 
-		{
+		} else {
 			return 0;
 		}
 	}
 	
-	function isStarRateCountExists() 
-	{
+	function isStarRateCountExists() {
 		$star_rate = $this->board->star_rate;
 		
-		if (isset($star_rate)) 
-		{
+		if (isset($star_rate)) {
 			return true;
-		} 
-		else 
-		{
+		} else {
 			return false;
 		}
 	}
 	
-	function getTag() 
-	{
+	function getTag() {
 		$tag = $this->query['tag'];
 		
-		if ($tag) 
-		{
+		if ($tag) {
 			return $tag;
 		} 
 		else 
@@ -112,54 +86,43 @@ class board_item extends board
 		}
 	}
 	
-	function getSNSLink() 
-	{
+	function getSNSLink() {
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'page', $_GET['page'], 'srl', $this->board->oDocument->query['srl'], 'category', $_GET['category'], 'tag', $_GET['tag'], 'mode', $_GET['mode']);
 	}
 	
-	function getTagLink() 
-	{
+	function getTagLink() {
 		return str::getUrl('', __MODULEID, $_GET[__MODULEID], __ACTION, 'dispBoardTagList', 'page', 1, 'tag', $this->query['tag'], 'page' ,1);
 	}
 	
-	function getModifyLink():string
-	{
+	function getModifyLink():string {
 		return str::getUrl('', __MODULEID, $_GET[__MODULEID], 'act', 'dispBoardModify', 'srl',  $this->documentSrl);
 	}
 	
-	function getArtistLink():string
-	{
+	function getArtistLink():string {
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], __ACTION, 'search', 'type', 'artist', 'keyword', $this->query['artist'], 'page', '');
 	}
 	
-	function getIPAddress() 
-	{
+	function getIPAddress() {
 		return request::get_ip();
 	}
 	
-	function getDocumentLink():string
-	{
+	function getDocumentLink():string {
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'page', $_GET['page'], 'srl',  $this->documentSrl, 'category', $_GET['category'], 'tag', $_GET['tag'], 'mode', $_GET['mode']);
 	}
 	
-	function getLink():string
-	{
+	function getLink():string {
 		return str::getUrl(__MODULEID, $_GET[__MODULEID], 'srl', $this->documentSrl);
 	}
 	
-	function getFormatRegdate():string
-	{
+	function getFormatRegdate():string {
 		return date("Y.m.d H:i:s", strtotime($this->query['regdate']));
 	}
 	
-	function isImageExists():bool
-	{
+	function isImageExists():bool {
 		$this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileInfo) 
-		{
-			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) 
-			{
+		foreach ($this->file_list as $fileInfo) {
+			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) {
 				return true;
 			}
 		}
@@ -167,40 +130,29 @@ class board_item extends board
 		return false;
 	}
 	
-	function getCommentCount() 
-	{
-		if (isset($this->query['comment_count'])) 
-		{
+	function getCommentCount() {
+		if (isset($this->query['comment_count'])) {
 			return $this->query['comment_count'];
-		}
-		else
-		{
+		} else {
 			$oCommentModel = $this->base->getModel('comment');
 			$commentCount = $oCommentModel->getCommentCount($this->board->module_id,$this->documentSrl);
 			return $commentCount ? $commentCount : 0;
 		}
 	}
 	
-	function isUploadedFileExists() 
-	{
-		if (isset($this->query['file_count'])) 
-		{
-			if ($this->query['file_count'] > 0) 
-			{
+	function isUploadedFileExists() {
+		if (isset($this->query['file_count'])) {
+			if ($this->query['file_count'] > 0) {
 				return true;
 			}
 			
 			return false;
-		}
-		else
-		{
-			if ($this->documentSrl) 
-			{
+		} else {
+			if ($this->documentSrl) {
 				$this->file_list = $this->getFileList($this->documentSrl);
 			}
 			
-			if (is_array($this->file_list) && count($this->file_list) > 0) 
-			{
+			if (is_array($this->file_list) && count($this->file_list) > 0) {
 				return true;
 			}
 			
@@ -208,37 +160,29 @@ class board_item extends board
 		}
 	}
 	
-	function getImageDownloadLink() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getImageDownloadLink() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileInfo) 
-		{
-			if (maya::execute('@\||/@+.+!jpg||png!', $fileInfo['files'],'boolean')) 
-			{
+		foreach ($this->file_list as $fileInfo) {
+			if (maya::execute('@\||/@+.+!jpg||png!', $fileInfo['files'],'boolean')) {
 				return str::getUrl('', __MODULEID, 'files', 'act', 'FileDownload', 'download', $this->fileSequence, 'target', $fileInfo['files'], 'key', $fileInfo['keyres']);
 			}
 		}
 	}
 	
-	function isAudioExists() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function isAudioExists() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileInfo) 
-		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) 
-			{
+		foreach ($this->file_list as $fileInfo) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) {
 				$this->board->model->chkId3Tags($this->query, $fileInfo['files'], $this->fileSequence);
 				return true;
 			}
@@ -247,181 +191,136 @@ class board_item extends board
 		return false;
 	}
 	
-	function getAudioFilename() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getAudioFilename() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileInfo) 
-		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'], 'boolean')) 
-			{
+		foreach ($this->file_list as $fileInfo) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'], 'boolean')) {
 				return $fileInfo['origin'];
 			}
 		}
 	}
 	
-	function getAudioListenLink() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getAudioListenLink() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileInfo) 
-		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) 
-			{
+		foreach ($this->file_list as $fileInfo) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileInfo['files'],'boolean')) {
 				return sprintf("%s%s%s/%s", __SUB, __FILE__ATTACH, $fileInfo['target'], $fileInfo['files']);
 			}
 		}
 	}
 	
-	function getAudioDownloadLink() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getAudioDownloadLink() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileList) 
-		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) 
-			{
+		foreach ($this->file_list as $fileList) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) {
 				return str::getUrl('', __MODULEID, 'files', 'act', 'FileDownload', 'download', $this->fileSequence, 'target', $fileList['files'], 'key', $fileList['keyres']);
 			}
 		}
 	}
 	
-	function getAudioLink() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getAudioLink() {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileList) 
-		{
-			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) 
-			{
-				if ($fileList['keyres'] == NULL) 
-				{
+		foreach ($this->file_list as $fileList) {
+			if (maya::execute('@\||/@+.+!mp3||wav!', $fileList['files'],'boolean')) {
+				if ($fileList['keyres'] == NULL) {
 					$this->board->query->UpdateFileKey($this->fileSequence);
 				}
 				
 				$link = sprintf("%s%s%d/%s", __SUB, __FILE__ATTACH, $this->fileSequence, $fileList['files']);
 				
-				if (file_exists($link)) 
-				{
+				if (file_exists($link)) {
 					return $link;
-				} 
-				else 
-				{
+				} else {
 					return "";
 				}
 			}
 		}
 	}
 	
-	function setContent($content) 
-	{
+	function setContent($content) {
 		$this->query['content'] = $content;
 	}
 	
-	function getContent():string
-	{
+	function getContent():string {
 		$content = $this->query['content'];
-		if ($content) 
-		{
+		if ($content) {
 			return $content;
-		} 
-		else 
-		{
+		} else {
 			return "";
 		}
 	}
 	
-	function get($args):stdclass
-	{
+	function get($args):stdclass {
 		return $this->query[$args];
 	}
 	
-	function getArtist($cut):string
-	{
+	function getArtist($cut):string {
 		$artist = $this->base->htmlsc($this->query['artist']);
 		
-		if ($cut) 
-		{
+		if ($cut) {
 			return $this->base->cut_str($artist, $cut);
-		} 
-		else 
-		{
+		} else {
 			return $artist;
 		}
 	}
 	
-	function getAlbumTitle($cut):string
-	{
+	function getAlbumTitle($cut):string {
 		$albumTitle = $this->base->htmlsc($this->query['title_only']);
 		
-		if ($cut) 
-		{
+		if ($cut) {
 			return $this->base->cut_str($albumTitle, $cut);
-		} 
-		else 
-		{
+		} else {
 			return $albumTitle;
 		}
 	}
 	
-	function isCurrent():bool
-	{
-		if (isset($this->board->document['srl']) && $this->board->document['srl'] == $document->query['srl']) 
-		{
+	function isCurrent():bool {
+		if (isset($this->board->document['srl']) && $this->board->document['srl'] == $document->query['srl']) {
 			return true;
-		}
-		else 
-		{
+		} else {
 			return false;
 		}
 	}
 	
-	function setOriginTitle($title) 
-	{
+	function setOriginTitle($title) {
 		$this->query['title_only'] = $title;
 	}
 	
-	function setTitle($title) 
-	{
+	function setTitle($title) {
 		$this->query['title'] = $title;
 	}
 	
-	function getTitle($cut = null):string
-	{
+	function getTitle($cut = null):string {
 		$title = $this->base->htmlsc($this->query['title']);
 		
-		if ($cut) 
-		{
+		if ($cut) {
 			return $this->base->cut_str($title, $cut);
-		} 
-		else 
-		{
+		} else {
 			return $title;
 		}
 	}
 	
-	function getThumbnail() 
-	{
+	function getThumbnail() {
 		$fp = sprintf("./%s%s/%sx%s.jpg",  
 			__THUMB__ATTACH, 
 			$this->fileSequence, 
@@ -432,20 +331,16 @@ class board_item extends board
 		return $fp;
 	}
 	
-	function makeAlbumThumbnail():string
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function makeAlbumThumbnail():string {
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}
 		
 		$oFileAlbum = $this->board->model->getOriginAlbumFiles($this->query['album']);
 		$oThumbAlbum = $this->getFileList($oFileAlbum);
 		
-		foreach ($oThumbAlbum as $fileInfo) 
-		{
-			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) 
-			{
+		foreach ($oThumbAlbum as $fileInfo) {
+			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileInfo['files'], $matches)) {
 				return $this->base->makeThumbnail(
 					$fileInfo['files'], 
 					$fileInfo['target'], 
@@ -456,36 +351,27 @@ class board_item extends board
 		}
 	}
 	
-	function makeThumbnail($thumbnailWidth = null, $thumbnailHeight = null) 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function makeThumbnail($thumbnailWidth = null, $thumbnailHeight = null) {
+		if (!$this->isUploadedFileExists()) {
 			return false;
 		}
 		
-		if ($this->board->config) 
-		{
-			if (!$thumbnailWidth) 
-			{
+		if ($this->board->config) {
+			if (!$thumbnailWidth) {
 				$thumbnailWidth = (int)$this->board->config->thumbnail_width;
 			}
 			
-			if (!$thumbnailHeight) 
-			{
+			if (!$thumbnailHeight) {
 				$thumbnailHeight = (int)$this->board->config->thumbnail_height;
 			}
 		}
 		
 		$this->file_list = $this->getFileList($this->fileSequence);
 		
-		foreach ($this->file_list as $fileList) 
-		{
-			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileList['files'], $matches)) 
-			{
+		foreach ($this->file_list as $fileList) {
+			if (preg_match('/\.(jpe?g|jpg|png)(?:[\?\#].*)?$/i', $fileList['files'], $matches)) {
 				return $this->base->makeThumbnail($fileList['files'], $this->fileSequence, $thumbnailWidth, $thumbnailHeight);
-			}
-			else if (preg_match('/\.(mp4)(?:[\?\#].*)?$/i', $fileList['files'], $matches)) 
-			{
+			} else if (preg_match('/\.(mp4)(?:[\?\#].*)?$/i', $fileList['files'], $matches)) {
 				$thumbnailFile = sprintf("%s%s/%s/%dx%d.jpg", 
 					__DIR, 
 					__THUMB__ATTACH, 
@@ -512,8 +398,7 @@ class board_item extends board
 				$ffmpegPath = sprintf("%s/board/music/exec", __MOD);
 				$ffmpegFilePath = sprintf("%s/ffmpeg.exe");
 				
-				if (file_exists($ffmpegFilePath))
-				{
+				if (file_exists($ffmpegFilePath)) {
 					$cmd = sprintf("%s/ffmpeg -i %s -an -ss 00:00:05 -s %dx%d -r 1 -vframes 1 -y %s", $ffmpegPath, $videoFile, $thumbnailWidth, $thumbnailHeight, $thumbnailFile);
 					exec ($cmd, $output, $retval);
 				}
@@ -521,35 +406,28 @@ class board_item extends board
 		}
 	}
 	
-	function getExtraImages():string
-	{
+	function getExtraImages():string {
 		$type = array();
 		
-		if (!$this->isUploadedFileExists())
-		{
+		if (!$this->isUploadedFileExists()) {
 			return '';
 		}				
 		
-		if ($this->isThumbnailExists()) 
-		{
+		if ($this->isThumbnailExists()) {
 			$type[] = 'image';
 		}
 		
-		if ($this->isUploadedFileExists()) 
-		{
+		if ($this->isUploadedFileExists()) {
 			$type[] = 'file';
 		}
 		
-		if ($this->isAudioExists()) 
-		{
+		if ($this->isAudioExists()) {
 			$type[] = 'audio';
 		}
 		
 		$buff = array();
-		if (is_array($type)) 
-		{
-			foreach ($type as $extraImage) 
-			{
+		if (is_array($type)) {
+			foreach ($type as $extraImage) {
 				$buff[] = sprintf('<img src="%s%s.gif" style="margin-right:2px;" />', 'modules/base/board/music/img/', $extraImage);
 			}
 		}
@@ -557,18 +435,15 @@ class board_item extends board
 		return implode('', $buff);
 	}
 	
-	function isViewingDocument():bool
-	{
-		if (isset($this->board->document['srl']) && $this->board->document['srl'] == $document->query['srl']) 
-		{
+	function isViewingDocument():bool {
+		if (isset($this->board->document['srl']) && $this->board->document['srl'] == $document->query['srl']) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	function isThumbnailExists() 
-	{
+	function isThumbnailExists() {
 		$fp = sprintf(
 			"%s%s%s/%sx%s.jpg", 
 			__DIR, 
@@ -578,79 +453,63 @@ class board_item extends board
 			$this->board->config->thumbnail_height
 		);
 		
-		if (file_exists($fp) && filesize($fp) > 0)
-		{
+		if (file_exists($fp) && filesize($fp) > 0) {
 			return true;
 		}
 		
-		if ($this->makeThumbnail())
-		{
+		if ($this->makeThumbnail()) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	function getCategoryName() 
-	{
+	function getCategoryName() {
 		$categoryCaption = $this->query['category_caption'];
-		if ($categoryCaption) 
-		{
+		if ($categoryCaption) {
 			return $categoryCaption;
 		} 
 		
 		return "";
 	}
 	
-	function getCategory():string
-	{
-		if ($this->isCategoryExists()) 
-		{
+	function getCategory():string {
+		if ($this->isCategoryExists()) {
 			return $this->query['category_srl'];
-		} 
-		else 
-		{
+		} else {
 			return NULL;
 		}
 	}
 	
-	function isCategoryExists():bool
-	{
-		if ($this->query['category_srl']) 
-		{
+	function isCategoryExists():bool {
+		if ($this->query['category_srl']) {
 			return true;
 		}
 		
 		return false;
 	}
 	
-	function getRegdate():string
-	{
+	function getRegdate():string {
 		return $this->query['regdate'];
 	}
 	
-	function getReadedCount():int
-	{
+	function getReadedCount():int {
 		return (int)$this->query['readed'];
 	}
 	
-	function getVotedCount():int
-	{
+	function getVotedCount():int {
 		return $this->query['voted'] ? (int)$this->query['voted'] : 0;
 	}
 	
-	function getBlamedCount():int
-	{
+	function getBlamedCount():int {
 		return $this->query['blamed'] ? (int)$this->query['blamed'] : 0;
 	}
 	
-	function getPlayTime() 
-	{
+	function getPlayTime() {
 		return $this->query['playtime'] ? date('i:s',$this->query['playtime']) : 0;
 	}
 	
-	function getGenre() 
-	{
+	function getGenre() {
 		if ($this->query['genre']==1) {
 			return '팝';
 		} else if ($this->query['genre']==2) {
@@ -672,15 +531,12 @@ class board_item extends board
 		}
 	}
 	
-	function getFileList() 
-	{
-		if (!$this->isUploadedFileExists()) 
-		{
+	function getFileList() {
+		if (!$this->isUploadedFileExists()) {
 			return array();
 		}
 		
-		if ($this->fileSequence) 
-		{
+		if ($this->fileSequence) {
 			$oFilesModel = $this->base->getModel('files');
 			$this->file_list = $oFilesModel->getFileList($this->fileSequence);
 		}
@@ -688,13 +544,11 @@ class board_item extends board
 		return $this->file_list;
 	}
 	
-	function getIndexImage() 
-	{
+	function getIndexImage() {
 		return $this->ret_str;
 	}
 
-	function subordinat($args) 
-	{
+	function subordinat($args) {
 		$this->args = $args;
 		return $this;
 	}

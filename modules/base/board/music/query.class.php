@@ -2,11 +2,9 @@
 
 	const document_column = 'def_document_music.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count`';
 		
-	class board_query extends board
-	{
+	class board_query extends board {
 		
-		function __construct()
-		{
+		function __construct() {
 			$this->board = new stdClass;
 			$this->base = new base();
 			$this->pdo = $this->base->getPDO();
@@ -18,8 +16,7 @@
 		 * @param String $user_id
 		 * @param String $minfo
 		 */
-		function UpdateMemberInfo($user_id, $minfo):bool
-		{
+		function UpdateMemberInfo($user_id, $minfo):bool {
 			$sth = $this->pdo->prepare("UPDATE def_member SET minfo = :minfo WHERE user_id = :user_id");
 			$sth->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 			$sth->bindParam(':minfo', $minfo, PDO::PARAM_STR);
@@ -28,8 +25,7 @@
 			return true;
 		}
 
-		function updateCategoryCaption($list_order, $caption):bool 
-		{
+		function updateCategoryCaption($list_order, $caption):bool {
 			$sth = $this->pdo->prepare("UPDATE def_category SET name = :caption WHERE list_order = :list_order");
 			$sth->bindParam(':list_order', $list_order, PDO::PARAM_INT);
 			$sth->bindParam(':caption', $caption, PDO::PARAM_STR);
@@ -43,8 +39,7 @@
 		 *
 		 * @param String $user_id
 		 */
-		function getMemberExvar($user_id):string
-		{
+		function getMemberExvar($user_id):string {
 			$sth = $this->pdo->prepare("SELECT minfo FROM def_member WHERE user_id = :user_id");
 			$sth->bindParam(':user_id', $user_id, PDO::PARAM_STR);
 			$sth->execute();
@@ -53,8 +48,7 @@
 			return $std_count[0];
 		}
 
-		function getBoardSequence($module)
-		{
+		function getBoardSequence($module) {
 			return db::Query('SELECT','def_document_music',
 			[
 				['', 'module', '=', ':module', $module],
@@ -68,8 +62,7 @@
 		 *
 		 * @param string $module
 		 */
-		function getBoardAllCount():int
-		{
+		function getBoardAllCount():int {
 			return db::Query('SELECT', 'def_module', [], 'count(*)', 'one');
 		}
 
@@ -78,22 +71,19 @@
 		 *
 		 * @param string $module
 		 */
-		function getDocumentAllCount():int
-		{
+		function getDocumentAllCount():int {
 			return db::Query('SELECT','def_document_music', [
 			], 'count(*)', 'one');
 		}
 
-		function getDocumentListbySelect($count):array
-		{
+		function getDocumentListbySelect($count):array {
 			$sth = $this->pdo->prepare("SELECT title FROM def_document_music ORDER by srl_bd desc LIMIT 0, :int");
 			$sth->bindParam(':int', $count, PDO::PARAM_INT);
 			$sth->execute();
 			return $sth->fetchAll();
 		}
 		
-		function getMemberListbySelect($count):array
-		{
+		function getMemberListbySelect($count):array {
 			$sth = $this->pdo->prepare("SELECT * FROM def_member LIMIT :int");
 			$sth->bindParam(':int', $count, PDO::PARAM_INT);
 			$sth->execute();
@@ -103,18 +93,15 @@
 		/*
 		 * 인기 키워드를 가져온다
 		 */
-		function getLysicsCount($module, $target_srl) 
-		{
+		function getLysicsCount($module, $target_srl) {
 			return db::Query('SELECT','def_lysics', [
 				['AND', 'target_srl', '=', ':args1', $target_srl],
 				['', 'module', '=', ':args2', $module]
 			], 'count(*)', 'one', '', 'object');
 		}
 
-		function getLysicsFull($module, $srl) 
-		{
-			if ($this->getLysicsCount($module, $srl)->data() > 0)
-			{
+		function getLysicsFull($module, $srl) {
+			if ($this->getLysicsCount($module, $srl)->data() > 0) {
 				return db::Query('SELECT', 'def_lysics', [
 					['AND', 'target_srl', '=', ':args1', $srl],
 					['', 'module', '=', ':args2', $module]
@@ -122,24 +109,21 @@
 			}
 		}
 
-		function deleteDocument($documentSrl, $module) 
-		{
+		function deleteDocument($documentSrl, $module) {
 			return db::Query('DELETE','def_document_music', [
 				['AND', 'srl', '=', ':args1', $documentSrl],
 				['', 'module', '=', ':args2', $module]
 			], '', 'boolean');
 		}
 
-		function deleteCategory($list_order, $module) 
-		{
+		function deleteCategory($list_order, $module) {
 			return db::Query('DELETE','def_category', [
 				['AND', 'list_order', '=', ':list_order', $list_order],
 				['', 'module', '=', ':module', $module]
 			], '', 'boolean');
 		}
 
-		function getAutoIncrement($column)
-		{
+		function getAutoIncrement($column) {
 			$sth = $this->pdo->prepare("SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES WHERE table_name = :column");
 			$sth->bindParam(':column', $column, PDO::PARAM_STR);
 			$sth->execute();
@@ -148,8 +132,7 @@
 			return array_shift($std_count)['auto_increment'];
 		}
 		
-		function insertCategory($list_order, $type, $module, $name) 
-		{
+		function insertCategory($list_order, $type, $module, $name) {
 			$sth = $this->pdo->prepare("INSERT INTO def_category (list_order, type, module, name) VALUES (:list_order, :type, :module, :name)");
 			$sth->bindParam(':list_order', $list_order, PDO::PARAM_INT);
 			$sth->bindParam(':type', $type, PDO::PARAM_STR);
@@ -158,8 +141,7 @@
 			$sth->execute();
 		}
 		
-		function insertLysics($module, $target_srl, $lysics) 
-		{
+		function insertLysics($module, $target_srl, $lysics) {
 			$sth = $this->pdo->prepare("INSERT INTO def_lysics (target_srl, lysics, module) VALUES (:target_srl, :lysics, :module)");
 			$sth->bindParam(':target_srl', $target_srl, PDO::PARAM_INT);
 			$sth->bindParam(':lysics', $lysics, PDO::PARAM_STR);
@@ -168,7 +150,7 @@
 		}
 		
 		function UpdateBitrate($srl, $bitrate):bool
-		{
+ {
 			$sth = $this->pdo->prepare("UPDATE def_document_music SET bitrate = :bitrate WHERE srl = :srl");
 			$sth->bindParam(':bitrate', $bitrate, PDO::PARAM_STR);
 			$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
@@ -183,8 +165,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateAlbumOnly($srl, $mid, $album):bool
-		{
+		function UpdateAlbumOnly($srl, $mid, $album):bool {
 			$sth = $this->pdo->prepare("UPDATE def_document_music SET album_only = :album WHERE srl = :srl AND module = :mid");
 			$sth->bindParam(':album', $album, PDO::PARAM_STR);
 			$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
@@ -200,8 +181,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateTitleOnly($srl, $module, $title):bool
-		{
+		function UpdateTitleOnly($srl, $module, $title):bool {
 			$sth = $this->pdo->prepare("UPDATE def_document_music SET title_only = :title WHERE srl = :srl AND module = :mid");
 			$sth->bindParam(':title', $title, PDO::PARAM_STR);
 			$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
@@ -215,8 +195,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function UpdateFileKey($srl):bool
-		{
+		function UpdateFileKey($srl):bool {
 			$sth = $this->pdo->prepare("UPDATE def_file SET keyres = :rndkey WHERE target = :srl");
 			$sth->bindParam(':rndkey', md5(str::getRandomString(10)), PDO::PARAM_STR);
 			$sth->bindParam(':srl', $srl, PDO::PARAM_INT);
@@ -230,8 +209,7 @@
 		 *
 		 * @param string $author
 		 */
-		function insertAuthor($author) 
-		{
+		function insertAuthor($author) {
 			$sth = $this->pdo->prepare("INSERT INTO def_artist (artist) VALUES (:author)");
 			$sth->bindParam(':author', $author, PDO::PARAM_STR);
 			$sth->execute();
@@ -243,8 +221,7 @@
 		 * @param string $genre
 		 * @param int $srl
 		 */
-		function insertOriginAlbum($album) 
-		{
+		function insertOriginAlbum($album) {
 			$sth = $this->pdo->prepare("INSERT INTO def_origin (album) VALUES (:album)");
 			$sth->bindParam(':album', $album, PDO::PARAM_STR);
 			$sth->execute();
@@ -257,8 +234,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateThumbMd5($srl, $module, $md5) 
-		{
+		function UpdateThumbMd5($srl, $module, $md5) {
 			return db::Query('UPDATE', 'def_document_music', [
 				['WHERE', 'thumbmd5', '=', ':args1', $md5],
 				['AND', 'srl', '=', ':args2', $srl],
@@ -271,8 +247,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function insertExtraVar($target_srl, $name, $value) 
-		{
+		function insertExtraVar($target_srl, $name, $value) {
 			$sth = $this->pdo->prepare("INSERT INTO def_extravar (target_srl, val, value) VALUES (:target_srl, :val, :value)");
 			$sth->bindParam(':target_srl', $target_srl, PDO::PARAM_INT);
 			$sth->bindParam(':val', $name, PDO::PARAM_STR);
@@ -280,8 +255,7 @@
 			$sth->execute();
 		}
 		
-		function updateExtraVar($srl, $key, $value) 
-		{
+		function updateExtraVar($srl, $key, $value) {
 			return db::Query('UPDATE', 'def_extravar', [
 				['WHERE', 'value', '=', ':args1', $value],
 				['AND', 'val', '=', ':args2', $key],
@@ -289,8 +263,7 @@
 			], '', 'boolean');
 		}
 
-		function updateDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag) 
-		{
+		function updateDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag) {
 			return db::Query('UPDATE','def_document_music', [
 				[',', 'title', '=', ':args1', $title],
 				[',', 'file_sequence', '=', ':args2', $file_sequence],
@@ -312,8 +285,7 @@
 		 * @param int $category_srl
 		 * @param int $srl
 		 */
-		function insertDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag, $membersrl) 
-		{
+		function insertDocument($title, $content, $regdate, $nickname, $module, $category_srl, $srl, $file_sequence, $tag, $membersrl) {
 			$sth = $this->pdo->prepare("INSERT INTO def_document_music (title, content, nick_name, module, regdate, category_srl, srl_bd, file_sequence, tag, member_srl) VALUES (:title, :content, :nick_name, :module, :date, :category_srl, :srlbd, :file_sequence, :tag, :member_srl)");
 			$sth->bindParam(':title', $title, PDO::PARAM_STR);
 			$sth->bindParam(':content', $content, PDO::PARAM_STR);
@@ -334,8 +306,7 @@
 		/*
 		 * 인기 키워드를 가져온다
 		 */
-		function getKeywordPopular():string
-		{
+		function getKeywordPopular():string {
 			return db::Query('SELECT', 'popular_keyword', [
 				['ORDER', 'count', 'DESC'],
 				['LIMIT', '10']
@@ -347,8 +318,7 @@
 		 *
 		 * @param string $author\
 		 */
-		function getAuthorCount($author):int
-		{
+		function getAuthorCount($author):int {
 			return db::Query('SELECT', 'def_artist', [
 				['', 'artist', '=', ':args1', $author]
 			], 'count(*)', 'one');
@@ -357,8 +327,7 @@
 		/*
 		 * get Author List
 		 */
-		function getAuthor() 
-		{
+		function getAuthor() {
 			return db::Query('!SELECT', 'def_artist', [
 				['ORDER', 'artist', 'ASC']
 			], '*', 'all');
@@ -369,8 +338,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCategoryUnique($target, $destiny, $substr) 
-		{
+		function getCategoryUnique($target, $destiny, $substr) {
 			$sth = $this->pdo->prepare("SELECT category_srl FROM def_category WHERE category_srl > :args2 AND category_srl < :args1 AND sub_srl IS null");
 			$sth->bindParam(':args1', $target);
 			$sth->bindParam(':args2', $destiny);
@@ -384,8 +352,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getBetweenCategoryCount($target, $destiny) 
-		{
+		function getBetweenCategoryCount($target, $destiny) {
 			return db::Query('SELECT','def_category', [
 				['AND', 'list_order', '>', ':args1', $target],
 				['AND', 'list_order', '<', ':args2', $destiny],
@@ -398,31 +365,27 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCountInTargetDocument($moduleId, $srlbd) 
-		{
+		function getCountInTargetDocument($moduleId, $srlbd) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $moduleId],
 				['', 'srl_bd', '<', ':args2', $srlbd]
 			], 'count(*)', 'one', '', 'object');
 		}
 		
-		function getCategoryNamebysrl($srl) 
-		{
+		function getCategoryNamebysrl($srl) {
 			return db::Query('SELECT','def_category', [
 				['', 'category_srl', '=', ':args1', $srl]
 			], 'name', 'one');
 		}
 		
-		function updateCategorySrl($target, $value) 
-		{
+		function updateCategorySrl($target, $value) {
 			return db::Query('UPDATE','def_category', [
 				['WHERE', 'category_srl', '=', ':args1', $value],
 				['', 'category_srl', '=', ':args2', $target]
 			], '', 'boolean');
 		}
 		
-		function updateCategoryParentSrl($target, $value) 
-		{
+		function updateCategoryParentSrl($target, $value) {
 			$sth = $this->pdo->prepare("UPDATE def_category SET sub_srl = :args2 WHERE category_srl = :args1");
 			$sth->bindParam(':args1', $target);
 			$sth->bindParam(':args2', $value);
@@ -436,8 +399,7 @@
 			], '', 'boolean');
 		}
 		
-		function updateCategoryOrders($target, $destination) 
-		{
+		function updateCategoryOrders($target, $destination) {
 			$sql = "UPDATE def_category a INNER JOIN def_category b ON a.list_order <> b.list_order SET a.list_order = b.list_order WHERE a.list_order in ( :args1, :args2 ) and b.list_order in ( :args3, :args4 )";
 			$sth = $this->pdo->prepare($sql);
 			$sth->bindParam(':args1', $target, PDO::PARAM_INT);
@@ -447,8 +409,7 @@
 			$sth->execute();
 		}
 		
-		function exchangeCategory($target, $destiny) 
-		{
+		function exchangeCategory($target, $destiny) {
 			
 			//$sql = "UPDATE def_category old JOIN def_category new USING (id) SET old.category_srl = new.category_srl, new.category_srl = old.category_srl, new.name = old.name WHERE  old.category_srl = :args1, new.category_srl = :args2";
 			
@@ -466,8 +427,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCategoryListWithoutSubCategory($module) 
-		{
+		function getCategoryListWithoutSubCategory($module) {
 			return  db::Query('SELECT','def_category', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'sub_srl', 'IS', 'null'],
@@ -475,8 +435,7 @@
 			], '*', 'all');
 		}
 
-		function getGapInModule($start, $end, $target)
-		{
+		function getGapInModule($start, $end, $target) {
 			//$sql = "SELECT count(seq2.seq), count(seq.seq) FROM seq_{$startA}_to_{$endA} seq, seq_{$startB}_to_{$endB} seq2 where seq.seq not in (select c.srl_bd from def_document_music c WHERE c.module = 'index') AND seq2.seq not in (select d.srl_bd from def_document_music d WHERE d.module = :args1)";
 			$sql = "SELECT COUNT(seq.seq) FROM seq_{$start}_to_{$end} seq WHERE seq.seq NOT IN (SELECT c.srl_bd FROM def_document_music c WHERE c.module = :args1)";
 			$sth = db::Compile($sql);
@@ -493,8 +452,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getSubCategoryList($module, $subsrl) 
-		{
+		function getSubCategoryList($module, $subsrl) {
 			return  db::Query('SELECT','def_category', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'sub_srl', '=', ':args2', $subsrl],
@@ -502,10 +460,8 @@
 			], '*', 'all');
 		}
 
-		function getCategoryListAndCount($module) 
-		{
-			if (!isset($_GLOBALS['__BOARD__CATEGORY__'.$module])) 
-			{
+		function getCategoryListAndCount($module) {
+			if (!isset($_GLOBALS['__BOARD__CATEGORY__'.$module])) {
 				$sql = "SELECT DISTINCT a.name as 'name', a.category_srl as 'category_srl', (SELECT count(c.category_srl) FROM def_document_music c WHERE a.category_srl = c.category_srl) as 'count' FROM def_category a LEFT OUTER JOIN def_document_music b ON b.category_srl = a.category_srl WHERE a.module = :args1";
 				$sth = db::Compile($sql);
 				db::BindParams($sth, ["args1"=>$module], "");
@@ -522,8 +478,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCategoryList($module) 
-		{
+		function getCategoryList($module) {
 			return  db::Query('SELECT','def_category', [
 				['', 'module', '=', ':args1', $module],
 				['ORDER', 'list_order', 'ASC']
@@ -535,8 +490,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getCategorySubList($module) 
-		{
+		function getCategorySubList($module) {
 			return db::Query('SELECT','def_category', [
 				['', 'sub_srl', '=', ':args1', $module]
 			], '*', 'all');
@@ -549,8 +503,7 @@
 		 *
 		 * @param string $album
 		 */
-		function getAlbumFilesAll($album) 
-		{
+		function getAlbumFilesAll($album) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'album_sort_target', '=', ':args1', $album],
 				['ORDER', 'album_sort_target', 'asc']
@@ -562,24 +515,21 @@
 		 *
 		 * @param string $album
 		 */
-		function getAllOriginAlbum($album) 
-		{
+		function getAllOriginAlbum($album) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'album_only', '=', ':args1', $album],
 				['ORDER', 'album_only', 'asc']
 			], 'srl', 'all');
 		}
 
-		function getOriginAlbumFilesLIKEAll($album) 
-		{
+		function getOriginAlbumFilesLIKEAll($album) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'album_only', 'LIKE', ':args1', "%$album%"],
 				['ORDER', 'album_only', 'asc']
 			], 'srl', 'all');
 		}
 
-		function getOriginAlbumbysrl($srl) 
-		{
+		function getOriginAlbumbysrl($srl) {
 			return db::Query('SELECT','def_origin', [
 				['', 'srl', '=', ':args1', $srl]
 			], 'album', 'one');
@@ -590,8 +540,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getAlbumbysrl($srl) 
-		{
+		function getAlbumbysrl($srl) {
 			return db::Query('SELECT','def_album', [
 				['', 'srl', '=', ':args1', $srl]
 			], 'album', 'one');
@@ -600,16 +549,14 @@
 		/**
 		 * get album count
 		 */
-		function getOriginAlbumCount() 
-		{
+		function getOriginAlbumCount() {
 			return db::Query('SELECT','def_origin', [], 'count(*)', 'one');
 		}
 			
 		/**
 		 * get album count
 		 */
-		function getOriginAlbumCountbyAlbum($album) 
-		{
+		function getOriginAlbumCountbyAlbum($album) {
 			return db::Query('SELECT','def_origin', [
 				['', 'album', '=', ':args1', $album]
 			]
@@ -621,8 +568,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getOriginalAlbumSrlbyAlbum($album) 
-		{
+		function getOriginalAlbumSrlbyAlbum($album) {
 			return db::Query('SELECT','def_origin', [
 				['', 'album', '=', ':args1', $album]
 			], 'srl', 'one');
@@ -633,16 +579,14 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getOriginAlbum($pgx) 
-		{
+		function getOriginAlbum($pgx) {
 			return db::Query('!SELECT','def_origin', [
 				['ORDER', 'album', 'asc'],
 				['LIMIT', ':pgx', $pgx, ':pgy',20]
 			], '*', 'all');
 		}
 
-		function getAlbumFiles($album) 
-		{
+		function getAlbumFiles($album) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'album_sort_target', '=', ':args1', $album],
 				['LIMIT', '1']
@@ -652,13 +596,11 @@
 		/**
 		 * 앨범 개수를 가져온다
 		 */
-		function getAlbumCount() 
-		{
+		function getAlbumCount() {
 			return db::Query('SELECT','def_album', [], 'count(*)', 'one');
 		}
 		
-		function getdef_albumumentlistBetween($module, $page_start, $page_end) 
-		{
+		function getdef_albumumentlistBetween($module, $page_start, $page_end) {
 			return db::Query('SELECT','album_bd', [
 				['AND', 'module', '=', ':module', $module],
 				['AND', 'srl_bd', 'BETWEEN', ':args2', $page_start],
@@ -673,8 +615,7 @@
 		 *
 		 * @param string $module
 		 */
-		function get_skin($module) 
-		{
+		function get_skin($module) {
 			return db::Query('SELECT','def_module', [
 				['', 'module', '=', ':args1', $module]
 			], 'skin', 'one');
@@ -685,15 +626,13 @@
 		 *
 		 * @param string $module
 		 */
-		function getModuleLayoutbyModuleID($module) 
-		{
+		function getModuleLayoutbyModuleID($module) {
 			return db::Query('SELECT','def_module', [
 				['', 'bdname', '=', ':args1', $module]
 			], 'layout', 'one');
 		}
 		
-		function getModuleConfig($module) 
-		{
+		function getModuleConfig($module) {
 			return db::Query('SELECT','def_module_config', [
 				['', 'module', '=', ':module', $module]
 			], 'config', 'one');
@@ -706,15 +645,13 @@
 		 *
 		 * @param array $array
 		 */
-		function getFileItemsArray($array) 
-		{
+		function getFileItemsArray($array) {
 			return db::Query('SELECT','def_file', [
 				['', 'target', 'IN', '[]', $array]
 			], '*', 'all');
 		}
 
-		function getPopularFilesCount($module, $down_count) 
-		{
+		function getPopularFilesCount($module, $down_count) {
 			return db::Query('SELECT','def_file', [
 				['AND', 'module', '=', ':args1', $module],
 				['AND', 'down', '>=', ':args2', $down_count],
@@ -725,8 +662,7 @@
 
 	/* Album */
 
-		function getOriginAlbumFiles($album) 
-		{
+		function getOriginAlbumFiles($album) {
 			$sth = $this->pdo->prepare("SELECT srl FROM def_document_music WHERE album_only = :album ORDER BY album_sort_target asc LIMIT 1");
 			$sth->bindParam(':album', $album, PDO::PARAM_STR);
 			$sth->execute();
@@ -734,8 +670,7 @@
 			return $std_count[0];
 		}
 		
-		function getOriginAlbumLIKEFiles($album) 
-		{
+		function getOriginAlbumLIKEFiles($album) {
 			$album = "%$album%";
 			$sth = $this->pdo->prepare("SELECT srl FROM def_document_music WHERE album_only LIKE :album ORDER BY album_sort_target asc LIMIT 1");
 			$sth->bindParam(':album', $album);
@@ -749,8 +684,7 @@
 		 *
 		 * @param int $pgx
 		 */
-		function getAlbum($pgx) 
-		{
+		function getAlbum($pgx) {
 			return db::Query('!SELECT','def_album', [
 				['LIMIT', ':pgx', $pgx, ':pgy', 20],
 			], '*', 'all');
@@ -763,8 +697,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getBlamedCount($srl) 
-		{
+		function getBlamedCount($srl) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', '=', ':srl', $srl]
 			], 'blamed', 'one');
@@ -775,8 +708,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getDocumentStarCount($srl) 
-		{
+		function getDocumentStarCount($srl) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', '=', ':args1', $srl]
 			], 'star', 'one');
@@ -787,8 +719,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getDocumentStarVotedCount($srl) 
-		{
+		function getDocumentStarVotedCount($srl) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', '=', ':args1', $srl]
 			], 'star_cnt', 'one');
@@ -799,15 +730,13 @@
 		 *
 		 * @param int $srl
 		 */
-		function getExtraVar($module) 
-		{
+		function getExtraVar($module) {
 			return db::Query('SELECT','def_extrakey', [
 				['', 'module', '=', ':args1', $module]
 			], '*', 'all');
 		}
 		
-		function getAllExtraKeyType($module) 
-		{
+		function getAllExtraKeyType($module) {
 			return db::Query('SELECT','def_extrakey', [
 				['', 'module', '=', ':args1', $module]
 			], 'val', 'all', '', 'object');
@@ -818,8 +747,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getExtraVarTypebyName($name, $type, $module) 
-		{
+		function getExtraVarTypebyName($name, $type, $module) {
 			return db::Query('SELECT','def_extrakey', [
 				['AND', 'val', '=', ':args1', $name],
 				['', 'module', '=', ':args2', $module]
@@ -831,16 +759,14 @@
 		 *
 		 * @param int $srl
 		 */
-		function getExtraVarsTypebyName($name, $type, $module) 
-		{
+		function getExtraVarsTypebyName($name, $type, $module) {
 			return db::Query('SELECT','def_extravar', [
 				['AND', 'val', '=', ':args1', $name],
 				['', 'value', '=', ':args2', $module]
 			],$type, 'one');
 		}
 		
-		function getInsertedExtraVarsCount($val, $target_srl) 
-		{
+		function getInsertedExtraVarsCount($val, $target_srl) {
 			return db::Query('SELECT','def_extravar', [
 				['AND', 'val', '=', ':args1', $val],
 				['', 'target_srl', '=', ':args2', $target_srl]
@@ -852,8 +778,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getExtraVarTypebyNameAndTarget($name, $type) 
-		{
+		function getExtraVarTypebyNameAndTarget($name, $type) {
 			return db::Query('SELECT','def_extrakey', [
 				['', 'val', '=', ':args1', $name]
 			],$type, 'one');
@@ -864,8 +789,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getExtraVars($target_srl) 
-		{
+		function getExtraVars($target_srl) {
 			$sql = "SELECT def_extrakey.*, def_extravar.value, def_extrafile.origin, def_extrafile.target_srl FROM def_extrakey LEFT JOIN def_extravar ON def_extravar.target_srl = :args1 AND def_extravar.val = def_extrakey.val LEFT JOIN def_extrafile ON def_extrafile.target_srl = def_extravar.target_srl AND def_extrafile.extrakey = def_extravar.val GROUP BY def_extrakey.val;";
 			$sth = db::Compile($sql);
 			db::BindParams($sth, [
@@ -883,8 +807,7 @@
 		 * @param int $voted_count
 		 * @param int $comment_srl
 		 */
-		function UpdateDocumentStarCount($voted_count, $comment_srl) 
-		{
+		function UpdateDocumentStarCount($voted_count, $comment_srl) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'star', '=', ':args1', $voted_count],
 				['', 'srl', '=', ':args2', $comment_srl]
@@ -897,8 +820,7 @@
 		 * @param int $voted_count
 		 * @param int $comment_srl
 		 */
-		function UpdateDocumentStarVotedCount($voted_count, $comment_srl) 
-		{
+		function UpdateDocumentStarVotedCount($voted_count, $comment_srl) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'star_cnt', '=', ':args1', $voted_count],
 				['', 'srl', '=', ':args2', $comment_srl]
@@ -910,8 +832,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getVotedCount($srl) 
-		{
+		function getVotedCount($srl) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', '=', ':srl', $srl]
 			], 'voted', 'one', '', 'object');
@@ -923,8 +844,7 @@
 		 * @param int $voted_count
 		 * @param int $srl
 		 */
-		function UpdateVotedCount($voted_count, $srl) 
-		{
+		function UpdateVotedCount($voted_count, $srl) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'voted', '=', ':args1', $voted_count],
 				['', 'srl', '=', ':args2', $srl]
@@ -933,16 +853,14 @@
 			
 	/* Document Count */
 
-		function getDocumentCountbyBoardbyAuthor($module, $author) 
-		{
+		function getDocumentCountbyBoardbyAuthor($module, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'artist', '=', ':args2', $author]
 			], 'count(*)', 'one');
 		}
 		
-		function getDocumentCountbyGenre($module, $genre) 
-		{
+		function getDocumentCountbyGenre($module, $genre) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'genre', '=', ':args2', $genre]
@@ -955,24 +873,21 @@
 		 * @param string $module
 		 * @param string $tag
 		 */
-		function getDocumentCountbyTag($module, $tag) 
-		{
+		function getDocumentCountbyTag($module, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', '=', ':tag', $tag]
 			], 'count(*)', 'one');
 		}
 
-		function getDocumentCountbyCategory($module, $category) 
-		{
+		function getDocumentCountbyCategory($module, $category) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':module', $module],
 				['', 'category_srl', '=', ':category', $category]
 			], 'count(*)', 'one');
 		}
 
-		function getDocumentCountbyCategoryArticle($module, $category, $keyword, $target) 
-		{
+		function getDocumentCountbyCategoryArticle($module, $category, $keyword, $target) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['AND', 'category_srl', '=', ':args2', $category],
@@ -980,8 +895,7 @@
 			], 'count(*)', 'one');
 		}
 
-		function getDocumenCountbyAuthor($module, $page_start, $page_end, $author) 
-		{
+		function getDocumenCountbyAuthor($module, $page_start, $page_end, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':bd', $module],
 				['', 'artist', 'LIKE', ':author', "%$author%"],
@@ -989,8 +903,7 @@
 			], 'count(*)', 'one');
 		}
 			
-		function getDocumenCountbyOriginAlbum($module, $page_start, $author) 
-		{
+		function getDocumenCountbyOriginAlbum($module, $page_start, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':bd', $module],
 				['', 'album_only', 'LIKE', ':author', "%$author%"],
@@ -1005,8 +918,7 @@
 		 * @param string $title_origin
 		 * @param   int  $page_start
 		 */
-		function getDocumenCountbyOriginTitle($module, $page_start, $title_only) 
-		{
+		function getDocumenCountbyOriginTitle($module, $page_start, $title_only) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':module', $module],
 				['', 'title_only', 'LIKE', ':author', "%$title_only%"],
@@ -1021,8 +933,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getDocumenCountbyColumn($module, $page_start, $title, $type) 
-		{
+		function getDocumenCountbyColumn($module, $page_start, $title, $type) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':module', $module],
 				['', $type, 'LIKE', ':title', "%$title%"],
@@ -1037,8 +948,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getDocumenCountbyTitle($module, $page_start, $title) 
-		{
+		function getDocumenCountbyTitle($module, $page_start, $title) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':module', $module],
 				['', 'title', 'LIKE', ':title', "%$title%"],
@@ -1053,8 +963,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumenCountbyTag($module, $page_start, $page_end, $tag) 
-		{
+		function getDocumenCountbyTag($module, $page_start, $page_end, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', 'LIKE', ':args2', "%$tag%"],
@@ -1067,12 +976,10 @@
 		 *
 		 * @param string $module
 		 */
-		function getDocumentCountbyBoardId($module) 
-		{
+		function getDocumentCountbyBoardId($module) {
 			$prefix = sprintf('__DOCUMENT__COUNT__QUERY__%s', $module);
 			
-			if (!isset($_GLOBALS[$prefix])) 
-			{
+			if (!isset($_GLOBALS[$prefix])) {
 				$count = db::Query('SELECT','def_document_music', [
 					['', 'module', '=', ':args1', $module]
 				], 'count(*) as `count`', 'one');
@@ -1096,8 +1003,7 @@
 		 * @param string $module
 		 * @param string $tag
 		 */
-		function getDocumentlistBetweenCategory($module, $page_start, $page_end, $tag) 
-		{
+		function getDocumentlistBetweenCategory($module, $page_start, $page_end, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', '=', ':args2', $tag],
@@ -1106,8 +1012,7 @@
 			], document_column, 'all');
 		}
 
-		function getDocumentlistBetweenAuthor($module, $page_start, $page_end, $tag) 
-		{
+		function getDocumentlistBetweenAuthor($module, $page_start, $page_end, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'artist', 'LIKE', ':args2', "%$tag%"],
@@ -1116,8 +1021,7 @@
 			], document_column, 'all');
 		}
 
-		function getDocumentlistTagRelatedSrlCount($module, $tag) 
-		{
+		function getDocumentlistTagRelatedSrlCount($module, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', 'LIKE', ':args2', "%$tag%"],
@@ -1125,8 +1029,7 @@
 			], 'count(*)', 'one');
 		}
 		
-		function getTagRelatedDocumentSrl($module, $tag) 
-		{
+		function getTagRelatedDocumentSrl($module, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', 'LIKE', ':args2', "%$tag%"],
@@ -1142,8 +1045,7 @@
 		 * @param int $page_end
 		 * @param str $tag
 		 */
-		function getRelatedTagList($module, $page_start, $page_end, $tag) 
-		{
+		function getRelatedTagList($module, $page_start, $page_end, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', 'LIKE', ':args2', "%$tag%"],
@@ -1158,8 +1060,7 @@
 		 * @param str $module
 		 * @param int $page_start
 		 */
-		function getRandomDocumentList($module, $page_start) 
-		{
+		function getRandomDocumentList($module, $page_start) {
 			$sth = $this->pdo->prepare("SELECT * FROM def_document_music WHERE module = :bd ORDER BY srl_bd desc LIMIT :pgx, 1");
 			$sth->bindParam(':bd', $module, PDO::PARAM_STR);
 			$sth->bindParam(':pgx', $page_start, PDO::PARAM_INT);
@@ -1173,8 +1074,7 @@
 		 * @param str $module
 		 * @param int $page_start
 		 */
-		function getDocumentListInDocumentSrls($array, $module, $page_start) 
-		{
+		function getDocumentListInDocumentSrls($array, $module, $page_start) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', 'IN', '[]', $array]
 			], document_column, 'all');
@@ -1189,8 +1089,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenbyAuthor($module, $page_start, $author) 
-		{
+		function getDocumentlistBetweenbyAuthor($module, $page_start, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'artist', 'LIKE', ':args2', "%$author%"],
@@ -1206,8 +1105,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenbyOriginAlbum($module, $page_start, $author) 
-		{
+		function getDocumentlistBetweenbyOriginAlbum($module, $page_start, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'album_only', 'LIKE', ':args2', "%$author%"],
@@ -1223,8 +1121,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenbyOriginTitle($module, $page_start, $author) 
-		{
+		function getDocumentlistBetweenbyOriginTitle($module, $page_start, $author) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'title_only', 'LIKE', ':args2', "%$author%"],
@@ -1240,8 +1137,7 @@
 		 * @param string $tag
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenbyTag($module, $page_start, $tag) 
-		{
+		function getDocumentlistBetweenbyTag($module, $page_start, $tag) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'tag', 'LIKE', ':args2', "%$tag%"],
@@ -1251,8 +1147,7 @@
 
 		/* * */
 		
-		function getDocumentlistBetweenbyCategory($module, $page_start, $page_end, $category_srl) 
-		{
+		function getDocumentlistBetweenbyCategory($module, $page_start, $page_end, $category_srl) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'category_srl', '=', ':args2', $category_srl],
@@ -1261,8 +1156,7 @@
 			], document_column, 'all');
 		}
 
-		function getDocumentlistBetweenbyCategoryArticle($module, $page_start, $page_end, $category_srl, $keyword, $target) 
-		{
+		function getDocumentlistBetweenbyCategoryArticle($module, $page_start, $page_end, $category_srl, $keyword, $target) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['AND', 'category_srl', '=', ':args2', $category_srl],
@@ -1275,8 +1169,7 @@
 		/**
 		 * 태그 리스트를 가져온다.
 		 */
-		function getTagList() 
-		{
+		function getTagList() {
 			return db::Query('SELECT','def_tag', [
 			], '*', 'all');
 		}
@@ -1286,8 +1179,7 @@
 		 *
 		 * @param int $srl
 		 */
-		function getDocumentItem($srl) 
-		{
+		function getDocumentItem($srl) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'srl', '=', ':srl', $srl]
 			], document_column, 'self');
@@ -1302,8 +1194,7 @@
 		 * @param int $page_start
 		 * @param int $list_count
 		 */
-		function getPopularQueryByJoin($module, $down_count, $page_start, $list_count) 
-		{
+		function getPopularQueryByJoin($module, $down_count, $page_start, $list_count) {
 			$sql = "SELECT def_document_music.*, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count`, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT name FROM def_category d WHERE d.category_srl = def_document_music.category_srl) as `category_caption` FROM def_document_music JOIN def_file ON def_document_music.file_sequence = def_file.target WHERE down >= :down AND def_document_music.module = :module AND origin LIKE '%.mp3' ORDER by down desc LIMIT :px, :pgy";
 			
 			$sth = db::Compile($sql);
@@ -1327,8 +1218,7 @@
 		 * @param int $page_start
 		 * @param int $list_count
 		 */
-		function getPopularDocumentList($module, $down_count, $page_start, $list_count) 
-		{
+		function getPopularDocumentList($module, $down_count, $page_start, $list_count) {
 			$sql = "SELECT * FROM def_document_music AS BD, (SELECT target AS FD FROM def_file WHERE down >= :down AND module = :module AND origin LIKE '%.mp3' ORDER by down desc LIMIT :px, :pgy) AS temp WHERE BD.srl = FD";
 			
 			$sth = db::Compile($sql);
@@ -1351,8 +1241,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getAllDocumentListbyColumn($page_start, $title, $type) 
-		{
+		function getAllDocumentListbyColumn($page_start, $title, $type) {
 			return db::Query('SELECT','def_document_music', [
 				['', $type, 'LIKE', ':args1', "%$title%"],
 				['ORDER', 'srl_bd', 'desc'],
@@ -1367,8 +1256,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getAllDocumentListbyColumnCount($title, $type) 
-		{
+		function getAllDocumentListbyColumnCount($title, $type) {
 			return db::Query('SELECT','def_document_music', [
 				['', $type, 'LIKE', ':args1', "%$title%"]
 			], 'count(*)', 'one');
@@ -1381,8 +1269,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getDocumentListbyColumn($module, $page_start, $title, $type) 
-		{
+		function getDocumentListbyColumn($module, $page_start, $title, $type) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', $type, 'LIKE', ':args2', "%$title%"],
@@ -1398,8 +1285,7 @@
 		 * @param string $title
 		 * @param   int  $page_start
 		 */
-		function getDocumentlistBetweenbyTitle($module, $page_start, $title) 
-		{
+		function getDocumentlistBetweenbyTitle($module, $page_start, $title) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'title', 'LIKE', ':args2', "%$title%"],
@@ -1409,8 +1295,7 @@
 		}
 		
 		function UpdateReadedCount($readed_count, $srl) {
-			if (!isset($_SESSION['readed_document'][$srl.$_SERVER['REMOTE_ADDR']])) 
-			{
+			if (!isset($_SESSION['readed_document'][$srl.$_SERVER['REMOTE_ADDR']])) {
 				$_SESSION['readed_document'][$srl.$_SERVER['REMOTE_ADDR']] = TRUE;
 				db::Query('UPDATE','def_document_music',
 				[
@@ -1429,8 +1314,7 @@
 		 * @param   int  $list_count
 		 * @param   str  $article
 		 */
-		function getDocumentListbyArticle($module, $page_start, $list_count, $article) 
-		{
+		function getDocumentListbyArticle($module, $page_start, $list_count, $article) {
 			return db::Query('SELECT','def_document_music', [
 				['', 'module', '=', ':args1', $module],
 				['ORDER', $article, 'desc'],
@@ -1438,8 +1322,7 @@
 			], document_column, 'all');
 		}
 
-		function getDocumentlistBetweenbyGenre($module, $page_start, $list_count, $genre) 
-		{
+		function getDocumentlistBetweenbyGenre($module, $page_start, $list_count, $genre) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['', 'genre', '=', ':args2', $genre],
@@ -1455,8 +1338,7 @@
 		 * @param   int  $page_start
 		 * @param   int  $page_end
 		 */
-		function getDocumentList($module, $page_start, $page_end) 
-		{
+		function getDocumentList($module, $page_start, $page_end) {
 			return db::Query('SELECT','def_document_music', [
 				['AND', 'module', '=', ':args1', $module],
 				['AND', 'srl', '>', ':args2', ($page_start-1)],
@@ -1466,8 +1348,7 @@
 		}
 		
 		// EXPLAIN SELECT def_document_music.* , (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd AND c.module = 'index' ORDER BY c.comment_srl) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence AND b.module = 'index' AND b.srl = def_document_music.srl) as `file_count` FROM def_document_music JOIN (SELECT srl_bd FROM def_document_music WHERE module = 'index' ORDER BY srl_bd LIMIT 1000000, 20) AS t ON t.srl_bd = def_document_music.srl_bd
-		function getDocumentlistJOIN($module, $page_start, $board_count) 
-		{
+		function getDocumentlistJOIN($module, $page_start, $board_count) {
 			$sql = "SELECT def_document_music.*, (SELECT count(c.comment_srl) FROM def_comment c WHERE c.document_srl = def_document_music.srl_bd) as `comment_count`, (SELECT count(b.srl) FROM def_file b WHERE b.target = def_document_music.file_sequence) as `file_count` FROM def_document_music JOIN (SELECT srl_bd FROM def_document_music WHERE module = :module ORDER BY srl LIMIT :page_start, :page_end) AS t ON t.srl_bd = def_document_music.srl_bd; ";
 			
 			$sth = db::Compile($sql);
@@ -1483,8 +1364,7 @@
 		}
 		
 		// EXPLAIN SELECT def_document_music.*, count(def_file.srl), count(def_comment.comment_srl), def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = 'index' LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = 'index' LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = 'index' GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT 0, 20;
-		function getDocumentListLeftJOIN($module, $page_start, $board_count) 
-		{
+		function getDocumentListLeftJOIN($module, $page_start, $board_count) {
 			$sql = "SELECT def_document_music.*, count(def_file.srl) as `file_count`, count(def_comment.comment_srl) as `comment_count`, def_category.name FROM def_document_music LEFT JOIN def_file ON def_document_music.file_sequence = def_file.target AND def_file.module = :module1 LEFT JOIN def_comment ON def_comment.comment_srl = def_document_music.srl_bd AND def_comment.module = :module2 LEFT JOIN def_category ON def_category.category_srl = def_document_music.category_srl WHERE def_document_music.module = :module3 GROUP BY def_document_music.srl_bd ORDER BY def_document_music.srl_bd asc LIMIT :page_start, :page_end; ";
 			
 			$sth = db::Compile($sql);
@@ -1508,8 +1388,7 @@
 		 * @param   int  $page_start
 		 * @param   int  $page_end
 		 */
-		function getDocumentListLIMIT($module, $page_start, $board_count) 
-		{
+		function getDocumentListLIMIT($module, $page_start, $board_count) {
 			return array_reverse(db::Query('SELECT','def_document_music', [
 				['', 'module', '=', ':args1', $module],
 				['ORDER', 'srl_bd', 'asc'],
@@ -1525,8 +1404,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateArtist($srl, $module, $artist) 
-		{
+		function UpdateArtist($srl, $module, $artist) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'artist', '=', ':args1', $artist],
 				['AND', 'module', '=', ':args2', $module],
@@ -1541,8 +1419,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdatePlayTime($srl, $module, $artist) 
-		{
+		function UpdatePlayTime($srl, $module, $artist) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'playtime', '=', ':args1', $artist],
 				['AND', 'module', '=', ':args2', $module],
@@ -1557,8 +1434,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateGenreOnly($srl, $module, $album) 
-		{
+		function UpdateGenreOnly($srl, $module, $album) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'srl', '=', ':args1', $srl],
 				['AND', 'module', '=', ':args2', $module],
@@ -1573,8 +1449,7 @@
 		 * @param string $module
 		 * @param int $srl
 		 */
-		function UpdateGenre($srl, $module, $album) 
-		{
+		function UpdateGenre($srl, $module, $album) {
 			return db::Query('UPDATE','def_document_music', [
 				['WHERE', 'genre', '=', ':args1', $album],
 				['AND', 'module', '=', ':args2', $module],

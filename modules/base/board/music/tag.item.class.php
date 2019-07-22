@@ -1,16 +1,13 @@
 <?php
 
-class tag_item extends BaseObject
-{
+class tag_item extends BaseObject {
 	
-	function __construct($args = array(), $query = array()) 
-	{
+	function __construct($args = array(), $query = array()) {
 		$this->query = $query;
 		$this->base = new base();
 	}
 	
-	function isCurrentItem() 
-	{
+	function isCurrentItem() {
 		$doucmentSrl = $this->base->get_params('srl');
 		if ($doucmentSrl == $this->query['srl'])
 		{
@@ -20,18 +17,15 @@ class tag_item extends BaseObject
 		return false;
 	}
 	
-	function getTagLink()
-	{
+	function getTagLink() {
 		return str::getUrl('srl', $this->query['srl']);
 	}
 	
-	function getTitle()
-	{
+	function getTitle() {
 		return $this->query['title'];
 	}
 	
-	function getAudioLink()
-	{
+	function getAudioLink() {
 		$audioSource = "";
 		$oFilesModel = $this->base->getModel('files');
 		$fileList = $oFilesModel->getFileList($this->query['srl']);
