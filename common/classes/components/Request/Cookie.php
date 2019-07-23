@@ -1,7 +1,6 @@
 <?php
 
-class cookie
-{
+class cookie {
 	
 	
 	/**
@@ -40,20 +39,20 @@ class cookie
 				if($encode == TRUE){
 					if(isset($expired)){
 						setrawcookie($name,$value,$expired);
-					}elseif(!isset($expired)){
+					} elseif(!isset($expired)){
 						setrawcookie($name,$value);
 					}
 				}elseif($encode == FALSE){
 					if(isset($expired)){
 						setcookie($name,$value,$expired);
-					}elseif(!isset($expired)){
+					} elseif(!isset($expired)){
 						setcookie($name,$value);
 					}
 				}
 			}else{
 				if(isset($expired)){
 					setcookie($name,$value,$expired);
-				}elseif(!isset($expired)){
+				} elseif(!isset($expired)){
 					setcookie($name,$value);
 				}
 			}
@@ -72,6 +71,7 @@ class cookie
 			unset($_COOKIE[$name]);
 		}
 	}
+	
 }
 
 ?>

@@ -1,7 +1,6 @@
 <?php
 
-class Fct
-{
+class Func {
 	
 	public static function mk_func($args) {
 		$func_args = $args->args;

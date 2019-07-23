@@ -1,7 +1,6 @@
 <?php
 
-class header
-{
+class header {
 	
 	public static function move($args){
 		$location = $args->location;
