@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.gamePad = {
+		
 		registry: function (callback) {
 			var gamepads = this.Get();
 			
@@ -15,12 +16,15 @@
 				}
 			}
 		},
+		
 		Get: function () {
 			return navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
 		},
+		
 		addDynamicKeys: function (arr) {
 			gamePadDynamicKeys = arr;
 		},
+		
 		hasEvent: function () {
 			var padEvent = 'GamepadEvent' in window;
 			
@@ -30,6 +34,7 @@
 			
 			return false;
 		},
+		
 		getType: function (device) {
 			return {
 				"index": device.gamepad.index,
@@ -38,6 +43,7 @@
 				"axis": device.gamepad.axes.length
 			}
 		},
+		
 		getAxesArrowIndex: function () {
 			var j;
 			
@@ -84,6 +90,7 @@
 				}
 			}
 		},
+		
 		getPressedIndex: function () {
 			var j;
 			
@@ -109,12 +116,15 @@
 				}
 			}
 		},
+		
 		destroy: function (gamepad) {
 			delete gamePadControllers[gamepad.index]; //Remove Array
 		},
+		
 		addKey: function (key, value) {
 			gamePadControllers[key] = value;
 		},
+		
 		isConnected: function () {
 			var gp = this.Get()[0];
 			
@@ -124,6 +134,7 @@
 			
 			return false;
 		},
+		
 		isKeyExists: function () {
 			if (this.Get()) {
 				return true;
@@ -131,6 +142,7 @@
 			
 			return false;
 		},
+		
 		isButtonPressed: function (index) {
 			if (self.isConnected() && self.isKeyExists()) {
 				var gp = this.Get()[0];
@@ -141,6 +153,7 @@
 				return false;
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

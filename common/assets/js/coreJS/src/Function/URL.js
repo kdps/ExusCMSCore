@@ -4,24 +4,30 @@
 (function ($, core) {
 
 	var A = core.URL = {
+		
 		createBlob: function (arrayBuffer) {
 			var url = self.getNative;
 			var blob = new Blob([arrayBuffer]);
 			
 			return url.createObjectURL(blob);
 		},
+		
 		getJoinChar: function (url) {
 			return /\?/.test(url) ? "&" : "?";
 		},
+		
 		createObject: function () {
 			return (_cWin.createObjectURL && _cWin) || (_cWin && _cWin.webkitURL) || (_cWin.URL && _cWin.URL.revokeObjectURL);
 		},
+		
 		isCOMDomain: function () {
 			return location.hostname.match(/\.com$/);
 		},
+		
 		goRoot: function () {
 			_cWin.location.href = "/";
 		},
+		
 		getUrlVars: function (url) {
 			var vars = [], hash;
 			var hashes = url.slice(url.indexOf('?') + 1).split('&');
@@ -36,6 +42,7 @@
 			
 			return vars;
 		},
+		
 		getUrl: function (isHashRemove) {
 			$.core.Base.resetWinCache();
 			var url = _cWin.location.href;
@@ -50,9 +57,11 @@
 			
 			return target;
 		},
+		
 		getNative: function () {
 			return _cWin.URL || _cWin.webkitURL || _cWin.mozURL || _cWin.msURL;
 		},
+		
 		getObject: function (target) {
 			var url = self.getNative;
 			
@@ -64,11 +73,13 @@
 			
 			return url.createObjectURL(target);
 		},
+		
 		revokeObject: function (target) {
 			var url = self.getNative;
 			
 			return url.revokeObjectURL(target);
 		},
+		
 		generateUrl: function () { //getPureUrl.apply('index.php',['a','b']);
 			var $url = this;
 			var i = 0;
@@ -85,6 +96,7 @@
 			
 			return $url;
 		},
+		
 		parseQuerystring: function (string) {
 			var params = {};
 			var string = string.split('&');
@@ -97,9 +109,11 @@
 			
 			return params;
 		},
+		
 		changeSrcDirectory: function (url, dir) {
 			return url.replace(/src\="(.*)\"/g, 'src\="' + dir + "\"");
 		},
+		
 		getQueryString: function (key) {
 			var regex = new RegExp("[\?&]" + key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]") + "=([^&#]*)");
 			var url = regex.exec(url());
@@ -110,6 +124,7 @@
 				return url[1];
 			}
 		},
+		
 		getParam: function (name, url) {
 			try {
 				var url = url || this.getUrl();
@@ -125,6 +140,7 @@
 				url = null; 
 			} 
 		},
+		
 		setQuery: function (paramName, paramValue, url) {
 			var url = url || this.getUrl();
 			var chr = $.core.URL.getJoinChar(url);
@@ -137,6 +153,7 @@
 				return url + chr + paramName + '=' + paramValue;
 			}
 		},
+		
 		setParam: function (paramName, paramValue, userUrl) {
 			try {
 				var url = this.getUrl();
@@ -156,6 +173,7 @@
 				regex = null; 
 			} 
 		},
+		
 		getParams: function (url) {
 			try {
 				var url = url || this.getUrl();
@@ -164,5 +182,7 @@
 				url = null; 
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

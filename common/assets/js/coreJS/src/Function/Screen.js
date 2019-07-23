@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Screen = {
+		
 		/**
 		 * Cancel Full Screen
 		 * @param {element}         : element
@@ -55,6 +56,7 @@
 				return false;
 			}
 		},
+		
 		hasPip: function () {
 			if (document.pictureInPictureElement) {
 				return true;
@@ -62,6 +64,7 @@
 			
 			return false;
 		},
+		
 		setPip: function (video) {
 			if (!this.hasPip()) {
 			video.requestPictureInPicture().catch(function () {
@@ -72,6 +75,7 @@
 				return true;
 			}
 		},
+		
 		exitPip: function () {
 			if (this.hasPip()) {
 				document.exitPictureInPicture().catch(function () {
@@ -82,6 +86,7 @@
 				return true;
 			}
 		},
+		
 		getHTML5Handler: function () {
 			var video;
 			this.length = html5Elements.length;
@@ -90,6 +95,7 @@
 			}
 			return video;
 		},
+		
 		hasTrueNativeFullScreen: function () {
 			video = this.getHTML5Handler();
 			if (typeof video.msRequestFullscreen !== 'undefined') {
@@ -97,41 +103,56 @@
 			}
 			return false;
 		},
+		
 		hasMsNativeFullScreen: function () {
 			video = this.getHTML5Handler();
-			if (typeof video.webkitRequestFullScreen !== 'undefined' || typeof video.mozRequestFullScreen !== 'undefined' || typeof video.msRequestFullscreen !== 'undefined') {
+			if (
+				typeof video.webkitRequestFullScreen !== 'undefined' || 
+				typeof video.mozRequestFullScreen !== 'undefined' || 
+				typeof video.msRequestFullscreen !== 'undefined'
+			) {
 				return true;
 			}
+			
 			return false;
 		},
+		
 		hasMozNativeFullScreen: function () {
 			video = this.getHTML5Handler();
 			if (typeof video.mozRequestFullScreen !== 'undefined') {
 				return true;
 			}
+			
 			return false;
 		},
+		
 		hasWebkitNativeFullScreen: function () {
 			video = this.getHTML5Handler();
 			if (typeof video.webkitRequestFullScreen !== 'undefined') {
 				return true;
 			}
+			
 			return false;
 		},
+		
 		hasNativeFullscreen: function () {
 			video = this.getHTML5Handler();
 			if (typeof video.requestFullscreen !== 'undefined') {
 				return true;
 			}
+			
 			return false;
 		},
+		
 		hasSemiNativeFullScreen: function () {
 			video = this.getHTML5Handler();
 			if (typeof video.webkitEnterFullscreen !== 'undefined') {
 				return true;
 			}
+			
 			return false;
 		},
+		
 		/**
 		 * Request Full Screen
 		 * @param {element}         : element
@@ -163,9 +184,11 @@
 				if (requestMethod) {
 					requestMethod.call(element);
 				}
+				
 				return false;
 			}
 		},
+		
 		/**
 		 * Toggle Full Screen
 		 * @param {element}         : element
@@ -176,12 +199,15 @@
 			} else {
 				return this.requestFullScreen(element);
 			}
+			
 			return false;
 		},
+		
 		
 		getScreenColorDepth: function () {
 			return window.screen.colorDepth;
 		},
+		
 		/**
 		 * Check Browser Support Full Screen
 		 * @param {element}     : element
@@ -213,7 +239,10 @@
 			if (isFull || Math.abs(screen.width - _cWin.innerWidth) < 10) {
 				return true;
 			}
+			
 			return false;
 		}
+		
 	}
+	
 })(jQuery, $.core);

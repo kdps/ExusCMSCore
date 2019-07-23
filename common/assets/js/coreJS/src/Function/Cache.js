@@ -4,12 +4,14 @@
 (function ($, core) {
 
 	var A = core.Cache = {
+		
 		isSupport: function () {
 			if ('caches' in _cWin) {
 				return true;
 			}
 			return false;
 		},
+		
 		open: function (key, val, callback) {
 			if (this.isSupport()) {
 				caches.open(key).then(function (cache) {
@@ -21,6 +23,7 @@
 				});
 			}
 		},
+		
 		del: function (key, callback) {
 			if (this.isSupport()) {
 				caches.delete(key).then(function () {
@@ -32,6 +35,7 @@
 				return false;
 			}
 		},
+		
 		add: function (key, value, request) {
 			if (this.isSupport()) {
 				if (request) {
@@ -45,6 +49,7 @@
 				}
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

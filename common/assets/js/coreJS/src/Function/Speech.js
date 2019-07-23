@@ -2,20 +2,25 @@
 (function ($, core) {
 
 	var A = $.core.Speech = {
+		
 		Get: function () {
 			return _cWin.speechSynthesis;
 		},
+		
 		getSpeechRecognition: function () {
 			return _cWin.SpeechRecognition || _cWin.webkitSpeechRecognition;
 		},
+		
 		getVoices: function () {
 			var synth = this.Get();
 			return synth.getVoices();
 		},
+		
 		getVoicesLength: function () {
 			var voices = this.getVoices();
 			return voices.length;
 		},
+		
 		getPopularVoiceList: function () {
 			var voiceList = [];
 			var synth = this.Get();
@@ -26,6 +31,7 @@
 			
 			return voiceList;
 		},
+		
 		/*
 			Microsoft Heami Desktop - Korean
 			Microsoft Zira Desktop - English (United States)
@@ -51,5 +57,7 @@
 			utterThis.rate = rate;
 			synth.speak(utterThis);
 		}
+		
 	};
+	
 })(jQuery, $.core);

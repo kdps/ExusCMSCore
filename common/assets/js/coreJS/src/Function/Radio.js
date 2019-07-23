@@ -5,6 +5,7 @@
 (function ($, core) {
 
 	var A = core.Radio = {
+		
 		isSupport: function () {
 			var radio = navigator.mozFMRadio;
 			if (radio.antennaAvailable) {
@@ -13,9 +14,12 @@
 			
 			return false;
 		},
+		
 		setFrequency: function (frequency) {
 			var radio = navigator.mozFMRadio;
 			radio.enable(frequency);
 		}
+		
 	}
+	
 });

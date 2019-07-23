@@ -7,6 +7,7 @@
 		constructor: function () {
 			this.notificationHandler = null;
 		},
+		
 		isSupport: function () {
 			if (!("Notification" in window)) {
 				return false;
@@ -23,6 +24,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * Get Permission
 		 **/
@@ -33,6 +35,7 @@
 				_cWin.webkitNotifications.requestPermission();
 			}
 		},
+		
 		/**
 		 * Check Permission
 		 **/
@@ -51,9 +54,11 @@
 			
 			return permit;
 		},
+		
 		Close: function () {
 			this.notificationHandler.close();
 		},
+		
 		/**
 		 * Show Notification
 		 * @param {message}         : message
@@ -83,6 +88,7 @@
 				this.getPermit();
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

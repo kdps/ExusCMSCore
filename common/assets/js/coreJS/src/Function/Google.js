@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Google = {
+		
 		/**
 		 * Check Website has Google Adsence
 		 *
@@ -16,6 +17,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * Check Website has Google Analytics
 		 *
@@ -28,6 +30,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * Send Authentication Key to Google Adsence
 		 * @param {key}	: Authentication key
@@ -39,6 +42,7 @@
 				enable_page_level_ads: true
 			});
 		},
+		
 		/**
 		 * Send Authentication Key to Google Analytics
 		 * @param {key}	: Authentication key
@@ -54,5 +58,7 @@
 			ga('create', key, 'auto');
 			ga('send', 'pageview');
 		}
+		
 	};
+	
 })(jQuery, $.core);

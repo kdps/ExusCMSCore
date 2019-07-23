@@ -4,12 +4,15 @@
 (function ($, core) {
 
 	var A = core.Arr = {
+		
 		enqueue: function (arr) {
 			return arr.push(arr);
 		},
+		
 		dequeue: function (arr) {
 			return arr.shift();
 		},
+		
 		/*
 		
 		*/
@@ -21,6 +24,7 @@
 			
 			return result;
 		},
+		
 		forEach: function (array, callback) {
 			if (array && array.length && $.core.Validate.isFunc(callback)) {
 				this.length = array.length;
@@ -29,11 +33,13 @@
 				}
 			}
 		},
+		
 		range: function (N) {
 			Array.apply(null, {length: N}).map(function(value, index){
 			  return index + 1;
 			});
 		},
+		
 		/**
 		 * Check that Array can push
 		 *
@@ -46,6 +52,7 @@
 			
 			return true;
 		},
+		
 		/**
 		 * Get Minium Value in Array
 		 *
@@ -56,9 +63,11 @@
 		getMinValue: function (arr) {
 			return Math.min(...arr);
 		},
+		
 		getLessValue: function (arr, val, min) {
 			return arr.find(val => val < min);
 		},
+		
 		/**
 		 * Get Minium Index in Array
 		 *
@@ -69,12 +78,15 @@
 		getLessIndex: function (arr, val, min) {
 			return arr.findIndex(val => val < min);
 		},
+		
 		getMoreValue: function (arr, val, min) {
 			return arr.find(val => val > min);
 		},
+		
 		getMoreIndex: function (arr, val, min) {
 			return arr.findIndex(val => val > min);
 		},
+		
 		/**
 		 * Get Random Number
 		 *
@@ -85,6 +97,7 @@
 		getRandom: function (arr) {
 			return arr[Math.floor(arr.length * Math.random())];
 		},
+		
 		sibling: function (arr, c) {
 			for (var result = []; arr; arr = arr.nextSibling) {
 				if (arr.nodeType === 1 && arr !== c) {
@@ -94,6 +107,7 @@
 			
 			return result;
 		},
+		
 		/**
 		 * Get Unique Array Values
 		 *
@@ -104,6 +118,7 @@
 				return ar.indexOf(item) === i;
 			});
 		},
+		
 		/**
 		 * initialize Array
 		 *
@@ -122,6 +137,7 @@
 			
 			return _this;
 		},
+		
 		locationFrame: function (id, type, url) {
 			var iframe = document.getElementById(id);
 			if (iframe) {
@@ -135,13 +151,16 @@
 				target.postMessage(sendDataJson, '*');
 			}
 		},
+		
 		getPostMessage: function (target) {
 			return (target.postMessage ? target : (target.document.postMessage ? target.document : undefined));
 		},
+		
 		sendLinkToIframe: function (id, data) {
 			target = document.getElementById(id);
 			target.contentWindow.window.postMessage(data, '*');
 		},
+		
 		/**
 		 * Check that Array is equal
 		 *
@@ -157,6 +176,7 @@
 			
 			return bool;
 		},
+		
 		/**
 		 * Sortable Array
 		 *
@@ -175,6 +195,7 @@
 			
 			return nativeKeys(temp);
 		},
+		
 		isDef: function (args) {
 			this.length = args.length;
 			if (this.length > 0) {
@@ -186,6 +207,7 @@
 				return true;
 			}
 		},
+		
 		/**
 		 * Replace Text to Replace Text in Array
 		 *
@@ -202,6 +224,7 @@
 			
 			return arr;
 		},
+		
 		/**
 		 * Find Object in Array
 		 *
@@ -220,6 +243,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * Array Maximum Number Filter by specify number
 		 *
@@ -233,6 +257,7 @@
 				return n > max;
 			});
 		},
+		
 		/**
 		 * Array Minimum Number Filter by specify number
 		 *
@@ -246,6 +271,7 @@
 				return n > min;
 			}, true);
 		},
+		
 		toObj: function (arr) {
 			var result = {};
 			for (i in arr) {
@@ -258,6 +284,7 @@
 			
 			return result;
 		}
+		
 	};
 	
 })(jQuery, $.core);

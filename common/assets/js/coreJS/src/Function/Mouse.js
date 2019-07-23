@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Mouse = {
+		
 		hasTouchscreen: function () {
 			var result = false;
 			
@@ -21,11 +22,13 @@
 			
 			return result;
 		},
+		
 		getEventType: function () {
 			var type = ('ontouchstart' in window ? 'touchend' : 'click');
 			
 			return type;
 		},
+		
 		getEventPosition: function (e) {
 			var pos = [];
 			
@@ -38,6 +41,7 @@
 			
 			return pos;
 		},
+		
 		moveFakeCursor: function (X, Y, completeCallback, onChangeCallback) {
 			var moveInterval = setInterval(function () {
 				
@@ -72,13 +76,16 @@
 					
 					clearInterval(moveInterval);
 				}
-			}, 0.2);
+			},
+		 0.2);
 		},
+		
 		exitPointerLock: function () {
 			document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
 
 			document.exitPointerLock();
 		},
+		
 		setPointerLockErrorEventListener: function (callback) {
 			if ("pointerlockerror" in document) {
 				document.addEventListener('pointerlockerror', callback, false);
@@ -86,6 +93,7 @@
 				document.addEventListener('mozpointerlockerror', callback, false);
 			}
 		},
+		
 		setPointerLockChangeEventListener: function (callback) {
 			if ("onpointerlockchange" in document) {
 				document.addEventListener('pointerlockchange', callback, false);
@@ -93,6 +101,7 @@
 				document.addEventListener('mozpointerlockchange', callback, false);
 			}
 		},
+		
 		isLocked: function (id) {
 			var canvas = document.getElementById(id);
 			if(document.pointerLockElement === canvas || document.mozPointerLockElement === canvas) {
@@ -101,11 +110,13 @@
 				return false;
 			}
 		},
+		
 		requestPointerLock: function (id) {
 			var canvas = document.getElementById(id);
 			canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock;
 			canvas.requestPointerLock();
 		}
+		
 	}
 	
 })(jQuery, $.core);

@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.App = {
+		
 		each: function(Array, args, callback) {
 			if (Array) {
 				if (Array instanceof Array) {
@@ -17,6 +18,7 @@
 				}
 			}
 		},
+		
 		extend: function(a) {
 			let b = 2 <= arguments.length ? Array.prototype.slice.call(arguments, 1) : [];
 			
@@ -26,9 +28,11 @@
 		
 			return a;
 		},
+		
 		registry: function (App) {
 			appRegister.push(App);
 		},
+		
 		fnCombine: function () {
 			let fn = [];
 			let vmem = [];
@@ -61,6 +65,7 @@
 			
 			return func;
 		}
+		
 	};
 	
 })(jQuery, $.core);

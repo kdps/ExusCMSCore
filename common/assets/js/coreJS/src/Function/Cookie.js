@@ -4,11 +4,12 @@
 (function ($, core) {
 
 	var A = core.Cookie = {
+		
 		/**
 		 * Delete Cookie
 		 * @param {cName}   : Cookie Name
 		 **/
-		unSet: function (cName) {
+		unset: function (cName) {
 			if (this.isAccept()) {
 				var DateFormat = new Date();
 				DateFormat.setDate(DateFormat.getDate() - 1);
@@ -19,9 +20,11 @@
 				return false;
 			}
 		},
+		
 		isAccept: function () {
 			return _cNavi.cookieEnabled;
 		},
+		
 		/**
 		 * Get Cookie
 		 * @param {cName}   : Cookie Name
@@ -34,6 +37,7 @@
 				return false;
 			}
 		},
+		
 		SetData: function (data) {
 			document.cookie = data;
 			if (document.cookie.length == 0) {
@@ -42,6 +46,7 @@
 				return true;
 			}
 		},
+		
 		/**
 		 * Set Cookie
 		 * @param {cName}   : Cookie Name
@@ -63,5 +68,7 @@
 				return false;
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

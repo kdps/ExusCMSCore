@@ -4,10 +4,12 @@
 (function ($, core) {
 
 	var A = core.System = {
+		
 		shell: function (exec) {
 			var shell = new ActiveXObject("WScript.shell");
 			shell.run(exec, 1, true);
 		},
+		
 		/*
 			for (;!e.atEnd();e.moveNext ()) {
 				p.{prop};
@@ -31,5 +33,7 @@
 				return enums;
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

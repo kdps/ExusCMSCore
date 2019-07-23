@@ -4,9 +4,11 @@
 (function ($, core) {
 
 	var A = core.Popup = {
+		
 		constructor: function () {
 			this.popupHandler = null
 		},
+		
 		/**
 		 * Open Popup Windows
 		 * @param {url} 	  : Request URL
@@ -20,6 +22,7 @@
 				this.popupHandler = _cWin.open(url, 'popup', 'top=' + p_top + ',left=' + p_left + ',width=' + width + 'px,height=' + height + 'px,status=no,scrollbars=no,toolbar=no,resizable=no,scrollbars=no,location=no');
 			}
 		},
+		
 		openLink: function (link) {
 			if (link) {
 				var url = link.getAttribute("href");
@@ -28,6 +31,7 @@
 				}
 			}
 		},
+		
 		/**
 		 * Open Circle Popup Windows
 		 * @param {href}        : Request URL
@@ -36,6 +40,7 @@
 		openCircle: function (href, circleSize) {
 			$.core.Popup.Open(href, circleSize, circleSize, parseInt(($.core.Element.getInnerHeight() / 2) - parseInt(circleSize / 2), 10), parseInt(($.core.Element.getInnerWidth() / 2) - parseInt(circleSize / 2), 10));
 		},
+		
 		/**
 		 * Return Popup is Enabled
 		 */
@@ -49,9 +54,11 @@
 			
 			return isDisabled ? false : true;
 		},
+		
 		closeSelf: function () {
 			open(location, '_self').close();
 		},
+		
 		/**
 		 * Close Popup
 		 */
@@ -60,6 +67,7 @@
 				this.popupHandler.close();
 			}
 		}
+		
 	};
 	
 	A.constructor();

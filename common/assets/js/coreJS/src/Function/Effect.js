@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Effect = {
+		
 		Highlighter: function (target, rgb1, rgb2, delay) {
 			var timerCounter = 0;
 			var timerDelay = 30;
@@ -25,16 +26,20 @@
 				}
 			}, timerDelay);
 		},
+		
 		Toggle: function (elements) {
 			if ($(elements).length) {
 				var hasDisplayAttr = elements.currentStyle ? elements.currentStyle.display : _cWin.getComputedStyle($(elements)[0], "").getPropertyValue('display');
 				hasDisplayAttr = hasDisplayAttr ? hasDisplayAttr.toString().length : 0;
+				
 				if (hasDisplayAttr > 0) {
 					$(elements).toggle(500);
 				}
+				
 				$(_cWin).scrollTop($(elements).position().top);
 			}
 		},
+		
 		Focus: function (elements) {
 			if (typeof elements === 'number' && isFinite(elements)) {
 				$(_cWin).scrollTop(elements);
@@ -44,6 +49,7 @@
 				}
 			}
 		},
+		
 		FocusAnimate: function (elements, delay, type) {
 			if (typeof elements === 'number' && isFinite(elements)) {
 				$("html, body").animate({
@@ -57,5 +63,7 @@
 				}
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

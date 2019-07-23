@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Promise = {
+		
 		isSupport: function () {
 			if(typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1) {
 				return false;
@@ -11,6 +12,7 @@
 			
 			return true;
 		},
+		
 		RequestHanlder: function (request) {
 			return new Promise(function (resolve, reject) {
 				request.onsuccess = function () {
@@ -21,6 +23,7 @@
 				};
 			});
 		},
+		
 		RequestCall: function (obj, method, args) {
 			var request;
 			var p = new Promise(function (resolve, reject) {
@@ -32,5 +35,7 @@
 			
 			return p;
 		}
+		
 	};
+	
 })(jQuery, $.core);

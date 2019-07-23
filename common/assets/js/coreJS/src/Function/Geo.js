@@ -4,9 +4,11 @@
 (function ($, core) {
 
 	var A = core.GEO = {
+		
 		isSupport: function () {
 			return (navigator.geolocation) ? true : false;
 		},
+		
 		Get: function () {
 			if (!this.isSupport()) return;
 			
@@ -26,5 +28,7 @@
 				return err;
 			}
 		}
+		
 	};
+	
 })(jQuery, $.core);

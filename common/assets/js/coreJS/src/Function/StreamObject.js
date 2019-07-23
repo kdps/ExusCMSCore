@@ -52,6 +52,7 @@
 				return pos >= str.length;
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

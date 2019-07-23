@@ -4,14 +4,17 @@
 (function ($, core) {
 
 	var A = core.Time = {
+		
 		getDateObject: function (time) {
 			var date = new Date(time);
 			
 			return date;
 		},
+		
 		setMinutes: function (date, minutes, seconds, milliseconds) {
 			return date.setMinutes(minutes, seconds, milliseconds);
 		},
+		
 		formatTime: function (seconds) {
 			var minutes;
 			minutes = Math.floor(seconds / 60);
@@ -21,6 +24,7 @@
 			
 			return minutes + ":" + seconds;
 		},
+		
 		monthToNumbar: function (_str) {
 			var _returnStr = "";
 			if (_str == "Jan") _returnStr = "01";
@@ -38,6 +42,7 @@
 			
 			return _returnStr;
 		},
+		
 		getWebkitTimezone: function () {
 			if (!$.core.Validate.isObject(Intl)) {
 				return null;
@@ -56,12 +61,14 @@
 			}
 			return options.timeZone || null;
 		},
+		
 		getTime: function () {
 			var date = new Date();
 			var time = date.getTime();
 			
 			return time;
 		},
+		
 		Local: function () {
 			var webkittime = this.getWebkitTimezone();
 			
@@ -72,9 +79,11 @@
 				return DateFormat.toLocaleTimeString();
 			}
 		},
+		
 		now: function () {
 			return +new Date
 		},
+		
 		getDate: function () {
 			var date = new Date(),
 				y = date.getFullYear(),
@@ -83,6 +92,7 @@
 				
 			return [y, n, d];
 		},
+		
 		getTimeArr: function () {
 			var time = new Date(),
 				h = time.getHours(),
@@ -92,5 +102,7 @@
 				
 			return [h, i, s, m];
 		}
+		
 	};
+	
 })(jQuery, $.core);

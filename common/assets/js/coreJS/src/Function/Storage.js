@@ -4,6 +4,7 @@
 (function ($, core) {
 
 	var A = core.Storage = {
+		
 		/**
 		 * Check Storage is Support
 		 **/
@@ -37,6 +38,7 @@
 				return $cache['isLocalStorageSupport'];
 			}
 		},
+		
 		/**
 		 * Get Storage
 		 * @param {name}         : name
@@ -53,6 +55,7 @@
 				return dataStorage;
 			}
 		},
+		
 		isEmpty: function (name) {
 			if (this.getItem(name) === null) {
 				return true;
@@ -60,6 +63,7 @@
 			
 			return false;
 		},
+		
 		/**
 		 * Set Storage
 		 * @param {name}         : name
@@ -79,6 +83,7 @@
 				return true;
 			}
 		},
+		
 		/**
 		 * Empty Storage
 		 * @param {name}        : name
@@ -93,6 +98,7 @@
 				}
 			}
 		}
+		
 	};
 	
 })(jQuery, $.core);

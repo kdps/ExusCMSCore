@@ -7,6 +7,7 @@
 		constructor: function () {
 			this.getFlashLink = "http://get.adobe.com/flashplayer/";
 		},
+		
 		isSupport: function () {
 			try {
 				if (new ActiveXObject('ShockwaveFlash.ShockwaveFlash')) return true;
@@ -16,6 +17,7 @@
 			
 			return false;
 		},
+		
 		getVersion: function () {
 			var version, flash;
 			
@@ -50,6 +52,7 @@
 			
 			return version;
 		},
+		
 		generate: function (file, width, height, id, clsID) {
 			if (this.isSupport()) {
 				var str = '';
@@ -68,6 +71,7 @@
 				return null;
 			}
 		},
+		
 		remove: function (id) {
 			var flash = $.core.Element.getById(id);
 			
@@ -81,6 +85,7 @@
 				}
 			}
 		}
+		
 	};
 	
 	A.constructor();
