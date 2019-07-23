@@ -4,9 +4,11 @@
 (function ($, core) {
 
 	var A = core.File = {
+		
 		hasFileUpload: function () {
 			return (window.File && window.FileList && window.FileReader)
 		},
+		
 		hasBlob: function () {
 			if (_cWin.Blob) {
 				return true;
@@ -18,6 +20,7 @@
 				return false;
 			}
 		},
+		
 		getBytes: function (format) {
 			var bytes = 0;
 			if (format.indexOf('TB') != -1) {
@@ -36,6 +39,7 @@
 			
 			return bytes;
 		},
+		
 		getSize: function (size) {
 			size = size / (1024 << 30);
 			if (size >= 1) {
@@ -63,12 +67,15 @@
 				return "0byte";
 			}
 		},
+		
 		getBlob: function () {
 			return _cWin.MozBlobBuilder || _cWin.WebKitBlobBuilder || _cWin.BlobBuilder || _cWin.MSBlobBuilder;
 		},
+		
 		get: function () {
 			return _cWin.FileReader;
 		},
+		
 		getIntArr: function ($signed, $bit, $array) {
 			if ($signed == 'uint') {
 				switch ($bit) {
@@ -97,10 +104,12 @@
 				}
 			}
 		},
+		
 		readArrBuffer: function (file) {
 			var fr = this.get();
 			fr.readAsArrayBuffer(file);
 		},
+		
 		isSupport: function () {
 			if (this.get()) {
 				return true;
@@ -108,6 +117,7 @@
 			
 			return false;
 		}
+		
 	};
 	
 })(jQuery, $.core);

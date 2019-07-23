@@ -109,9 +109,15 @@
 		},
 		
 		isValidLyricsData: function (lyrics) {
-			if (lyrics == null) return;
+			if (lyrics == null) {
+				return;
+			}
+			
 			var lyricsData = lyrics.match(/<div(.*)ms=(\d{1,2})(.*)timestamp=(\d{1,4})/);
-			if (lyricsData.length > 0) return true;
+			
+			if (lyricsData.length > 0) {
+				return true;
+			}
 		},
 		
 		getUserVolume: function () {
@@ -121,7 +127,7 @@
 				audioElement.onvolumechange = function () {
 					$.core.Storage.setItem('volume', $("video")[0].volume);
 				}
-			}catch(e) {}
+			} catch(e) {}
 		},
 		
 		getAudioLyrics: function (srl) {
@@ -129,8 +135,7 @@
 				[core_flower.def_mid]: core_flower.mid,
 				srl: srl,
 				act: "getAudiolyrics"
-			},
-		 'completeLyrics', "json", "가사를 요청중입니다");
+			}, 'completeLyrics', "json", "가사를 요청중입니다");
 		},
 		
 		setLyricsContainer: function () {
@@ -238,8 +243,7 @@
 					if (type == 'user') {
 						$(item).css('left', width);
 					} else {
-						$(item).animate({left: width},
-		 10, "easeOutBounce");
+						$(item).animate({left: width}, 10, "easeOutBounce");
 					}
 				}
 			});
@@ -251,8 +255,7 @@
 					if (type == 'user') {
 						$(item).css('bottom', $i);
 					} else {
-						$(item).animate({bottom: $i},
-		 100, "easeOutBounce");
+						$(item).animate({bottom: $i}, 100, "easeOutBounce");
 					}
 					
 					$i = $i - ($(item).height() + 30);
@@ -545,6 +548,7 @@
 			
 			var elements_lyrics_box = $('.lyrics_display_expand [' + A.config.settings.timestamp + '="' + A.config.dump._near +'"][ms="' + A.config.dump._near_ms + '"]');
 			elements_lyrics_box.addClass('focus_lyrics');
+			
 			if (elements_lyrics_box.length > 0) {
 				// Focus extended lyric
 				$('.lyrics_display_expand').animate({
@@ -553,8 +557,7 @@
 						$(elements_lyrics_box).offset().top - 
 						$(elements_lyrics_box).parent().offset().top
 					) - ($('.lyrics_display_expand').height() / 2)
-				},
-		 {
+				}, {
 					duration: 300,
 					specialEasing: {width: 'linear', height: 'easeInBounce'}
 				});

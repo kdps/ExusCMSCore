@@ -1018,7 +1018,7 @@
 					cache: true,
 					type: type,
 					xhrfields : {withCredentials : true},
-		 //CORS
+					//CORS
 					/*
 						* Header Required *
 						Access-Control-Allow-Credentials : true
@@ -1143,6 +1143,7 @@
 			
 			isAjaxProcessing = false;
 		}
+		
 	};
 	
 	/* Example

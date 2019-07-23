@@ -40,7 +40,12 @@
 		isLocalhost: function () {
 			//[::1] is the IPv6 localhost address.
 			var loc = window.location;
-			return ((loc.hostname.match('localhost') || loc.hostname.match('[::1]') || loc.hostname.match('192.168.0.') || loc.hostname.match('127.0.0.1')) ? true : false);
+			return ((
+				loc.hostname.match('localhost') || 
+				loc.hostname.match('[::1]') || 
+				loc.hostname.match('192.168.0.') ||
+				loc.hostname.match('127.0.0.1')
+			) ? true : false);
 		},
 		
 		isFileProtocol: function () {
@@ -65,15 +70,18 @@
 		},
 		
 		isChromeApp: function () {
-			return (window.chrome || wiindow.chrome.storage);
+			return (window.chrome || 
+					window.chrome.storage);
 		},
 		
 		hasConsole: function () {
-			return (window.console || window.console.log);
+			return (window.console || 
+					window.console.log);
 		},
 		
 		hasReplaceState: function () {
-			return (window.history || window.history.replaceState);
+			return (window.history || 
+					window.history.replaceState);
 		},
 		
 		redirectToCompleteHost: function () {
@@ -100,11 +108,15 @@
 		},
 		
 		getPerform: function () {
-			return window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {};
+			return window.performance || 
+				   window.mozPerformance || 
+				   window.msPerformance || 
+				   window.webkitPerformance || {};
 		},
 		
 		getPerformMemorySize: function () { //Not available to workers
 			var perform = this.getPerform();
+			
 			return perform.memory;
 			/*
 				{
@@ -117,11 +129,13 @@
 		
 		getPerformTiming: function () { //Not available to workers
 			var perform = this.getPerform();
+			
 			return perform.timing;
 		},
 		
 		is64Bit: function () {
 			var agent = navigator.userAgent;
+			
 			if (agent.indexOf("x64") != -1) {
 				return true;
 			} else {
@@ -185,16 +199,25 @@
 		
 		getCancelAnimationFrame: function () {
 			if ($.core.Validate.isUndefined($cache['animationFrame'])) {
-				$cache['cancelanimationFrame'] = _cWin.cancelAnimationFrame || _cWin.webkitCancelAnimationFrame || _cWin.mozCancelAnimationFrame || _cWin.msCancelAnimationFrame;
+				$cache['cancelanimationFrame'] = _cWin.cancelAnimationFrame || 
+												 _cWin.webkitCancelAnimationFrame || 
+												 _cWin.mozCancelAnimationFrame || 
+												 _cWin.msCancelAnimationFrame;
 			}
+			
 			return $cache['cancelanimationFrame'];
 		},
 		
 		getAnimationFrame: function () {
 			if ($.core.Validate.isUndefined($cache['animationFrame'])) {
-				$cache['animationFrame'] = _cWin.mozRequestAnimationFrame || _cWin.webkitRequestAnimationFrame || _cWin.requestAnimationFrame || _cWin.oRequestAnimationFrame || _cWin.msRequestAnimationFrame || function (callback) {
-					_cWin.setTimeout(callback, 1000 / 60);
-				};
+				$cache['animationFrame'] = _cWin.mozRequestAnimationFrame || 
+										   _cWin.webkitRequestAnimationFrame || 
+										   _cWin.requestAnimationFrame || 
+										   _cWin.oRequestAnimationFrame || 
+										   _cWin.msRequestAnimationFrame || 
+										   function (callback) {
+											   _cWin.setTimeout(callback, 1000 / 60);
+										   };
 			}
 			
 			return $cache['animationFrame'];
@@ -210,6 +233,7 @@
 		
 		getConsoleErr: function (msg, url, line, column, errorObj) {
 			$.core.Base.resetWinCache();
+			
 			if (msg.match(/Uncaught TypeError: Cannot read property '(\s?\.?[a-zA-Z\.]+)\w+' of undefined/ig)) {
 				msg = /'([^']+)'/.exec(msg);
 				msg = _cWin.lang['uncaught'] + _cWin.lang['typeerror'] + _cWin.lang['property'] + msg[0] + _cWin.lang['cannotreadproperty'] + '\n' + url + ':' + line + ':' + column;
@@ -334,7 +358,8 @@
 		
 		isOpera: function () {
 			if ($.core.Validate.isUndefined($cache['isOpera'])) {//Opera
-				$cache['isOpera'] = (_cWin.navigator.userAgent.toLowerCase().indexOf("opera") !== -1 || _cWin.navigator.userAgent.toLowerCase().indexOf("opr") !== -1) ? true : false;
+				$cache['isOpera'] = (_cWin.navigator.userAgent.toLowerCase().indexOf("opera") !== -1 || 
+									 _cWin.navigator.userAgent.toLowerCase().indexOf("opr") !== -1) ? true : false;
 			}
 			
 			return $cache['isOpera'];
@@ -414,6 +439,7 @@
 		
 		isFrame: function (window) {
 			var root = window.parent;
+			
 			if (root == 'undefined') {
 				return false;
 			}
@@ -428,12 +454,15 @@
 		},
 		
 		getLang: function () {
-			_cNavi.language = _cNavi.language || _cNavi.userLanguage;
+			_cNavi.language = _cNavi.language || 
+							  _cNavi.userLanguage;
 			return _cNavi.language;
 		},
 		
 		getCreateShadowRoot: function () {
-			_cWin.createShadowRoot = _cWin.createShadowRoot || _cWin.webkitCreateShadowRoot;
+			_cWin.createShadowRoot = _cWin.createShadowRoot || 
+									 _cWin.webkitCreateShadowRoot;
+									 
 			return _cWin.createShadowRoot;
 		},
 		
@@ -442,7 +471,10 @@
 		},
 		
 		getRTCPeerConnection: function () {
-			_cWin.RTCPeerConnection = _cWin.RTCPeerConnection || _cWin.webkitRTCPeerConnection || _cWin.mozRTCPeerConnection;
+			_cWin.RTCPeerConnection = _cWin.RTCPeerConnection || 
+									  _cWin.webkitRTCPeerConnection || 
+									  _cWin.mozRTCPeerConnection;
+									  
 			return _cWin.RTCPeerConnection;
 		},
 		
@@ -452,7 +484,8 @@
 		
 		newImageCapture: function (mediaStream) {
 			var mediaStreamTrack = mediaStream.getVideoTracks()[0];
-			if ($.core.Validate.isObject(mediaStream.getVideoTracks()[0])) {
+			
+			if ($.core.Validate.isObject(mediaStreamTrack)) {
 				return new ImageCapture(mediaStreamTrack);
 			}
 		},
@@ -507,6 +540,7 @@
 		doCapture: function () {
 			var imageCapture = this.getImageCaptureHandler();
 			var blobData;
+			
 			imageCapture.takePhoto().then(function (blob) {
 			//blob => {
 				blobData = blob;
@@ -566,6 +600,7 @@
 			if (_cWin.console && _cWin.console.dir) {
 				return true;
 			}
+			
 			return false;
 		},
 		
@@ -573,6 +608,7 @@
 			if (_cWin.console && _cWin.console.log) {
 				return true;
 			}
+			
 			return false;
 		},
 		
@@ -611,6 +647,7 @@
 		getUserNetworkSpeed: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
+				
 				return connection.bandwidth;
 			} else {
 				return 0;
@@ -620,6 +657,7 @@
 		isCellular: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
+				
 				if (connection) {
 					if (connection.effectiveType=== 'cellular') {
 						return true;
@@ -633,11 +671,14 @@
 		isUserNeedPayCost: function () {
 			if (this.hasConnection()) {
 				var connection = this.getConnection();
+				
 				if (!connection.metered && (connection.type && connection.type == "cellular")) {
 					return false;
 				}
+				
 				return false;
 			}
+			
 			return false;
 		},
 		
@@ -658,7 +699,10 @@
 		},
 		
 		getUserMedia: function () {
-			return _cNavi.getUserMedia || _cNavi.webkitGetUserMedia || _cNavi.mozGetUserMedia || _cNavi.msGetUserMedia;
+			return _cNavi.getUserMedia || 
+				   _cNavi.webkitGetUserMedia || 
+				   _cNavi.mozGetUserMedia || 
+				   _cNavi.msGetUserMedia;
 		},
 		
 		hasGetUserMedia: function () {
@@ -666,7 +710,10 @@
 		},
 		
 		getVibrator: function () {
-			return _cWin.navigator.vibrate || _cWin.navigator.webkitVibrate || _cWin.navigator.mozVibrate || _cWin.navigator.msVibrate;
+			return _cWin.navigator.vibrate || 
+				   _cWin.navigator.webkitVibrate || 
+				   _cWin.navigator.mozVibrate || 
+				   _cWin.navigator.msVibrate;
 		},
 		
 		hasVibrator: function () {
@@ -683,6 +730,7 @@
 		
 		isSupportTouch: function () {
 			var android = _cNavi.userAgent.indexOf('Android') != -1;
+			
 			return android || !!('createTouch' in document);
 		},
 		
@@ -776,6 +824,7 @@
 		
 		answerCallback: function (msg, callback) {
 			var answer = this._Confirm(msg);
+			
 			if (answer == true) {
 				callback();
 			}
@@ -803,6 +852,7 @@
 		 **/
 		answerRedirect: function (msg, url) {
 			var answer = this._Confirm(msg);
+			
 			if (answer == true) {
 				this.Redirect(url);
 			}
@@ -824,6 +874,7 @@
 		
 		isSmartPhone: function () {
 			var UserAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(Mobile)|(iPhone)|(Android)/gi.exec(userAgent)) {
 				return true;
 			}
@@ -866,6 +917,7 @@
 		 */
 		isWindows: function () {
 			var userAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(windows)|(winnt)|(win98)|(win95)|(win16)/gi.exec(userAgent)) {
 				return true;
 			}
@@ -878,6 +930,7 @@
 		 */
 		isLinux: function () {
 			var userAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(linux)/gi.exec(userAgent)) {
 				return true;
 			}
@@ -890,6 +943,7 @@
 		 */
 		isSunOS: function () {
 			var userAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(sunos)/gi.exec(userAgent)) {
 				return true;
 			}
@@ -902,6 +956,7 @@
 		 */
 		isOpenBSD: function () {
 			var userAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(openbsd)/gi.exec(userAgent)) {
 				return true;
 			}
@@ -914,6 +969,7 @@
 		 */
 		isMacPowerPC: function () {
 			var userAgent = _cNavi.userAgent.toLowerCase();
+			
 			if (/(mac_powerpc)/gi.exec(userAgent)) {
 				return true;
 			}

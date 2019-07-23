@@ -4,12 +4,15 @@
 (function ($, core) {
 
 	var A = core.WebCam = {
+		
 		constructor: function () {
 			this.recorder = null;
 		},
+		
 		stopCaptureAudio: function () {
 			recorder.stop();
 		},
+		
 		captureAudio: function () {
 			var onRecordingReady = function () {
 				var audio = document.getElementById('audio');
@@ -21,6 +24,7 @@
 				this.recorder.addEventListener('dataavailable', onRecordingReady);
 			});
 		},
+		
 		captureVideo: function (selector, onSuccessCallback, onErrorCallback) {
 			const vid = document.querySelector(selector);
 			
@@ -28,17 +32,20 @@
 				vid.srcObject = stream;
 				return vid.play(); 
 			// resolve
-			}, function(args) {
+			},
+		 function(args) {
 				if (typeof onSuccessCallback == 'function') {
 					onSuccessCallback(args);
 				}
 			// reject
-			}, function(args) {
+			},
+		 function(args) {
 				if (typeof onErrorCallback == 'function') {
 					onErrorCallback(args);
 				}
 			});
 		},
+		
 		takeSnapshot: function (id, filetype) {
 			if (!filetype) {
 				filetype = 'image/jpeg';
@@ -54,6 +61,7 @@
 				canvas.toBlob(res, filetype);
 			});
 		},
+		
 		downloadSnapshot: function (blob, filename) {
 			let a = document.createElement('a'); 
 			a.href = URL.createObjectURL(blob);
@@ -61,6 +69,7 @@
 			document.body.appendChild(a);
 			a.click();
 		}
+		
 	};
 	
 	A.constructor();
