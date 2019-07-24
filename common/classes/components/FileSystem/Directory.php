@@ -1,25 +1,20 @@
 <?php
 
-class dir
-{
+class dir {
    
 	/**
 	 * get directory root
 	 */
-	public static function dir_root()
-	{
+	public static function dir_root() {
 		return dirname(__FILE__);
 	}
 	
-	public static function isEmpty($dir)
-	{
+	public static function isEmpty($dir) {
 		if (!is_readable($dir)) return null;
 		
 		$handle = opendir($dir);
-		while(($entry = readdir($handle)) !== false)
-		{
-			if($entry !== '.' && $entry !== '..')
-			{
+		while(($entry = readdir($handle)) !== false) {
+			if($entry !== '.' && $entry !== '..') {
 				return false;
 			}
 		}
@@ -27,8 +22,7 @@ class dir
 		return true;
 	}
 
-	public static function emptyFolder($folder)
-	{
+	public static function emptyFolder($folder) {
 		$glob = glob($folder);
 		foreach ($glob as $g) 
 		{
@@ -42,8 +36,7 @@ class dir
 	/**
 	 * get document root
 	 */
-	public static function root()
-	{
+	public static function root() {
 		return $_SERVER['DOCUMENT_ROOT'];
 	}
 	
@@ -55,8 +48,7 @@ class dir
 	 *
 	 * @return pdo
 	 */
-	public static function make($args)
-	{
+	public static function make($args) {
 		
 		//args
 		$path = $args->path;
@@ -67,12 +59,9 @@ class dir
 		settype($mode,"integer");
 		
 		//make single directory
-		if(!is_array($path))
-		{
-			if(!is_dir($path))
-			{
-				if(!mkdir($path, $mode, true)) 
-				{
+		if(!is_array($path)) {
+			if(!is_dir($path)) {
+				if(!mkdir($path, $mode, true)) {
 					return FALSE;
 				}
 			}
@@ -80,17 +69,15 @@ class dir
 		else
 		{
 		//make array directory
-			foreach($path as $val)
-			{
-				if(!is_dir($val))
-				{
-					if(!mkdir($val, $mode, true)) 
-					{
+			foreach($path as $val) {
+				if(!is_dir($val)) {
+					if(!mkdir($val, $mode, true)) {
 						return FALSE;
 					}
 				}
 			}
 		}
+		
 		return TRUE;
 	}
 	
@@ -101,19 +88,15 @@ class dir
 	 *
 	 * @return pdo
 	 */
-	public static function remove($args)
-	{
+	public static function remove($args) {
 		
 		//args
 		$path = $args->path;
 		
 		//remove single directory
-		if(!is_array($path))
-		{
-			if(is_dir($path))
-			{
-				if(!rmdir($path)) 
-				{
+		if(!is_array($path)) {
+			if(is_dir($path)) {
+				if(!rmdir($path)) {
 					return FALSE;
 				}
 			}
@@ -121,8 +104,7 @@ class dir
 		//remove array directory
 			foreach($path as $val){
 				if(is_dir($val)){
-					if(!rmdir($val)) 
-					{
+					if(!rmdir($val)) {
 						return FALSE;
 					}
 				}
@@ -144,8 +126,7 @@ class dir
 	 *
 	 * return boolean
 	 */
-	public static function exist($args)
-	{
+	public static function exist($args) {
 		
 		//args
 		$path = $args->path;
@@ -160,8 +141,7 @@ class dir
 	 *
 	 * @return pdo
 	 */
-	public static function scan($args)
-	{
+	public static function scan($args) {
 		
 		//args
 		$path = $args->path;
@@ -179,8 +159,7 @@ class dir
 	 *
 	 * @return array
 	 */
-	public static function _list(\stdClass $args)
-	{
+	public static function _list(\stdClass $args) {
 		
 		//variables
 		$arr_list = array();
@@ -206,18 +185,14 @@ class dir
 		
 		//get handle
 		$handle = opendir($path);
-		if(!$handle)
-		{
+		if(!$handle) {
 			return FALSE;
 		}
 		
 		//scan
-		if($include_subdirectory == FALSE)
-		{
-			while(false !== ($file = readdir($handle)))
-			{
-				if(!isset($list_target))
-				{
+		if($include_subdirectory == FALSE) {
+			while(false !== ($file = readdir($handle))) {
+				if(!isset($list_target)) {
 					if($include_path == TRUE)
 					{
 						array_push($arr_list,$path.'/'.$file);
@@ -227,8 +202,7 @@ class dir
 						array_push($arr_list,$file);
 					}
 				}
-				elseif(strtoupper($list_target) == 'FILE' && is_file($path.'/'.$file))
-				{
+				elseif(strtoupper($list_target) == 'FILE' && is_file($path.'/'.$file)) {
 					if($include_path == TRUE)
 					{
 						array_push($arr_list,$path.'/'.$file);
@@ -238,8 +212,7 @@ class dir
 						array_push($arr_list,$file);
 					}
 				}
-				elseif(strtoupper($list_target) == 'PATH' && is_dir($path.'/'.$file))
-				{
+				elseif(strtoupper($list_target) == 'PATH' && is_dir($path.'/'.$file)) {
 					if($include_path == TRUE)
 					{
 						array_push($arr_list, $path.'/'.$file);
@@ -255,10 +228,8 @@ class dir
 		{
 			//scan
 			$di = new RecursiveDirectoryIterator($path);
-			foreach (new RecursiveIteratorIterator($di) as $filename => $file)
-			{
-				if($include_path == TRUE)
-				{
+			foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
+				if($include_path == TRUE) {
 					array_push($arr_list, $filename);
 				}
 				else

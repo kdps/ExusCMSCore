@@ -1,0 +1,2 @@
+[24-Jul-2019 17:34:13 Asia/Seoul] PHP Parse error:  syntax error, unexpected '}', expecting variable (T_VARIABLE) in C:\WinNMP\WWW\hikaru_gits\ExusCMS\common\classes\components\FileSystem\Directory.php on line 8
+[24-Jul-2019 17:34:37 Asia/Seoul] PHP Parse error:  syntax error, unexpected '}', expecting ')' in C:\WinNMP\WWW\hikaru_gits\ExusCMS\common\classes\components\FileSystem\Directory.php on line 12

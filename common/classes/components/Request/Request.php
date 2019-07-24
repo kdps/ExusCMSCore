@@ -194,6 +194,7 @@ class request {
 		return $value;
 	}
 	
+	//http://sandbox.onlinephpfunctions.com/code/777ac7c4528357ee21426ad7cab6dcdbdd00edf0
 	static function str_baseconvert($str, $frombase=10, $tobase=36) {
 		$str = trim($str); 
 		if (intval($frombase) != 10) {
