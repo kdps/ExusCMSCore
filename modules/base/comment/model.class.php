@@ -2,13 +2,11 @@
 
 	if(!defined("__FLOWER__")) exit();
 
-	class comment_model extends comment 
-	{
+	class comment_model extends comment {
 		
 		protected $pdo;
 		
-		function __construct() 
-		{
+		function __construct() {
 			parent::getHandler(TRUE);
 		}
 		
@@ -18,14 +16,12 @@
 		 * @param str $board
 		 * @param int $document_srl
 		 */
-		function getCommentAllCount() 
-		{
+		function getCommentAllCount() {
 			return db::Query('SELECT','def_comment',[
 			],'count(*)', 'one');
 		}
 	
-		function getCommentListbySelect($count) 
-		{
+		function getCommentListbySelect($count) {
 			$sth = $this->pdo->prepare("SELECT * FROM def_comment LIMIT :int");
 			$sth->bindParam(':int', $count, PDO::PARAM_INT);
 			$sth->execute();
@@ -39,8 +35,7 @@
 		 *
 		 * @param int $document_srl
 		 */
-		function getCommentSequence($document_srl) 
-		{
+		function getCommentSequence($document_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'document_srl', '=', ':document_srl', $document_srl],
@@ -53,8 +48,7 @@
 		 *
 		 * @param int $comment_srl
 		 */
-		function getParentCommentStep($comment_srl) 
-		{
+		function getParentCommentStep($comment_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'comment_srl', '=', ':comment_srl', $comment_srl]
@@ -67,8 +61,7 @@
 		 * @param int $step
 		 * @param int $pos
 		 */
-		function updateCommentDepth($step, $pos) 
-		{
+		function updateCommentDepth($step, $pos) {
 			$sth = $this->pdo->prepare("UPDATE def_comment SET step = step +1 WHERE step > :step AND absolute_pos = :absolute_pos");
 			$sth->bindParam(':step', $step, PDO::PARAM_INT);
 			$sth->bindParam(':absolute_pos', $pos, PDO::PARAM_INT);
@@ -81,8 +74,7 @@
 		 * @param int $absolute_pos
 		 * @param int $document_srl
 		 */
-		function getCommentStep($absolute_pos, $document_srl) 
-		{
+		function getCommentStep($absolute_pos, $document_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['AND', 'absolute_pos', '=', ':args1', $absolute_pos],
@@ -96,8 +88,7 @@
 		 *
 		 * @param int $parent_srl
 		 */
-		function getCommentParentSrl($parent_srl) 
-		{
+		function getCommentParentSrl($parent_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'comment_srl', '=', ':parent_srl', $parent_srl]
@@ -109,8 +100,7 @@
 		 *
 		 * @param int $parent_srl
 		 */
-		function getParentCommentCount($parent_srl) 
-		{
+		function getParentCommentCount($parent_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'parent_srl', '=', ':parent_srl', $parent_srl]
@@ -122,8 +112,7 @@
 		 *
 		 * @param int $parent_srl
 		 */
-		function getCommentAbsolutePos($parent_srl) 
-		{
+		function getCommentAbsolutePos($parent_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'comment_srl', '=', ':parent_srl', $parent_srl]
@@ -142,8 +131,7 @@
 		 * @param int $absolute_pos
 		 * @param int $step
 		 */
-		function insertParentCommentList($get_board, $post_content, $post_nick, $post_serial, $parent_srl, $depth, $absolute_pos, $step, $regdate, $member_srl) 
-		{
+		function insertParentCommentList($get_board, $post_content, $post_nick, $post_serial, $parent_srl, $depth, $absolute_pos, $step, $regdate, $member_srl) {
 			$sth = $this->pdo->prepare("INSERT INTO def_comment (content, module, document_srl, nick_name, parent_srl, depth, absolute_pos, step, regdate, member_srl) VALUES (:content, :module, :srl, :nickname, :parent_srl, :depth, :absolute_pos, :step, :regdate, :member_srl)");
 			$sth->bindParam(':module', $get_board, PDO::PARAM_STR);
 			$sth->bindParam(':content', $post_content, PDO::PARAM_STR);
@@ -167,8 +155,7 @@
 		 * @param int $post_serial
 		 * @param int $absolute_pos
 		 */
-		function insertCommentList($get_board, $post_content, $post_nick, $post_serial, $absolute_pos, $regdate, $member_srl) 
-		{
+		function insertCommentList($get_board, $post_content, $post_nick, $post_serial, $absolute_pos, $regdate, $member_srl) {
 			$sth = $this->pdo->prepare("INSERT INTO def_comment (content, module, document_srl, nick_name, absolute_pos, regdate, member_srl) VALUES (:content, :module, :srl, :nickname, :absolute_pos, :regdate, :member_srl)");
 			$sth->bindParam(':module', $get_board, PDO::PARAM_STR);
 			$sth->bindParam(':content', $post_content, PDO::PARAM_STR);
@@ -186,8 +173,7 @@
 		 * @param str $content
 		 * @param int $comment_srl
 		 */
-		function UpdateComment($content, $comment_srl) 
-		{
+		function UpdateComment($content, $comment_srl) {
 			return db::Query('UPDATE','def_comment',
 			[
 				['WHERE', 'content', '=', ':args1', $content],
@@ -195,8 +181,7 @@
 			],'', 'boolean');
 		}
 		
-		function getCommentListWidget($get_board) 
-		{
+		function getCommentListWidget($get_board) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'module', '=', ':args1', $get_board],
@@ -215,8 +200,7 @@
 		 * @param str $board
 		 * @param int $document_srl
 		 */
-		function getCommentCount($board, $document_srl) 
-		{
+		function getCommentCount($board, $document_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['AND', 'module', '=', ':args1', $board],
@@ -224,8 +208,7 @@
 			],'count(*)', 'one');
 		}
 	
-		function getCommentItem($board, $comment_srl) 
-		{
+		function getCommentItem($board, $comment_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['AND', 'module', '=', ':args1', $board],
@@ -233,8 +216,7 @@
 			],'*', 'all');
 		}
 	
-		function getParentCommentDepth($board, $comment_srl) 
-		{
+		function getParentCommentDepth($board, $comment_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['AND', 'module', '=', ':args1', $board],
@@ -250,8 +232,7 @@
 		 * @param int $cpage
 		 * @param int $ccount
 		 */
-		function getCommentList($board, $document_srl, $cpage, $ccount) 
-		{
+		function getCommentList($board, $document_srl, $cpage, $ccount) {
 			$sth = $this->pdo->prepare("SELECT * FROM def_comment WHERE module = :bd AND document_srl = :srl ORDER by absolute_pos asc, step asc LIMIT :cpage, :ccount");
 			$sth->bindParam(':bd', $board);
 			$sth->bindParam(':srl', $document_srl, PDO::PARAM_INT);
@@ -269,8 +250,7 @@
 		 * @param int $cpage
 		 * @param int $ccount
 		 */
-		function getBlamedCommentList($board, $document_srl, $cpage, $ccount) 
-		{
+		function getBlamedCommentList($board, $document_srl, $cpage, $ccount) {
 			$sth = $this->pdo->prepare("SELECT * FROM def_comment WHERE module = :bd AND document_srl = :srl AND blame > 3 ORDER by absolute_pos asc, step asc LIMIT :cpage, :ccount");
 			$sth->bindParam(':bd', $board);
 			$sth->bindParam(':srl', $document_srl, PDO::PARAM_INT);
@@ -288,8 +268,7 @@
 		 * @param int $cpage
 		 * @param int $ccount
 		 */
-		function getVotedCommentList($board, $document_srl, $cpage, $ccount) 
-		{
+		function getVotedCommentList($board, $document_srl, $cpage, $ccount) {
 			$sth = $this->pdo->prepare("SELECT * FROM def_comment WHERE module = :bd AND document_srl = :srl AND vote > 3 ORDER by absolute_pos asc, step asc LIMIT :cpage, :ccount");
 			$sth->bindParam(':bd', $board);
 			$sth->bindParam(':srl', $document_srl, PDO::PARAM_INT);
@@ -304,8 +283,7 @@
 		 *
 		 * @param int $get_serial
 		 */
-		function getCommentVotedCount($comment_srl) 
-		{
+		function getCommentVotedCount($comment_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'comment_srl', '=', ':args1', $comment_srl]
@@ -317,8 +295,7 @@
 		 *
 		 * @param int $get_serial
 		 */
-		function getCommentBlamedCount($comment_srl) 
-		{
+		function getCommentBlamedCount($comment_srl) {
 			return db::Query('SELECT','def_comment',
 			[
 				['', 'comment_srl', '=', ':args1', $comment_srl]
@@ -331,8 +308,7 @@
 		 * @param int $voted_count
 		 * @param int $comment_srl
 		 */
-		function UpdateCommentVotedCount($voted_count, $comment_srl) 
-		{
+		function UpdateCommentVotedCount($voted_count, $comment_srl) {
 			return db::Query('UPDATE','def_comment',
 			[
 				['WHERE', 'vote', '=', ':args1', $voted_count],
@@ -346,8 +322,7 @@
 		 * @param int $voted_count
 		 * @param int $comment_srl
 		 */
-		function UpdateCommentBlamedCount($voted_count, $comment_srl) 
-		{
+		function UpdateCommentBlamedCount($voted_count, $comment_srl) {
 			return db::Query('UPDATE','def_comment',
 			[
 				['WHERE', 'blame', '=', ':args1', $voted_count],
@@ -361,8 +336,7 @@
 		 * @param int $voted_count
 		 * @param int $get_serial
 		 */
-		function UpdateBlamedCount($voted_count, $get_serial) 
-		{
+		function UpdateBlamedCount($voted_count, $get_serial) {
 			return db::Query('UPDATE','def_document_music',
 			[
 				['WHERE', 'blamed', '=', ':args1', $voted_count],

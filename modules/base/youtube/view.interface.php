@@ -1,9 +1,8 @@
 <?php
 
-	interface viewInterface
-	{
-		public function init($args);
-		public function dispViewList();
-	}
+interface viewInterface {
+	public function init($args);
+	public function dispViewList();
+}
 
 ?>

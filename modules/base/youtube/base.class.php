@@ -1,26 +1,19 @@
 <?php
 
-class youtube extends ModuleObject
-{
+class youtube extends ModuleObject {
 	
-	function __construct()
-	{
+	function __construct() {
 	}
 	
-	function getHandler($usePDO = false)
-	{
-		if (!isset($_base))
-		{
+	function getHandler($usePDO = false) {
+		if (!isset($_base)) {
 			$this->base = new base();
 			$_base = $this->base;
-		}
-		else
-		{
+		} else {
 			$this->base = $_base;
 		}
 		
-		if ($usePDO) 
-		{
+		if ($usePDO) {
 			$this->pdo = $this->base->getPDO();
 		}
 	}
