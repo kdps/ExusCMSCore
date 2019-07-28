@@ -81,7 +81,7 @@
 	defined('__MINIFY') || define('__MINIFY', false);
 	defined('__SYSLANG') || define('__SYSLANG', 'ko');
 	defined('__ENV') || define('__ENV', 'development');//development/production/default
-	defined('__REQUIRE__') || define('__REQUIRE__', '7.0.0');
+	defined('__REQUIRE__') || define('__REQUIRE__', '6.0.0');
 	defined('__SESSION__PROTECT') || define('__SESSION__PROTECT', true);
 	defined('__XMLRPC__') || define('__XMLRPC__', false);
 	defined('__DEBUG__') || define('__DEBUG__', false);

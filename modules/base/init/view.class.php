@@ -829,6 +829,7 @@ final class init_view {
 			"/common/assets/js/coreJS/dist/sjs.js",
 			"/common/assets/js/coreJS/dist/Global Event.js",
 			
+			"/common/assets/js/angular/angular.min.js",
 			"/common/assets/js/messenger/notify.js",
 			"/common/assets/js/messenger/messenger.js",
 			"/common/assets/js/messenger/messenger-theme-future.js",
