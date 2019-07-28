@@ -829,7 +829,15 @@ final class init_view {
 			"/common/assets/js/coreJS/dist/sjs.js",
 			"/common/assets/js/coreJS/dist/Global Event.js",
 			
+			"/common/assets/js/es5-shim/es5-shim.min.js",
+			
 			"/common/assets/js/angular/angular.min.js",
+			"/common/assets/js/angular/angular-route.min.js",
+			"/common/assets/js/angular/angular-routeData.min.js",
+			"/common/assets/js/angular/angular-messages.min.js",
+			"/common/assets/js/angular/angular-cookies.min.js",
+			"/common/assets/js/angular/angular-idle.min.js",
+			
 			"/common/assets/js/messenger/notify.js",
 			"/common/assets/js/messenger/messenger.js",
 			"/common/assets/js/messenger/messenger-theme-future.js",
