@@ -1,6 +1,6 @@
 <?php
 
-class league extends ModuleObject {
+class admin extends ModuleObject {
 	
 	function __construct() {
 	}
