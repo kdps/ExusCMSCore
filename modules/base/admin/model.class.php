@@ -2,7 +2,7 @@
 
 	if (!defined("__FLOWER__")) exit();
 
-	class league_model extends league
+	class admin_model extends admin
 	{
 		
 		function __construct($args) 
